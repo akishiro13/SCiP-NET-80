@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Effet de scanlines rétro */
+
         body::before {
             content: " ";
             display: block;
@@ -61,6 +61,7 @@
             gap: 30px;
             padding: 20px;
             width: 90%;
+            z-index: 2;
         }
 
         .nav-card {
@@ -105,7 +106,14 @@
             border-radius: 3px;
         }
 
-        .online { color: var(--terminal-green); }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .online { color: var(--terminal-green); animation: pulse 2s infinite; }
+        .offline { color: #555; }
 
         footer {
             margin-top: auto;
@@ -125,11 +133,29 @@
             font-size: 0.8rem;
             text-transform: uppercase;
         }
+
+
+        .secret-trigger {
+            position: fixed;
+            bottom: 5px;
+            right: 10px;
+            font-size: 0.6rem;
+            color: #1a1a1a; /* Presque invisible */
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 101;
+            user-select: none;
+        }
+
+        .secret-trigger:hover {
+            color: var(--scp-red);
+            text-shadow: 0 0 5px var(--scp-red);
+        }
     </style>
 </head>
 <body>
 
-    <div class="warning-bar">Accès restreint - Clearence lvl Niveau 0</div>
+    <div class="warning-bar">Accès restreint - Niveau d'accréditation 0 requis</div>
 
     <header>
         <div class="logo-text">SCiP-NET-80</div>
@@ -140,47 +166,64 @@
         
         <a href="D-M/main.html" class="nav-card">
             <h2>Département Médical</h2>
-            <p>Gestion des rapports d'imagerie, de chirurgie et suivis biologiques des classes D.</p>
+            <p>Gestion des rapports d'imagerie, de chirurgie et suivis biologiques du personnel de Classe D.</p>
             <span class="status online">● SYSTÈME ACTIF</span>
         </a>
 
         <a href="D-S/secu.html" class="nav-card">
-            <h2>Département Sécuritaire</h2>
-            <p>gestion des rapport de PDS et d'incident / explication des code couleur d'alarme</p>
+            <h2>Département Sécurité</h2>
+            <p>Gestion des rapports de PDS et d'incidents. Protocoles des codes couleur d'alarme.</p>
             <span class="status online">● SYSTÈME ACTIF</span>
         </a>
 
         <a href="D-SCI/Untitled-1.html" class="nav-card">
-            <h2>Departement Scientifique</h2>
-            <p>Base de données des objets confinés et procédures de confinement spéciales (CENSURÉ)./ aide a la création de rapports</p>
+            <h2>Département Scientifique</h2>
+            <p>Base de données des objets confinés et procédures de confinement (CENSURÉ). Aide à la rédaction de rapports.</p>
             <span class="status online">● SYSTÈME ACTIF</span>
-
         </a>
 
         <a href="D-Logi/DIST.html" class="nav-card">
-            <h2>ingénérie et service Techniques</h2>
-            <p>liste des zone autorisée pour travailler</p>
+            <h2>Ingénierie & Technique</h2>
+            <p>Maintenance des infrastructures et liste des zones de maintenance autorisées.</p>
             <span class="status online">● SYSTÈME ACTIF</span>
         </a>
 
         <a href="D-CE/CE.html" class="nav-card">
-            <h2>Comité d'Ethique</h2>
-            <p>code étique de la fondation ainsi que le contrat des classes Delta</p>
+            <h2>Comité d'Éthique</h2>
+            <p>Code éthique de la Fondation et protocoles de traitement des Classes Delta.</p>
             <span class="status online">● SYSTÈME ACTIF</span>
         </a>
 
         <a href="D-JI/DJI.html" class="nav-card">
-            <h2>justice interne</h2>
-            <p>code penal de la fondation</p>
+            <h2>Justice Interne</h2>
+            <p>Code pénal de la Fondation et procédures disciplinaires internes.</p>
             <span class="status online">● SYSTÈME ACTIF</span>
         </a>
+
+        <div class="nav-card" style="opacity: 0.5; cursor: not-allowed;">
+            <h2>Département Inconnu</h2>
+            <p>Données corrompues ou accès non assigné au terminal actuel.</p>
+            <span class="status offline">● SYSTÈME INACTIF</span>
+        </div>
+
+        <div class="nav-card" style="opacity: 0.5; cursor: not-allowed;">
+            <h2>Division Admin</h2>
+            <p>Requiert une clé cryptographique de niveau 4 ou supérieur.</p>
+            <span class="status offline">● SYSTÈME INACTIF</span>
+        </div>
 
     </div>
 
     <footer>
         <p>Fondation SCP - Sécuriser, Contenir, Protéger</p>
-        <p>&copy; 2026 SCiP-NET OS v.4.0.1 - Terminal local</p>
+        <p>&copy; 2026 SCiP-NET OS v.4.0.1 - Terminal Site-80</p>
     </footer>
+
+    <div class="secret-trigger" onclick="accessSecret()">
+        [SESSION_ID: 0x88-SITE80]
+    </div>
+
+
 
 </body>
 </html>
