@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SCiP-NET Central Command</title>
+    <style>
+        :root {
+            --terminal-green: #00ff41;
+            --scp-orange: #ff9800;
+            --scp-red: #d32f2f;
+            --bg-dark: #0a0a0a;
+            --panel-bg: #1a1a1a;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Effet de scanlines rétro */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 100;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        header {
+            width: 100%;
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 2px solid var(--scp-orange);
+            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
+            margin-bottom: 50px;
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: var(--scp-orange);
+            text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        }
+
+        .container {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            width: 90%;
+        }
+
+        .nav-card {
+            background: var(--panel-bg);
+            border: 1px solid #333;
+            padding: 25px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid var(--scp-orange);
+        }
+
+        .nav-card:hover {
+            background: #252525;
+            transform: translateY(-5px);
+            border-left: 5px solid white;
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.2);
+        }
+
+        .nav-card h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            color: var(--scp-orange);
+            text-transform: uppercase;
+        }
+
+        .nav-card p {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.4;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            background: #333;
+            border-radius: 3px;
+        }
+
+        .online { color: var(--terminal-green); }
+
+        footer {
+            margin-top: auto;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: #555;
+            text-align: center;
+        }
+
+        .warning-bar {
+            background: var(--scp-red);
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 5px 0;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="warning-bar">Accès restreint - Clearence lvl Niveau 0</div>
+
+    <header>
+        <div class="logo-text">SCiP-NET-80</div>
+        <div style="color: #666; margin-top: 10px;">Système de Gestion Centralisé du Site-80</div>
+    </header>
+
+    <div class="container">
+        
+        <a href="D-M/main.html" class="nav-card">
+            <h2>Département Médical</h2>
+            <p>Gestion des rapports d'imagerie, de chirurgie et suivis biologiques des classes D.</p>
+            <span class="status online">● SYSTÈME ACTIF</span>
+        </a>
+
+        <a href="D-S/secu.html" class="nav-card">
+            <h2>Département Sécuritaire</h2>
+            <p>gestion des rapport de PDS et d'incident / explication des code couleur d'alarme</p>
+            <span class="status online">● SYSTÈME ACTIF</span>
+        </a>
+
+        <a href="D-SCI/Untitled-1.html" class="nav-card">
+            <h2>Departement Scientifique</h2>
+            <p>Base de données des objets confinés et procédures de confinement spéciales (CENSURÉ)./ aide a la création de rapports</p>
+            <span class="status online">● SYSTÈME ACTIF</span>
+
+        </a>
+
+        <a href="D-Logi/DIST.html" class="nav-card">
+            <h2>ingénérie et service Techniques</h2>
+            <p>liste des zone autorisée pour travailler</p>
+            <span class="status online">● SYSTÈME ACTIF</span>
+        </a>
+
+        <a href="D-CE/CE.html" class="nav-card">
+            <h2>Comité d'Ethique</h2>
+            <p>code étique de la fondation ainsi que le contrat des classes Delta</p>
+            <span class="status online">● SYSTÈME ACTIF</span>
+        </a>
+
+        <a href="D-JI/DJI.html" class="nav-card">
+            <h2>justice interne</h2>
+            <p>code penal de la fondation</p>
+            <span class="status online">● SYSTÈME ACTIF</span>
+        </a>
+
+    </div>
+
+    <footer>
+        <p>Fondation SCP - Sécuriser, Contenir, Protéger</p>
+        <p>&copy; 2026 SCiP-NET OS v.4.0.1 - Terminal local</p>
+    </footer>
+
+</body>
+</html>

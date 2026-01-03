@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIST Terminal - Site-80</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        body { background-color: #050505; color: #d1d1d1; font-family: 'Share Tech Mono', monospace; margin: 0; overflow-x: auto; }
+        .dist-header { background: linear-gradient(90deg, #7c2d12 0%, #1a1a1a 100%); border-bottom: 2px solid #ea580c; position: sticky; top: 0; z-index: 50; }
+        
+        .auth-table { width: 100%; border-collapse: collapse; font-size: 9px; min-width: 1200px; }
+        .auth-table th { background: #1a1a1a; color: #ea580c; padding: 12px 5px; border: 1px solid #333; text-align: center; }
+        .auth-table td { border: 1px solid #333; padding: 8px 4px; text-align: center; font-weight: bold; line-height: 1.2; }
+        .role-col { text-align: left !important; background: #0f0f0f; width: 250px; padding-left: 15px !important; border-right: 2px solid #ea580c !important; color: #fff; }
+
+        .access-green { background-color: #22c55e; color: #000; } 
+        .access-yellow { background-color: #facc15; color: #000; } 
+        .access-red { background-color: #ef4444; color: #000; } 
+        
+        .legend-section { background: #111; padding: 15px; border-top: 2px solid #ea580c; position: sticky; bottom: 0; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-thumb { background: #ea580c; }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+
+    <header class="dist-header p-4 flex justify-between items-center shadow-2xl">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 border-2 border-orange-500 rounded flex items-center justify-center font-bold text-white">DIST</div>
+            <div>
+                <h1 class="text-lg uppercase font-black text-white tracking-tighter">Tableau des Autorisations</h1>
+                <p class="text-[9px] text-orange-400 font-bold uppercase tracking-widest">Site-80 // Ingénierie & Services Techniques</p>
+            </div>
+        </div>
+        <div class="text-[10px] text-white bg-red-700 px-3 py-1 font-bold border border-red-400 animate-pulse">SÉCURITÉ OBLIGATOIRE POUR LES CASES EN JAUNE</div>
+    </header>
+
+    <div class="flex-1 overflow-auto">
+        <table class="auth-table">
+            <thead>
+                <tr>
+                    <th class="role-col">Rôle</th>
+                    <th>Bloc Carcéral (hors observ)</th>
+                    <th>Zone de Confinement Sûr</th>
+                    <th>Zone de Confinement Euclide</th>
+                    <th>Zone de Confinement Keter</th>
+                    <th>Entrer dans un confinement</th>
+                    <th>Extérieur</th>
+                    <th>Salle de contrôle du réacteur nucléaire</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="role-col">Directeur Technique [L4 | WL]</td><td class="access-red"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-red"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green"></td></tr>
+                <tr><td class="role-col">Assistant Directeur Technique [L4 | WL]</td><td class="access-red"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-red"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green"></td></tr>
+                <tr><td class="role-col">Ingénieur Technique en Chef [L4 | WL]</td><td class="access-red"></td><td class="access-green"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green"></td></tr>
+                <tr><td class="role-col">Concepteur de Confinement [L3 | WL]</td><td class="access-red"></td><td class="access-green"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Responsable d'Équipe Technique [L3 | WL]</td><td class="access-green">Sécurité obligatoire</td><td class="access-green"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green"></td></tr>
+                <tr><td class="role-col">Superviseur d'Équipe Technique [L3 | WL]</td><td class="access-green">Sécurité obligatoire</td><td class="access-green"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-green">Sécurité obligatoire</td><td class="access-green"></td></tr>
+                
+                <tr><td class="role-col">Ingénieur Sénior [L3 | S-WL]</td><td class="access-green">Sécurité obligatoire</td><td class="access-yellow">Avec auto. Conc. de Conf. (excepté couloirs)</td><td class="access-yellow">Avec auto. Concepteur de Confinement</td><td class="access-yellow">Avec auto. Concepteur de Confinement</td><td class="access-yellow">Avec auto. Concepteur de Confinement</td><td class="access-yellow">Avec autorisation Superviseur E.T+</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Ingénieur du Réacteur Nucléaire [L3 | S-WL]</td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-yellow">Avec autorisation Superviseur E.T+</td><td class="access-green"></td></tr>
+                <tr><td class="role-col">Ingénieur d'Installation [L2 | S-WL]</td><td class="access-green">Sécurité obligatoire</td><td class="access-yellow">Avec auto. Conc. de Conf. (excepté couloirs)</td><td class="access-yellow">Avec auto. Concepteur de Confinement</td><td class="access-yellow">Avec auto. Concepteur de Confinement</td><td class="access-yellow">Avec auto. Concepteur de Confinement (keter interdit)</td><td class="access-yellow">Avec autorisation Superviseur E.T+</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Ingénieur Junior [L2 | S-WL]</td><td class="access-green">Sécurité obligatoire</td><td class="access-yellow">Avec auto. Conc. de Conf. (excepté couloirs)</td><td class="access-yellow">Avec auto. Concepteur de Confinement</td><td class="access-red"></td><td class="access-yellow">Avec auto. Concepteur de Confinement (safe uniquement)</td><td class="access-yellow">Avec autorisation Superviseur E.T+</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Technicien Sénior [L2 | XP]</td><td class="access-green">Sécurité obligatoire</td><td class="access-yellow">Avec auto. Conc. de Conf. (excepté couloirs)</td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-yellow">Avec autorisation Superviseur E.T+</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Technicien d'Installation [L2 | XP]</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-yellow">Avec autorisation Superviseur E.T+</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Technicien Junior [L1 | XP]</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-yellow">Avec autorisation Superviseur E.T+</td><td class="access-red"></td></tr>
+                
+                <tr><td class="role-col">Chef-Concierge [L0 | S-WL]</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red">Sauf évacuation</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Concierge [L0 | XP]</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red">Sauf évacuation</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Chef-Cuisinier [L0 | S-WL]</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red">Sauf évacuation</td><td class="access-red"></td></tr>
+                <tr><td class="role-col">Cuisinier [L0 | XP]</td><td class="access-green">Sécurité obligatoire</td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red"></td><td class="access-red">Sauf évacuation</td><td class="access-red"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="legend-section grid grid-cols-3 gap-4">
+        <div class="access-green p-2 text-center font-bold text-[10px]">PEUT Y ACCÉDER SANS AUTORISATION</div>
+        <div class="access-yellow p-2 text-center font-bold text-[10px]">PEUT Y ACCÉDER AVEC AUTORISATION ET ACCOMPAGNEMENT SÉCURITÉ</div>
+        <div class="access-red p-2 text-center font-bold text-[10px]">NE PEUT PAS Y ACCÉDER</div>
+    </div>
+
+</body>
+</html>

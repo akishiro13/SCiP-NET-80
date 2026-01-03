@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.D.S. Terminal - Site-80</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        body { background-color: #050505; color: #d1d1d1; font-family: 'Share Tech Mono', monospace; margin: 0; overflow: hidden; }
+        .sds-header { background: linear-gradient(90deg, #450a0a 0%, #1a1a1a 100%); border-bottom: 2px solid #991b1b; }
+        .active-tab { border-bottom: 3px solid #ff0000; color: white; background: rgba(255,0,0,0.05); }
+        
+        /* Inputs Style */
+        input, textarea, select { 
+            background: #0f0f0f !important; border: 1px solid #450a0a !important; 
+            color: #ef4444 !important; padding: 10px; width: 100%; font-size: 12px; 
+            outline: none; margin-bottom: 10px; 
+        }
+        
+        /* Paper Style */
+        .report-paper { 
+            background: #f0f0f0; color: #000; 
+            font-family: 'Courier New', Courier, monospace; 
+            padding: 30px; border: 1px solid #991b1b;
+            position: relative;
+        }
+        .paper-header { border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 10px; }
+        
+        .status-row { border-bottom: 1px solid #1a1a1a; padding: 12px 0; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #450a0a; }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+
+    <header class="sds-header p-4 flex justify-between items-center shadow-2xl relative z-10">
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 border-2 border-red-600 rounded-full flex items-center justify-center font-bold text-white text-[10px]">SDS</div>
+                <div>
+                    <h1 class="text-xl tracking-tighter text-white uppercase font-bold">Sécurité du Site-80</h1>
+                    <p class="text-[9px] text-red-500 font-bold uppercase tracking-[0.2em]">Réseau de Gestion Tactique</p>
+                </div>
+            </div>
+            <nav class="flex ml-10">
+                <button onclick="switchTab('pds')" id="tab-pds" class="px-6 py-2 uppercase text-xs font-bold active-tab">Rapport PDS / FDS</button>
+                <button onclick="switchTab('incidents')" id="tab-incidents" class="px-6 py-2 uppercase text-xs font-bold">Rapports d'Incidents</button>
+                <button onclick="switchTab('codes')" id="tab-codes" class="px-6 py-2 uppercase text-xs font-bold text-red-500">Guide des Statuts</button>
+            </nav>
+        </div>
+        <div class="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">SDS-80 // SECURE TERMINAL</div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        
+        <div id="section-pds" class="w-full overflow-y-auto bg-black p-10">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="space-y-4">
+                    <div class="bg-red-900/10 p-4 border border-red-900/40 mb-4 text-[10px]">
+                        <h2 class="text-red-500 font-bold mb-1 uppercase text-sm">Protocole PDS</h2>
+                        <p class="text-gray-400 italic">Générez le titre et le contenu via ce formulaire avant de poster sur Discord.</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="p-disc" placeholder="Pseudo Discord">
+                        <input type="text" id="p-rob" placeholder="Pseudo Roblox">
+                        <input type="text" id="p-grade" placeholder="Grade (Ex: CPL)">
+                        <input type="text" id="p-pseudo" placeholder="Pseudo (Ex: 'Viper')">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="p-h-pds" placeholder="Heure Début">
+                        <input type="text" id="p-h-fds" placeholder="Heure Fin">
+                    </div>
+                    <textarea id="p-brief" rows="3" placeholder="Description courte du service..."></textarea>
+                    <input type="text" id="p-preuve" placeholder="Lien Preuve (Imgur/Discord)">
+                    <button onclick="generatePDS()" class="w-full bg-red-900/20 border border-red-600 text-red-500 py-4 font-bold uppercase hover:bg-red-600 hover:text-black transition-all">Compiler Rapport PDS</button>
+                </div>
+                <div id="pds-output" class="hidden">
+                    <label class="text-[10px] text-gray-500 uppercase">Titre du message :</label>
+                    <div id="pds-title" class="bg-zinc-900 p-2 text-red-500 font-bold border border-red-900 mb-4 text-sm"></div>
+                    <div class="report-paper"><div id="pds-final-text" class="text-[11px] whitespace-pre-line leading-tight"></div></div>
+                    <button onclick="copyToClipboard('pds-final-text')" class="mt-4 w-full bg-white text-black py-2 text-[10px] font-bold uppercase">Copier Rapport</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-incidents" class="hidden w-full overflow-y-auto bg-black p-10">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="space-y-4">
+                    <h2 class="text-red-500 font-bold uppercase italic border-b border-red-900 pb-2">Nouveau Rapport d'Incident</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="i-agent" placeholder="Agent Rapporteur">
+                        <input type="text" id="i-lieu" placeholder="Zone / Secteur">
+                    </div>
+                    <select id="i-type">
+                        <option value="BRÈCHE DE CONFINEMENT">TYPE : BRÈCHE DE CONFINEMENT</option>
+                        <option value="INTRUSION EXTÉRIEURE">TYPE : INTRUSION EXTÉRIEURE</option>
+                        <option value="ÉMEUTE CLASSE-D">TYPE : ÉMEUTE CLASSE-D</option>
+                        <option value="DÉFAILLANCE TECHNIQUE">TYPE : DÉFAILLANCE TECHNIQUE</option>
+                        <option value="AGRESSION / CONFLIT">TYPE : AGRESSION / CONFLIT</option>
+                    </select>
+                    <textarea id="i-faits" rows="5" placeholder="Circonstances et chronologie de l'incident..."></textarea>
+                    <textarea id="i-mesures" rows="3" placeholder="Mesures de neutralisation entreprises..."></textarea>
+                    <select id="i-statut">
+                        <option value="NEUTRALISÉ">STATUT FINAL : NEUTRALISÉ</option>
+                        <option value="EN COURS">STATUT FINAL : INTERVENTION EN COURS</option>
+                        <option value="ÉCHEC">STATUT FINAL : ÉCHEC DE CONFINEMENT</option>
+                    </select>
+                    <button onclick="generateIncident()" class="w-full bg-red-950 border border-red-600 text-red-500 py-4 font-bold uppercase hover:bg-red-600 hover:text-black transition-all">Générer Fiche Incident Officielle</button>
+                </div>
+                <div id="incident-output" class="hidden">
+                    <div class="report-paper">
+                        <div class="paper-header">
+                            <h3 class="font-black text-xl">FONDATION SCP - SITE-80</h3>
+                            <p class="text-[10px] font-bold">DÉPARTEMENT DE LA SÉCURITÉ (SDS)</p>
+                        </div>
+                        <div id="incident-final-text" class="text-[11px] whitespace-pre-line leading-tight"></div>
+                    </div>
+                    <button onclick="copyToClipboard('incident-final-text')" class="mt-4 w-full bg-red-600 text-white py-2 text-[10px] font-bold uppercase">Copier Incident</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-codes" class="hidden w-full overflow-y-auto bg-black p-10">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-black text-red-600 uppercase tracking-tighter mb-10">Protocole de Statut</h2>
+                <div class="space-y-2">
+                    <div class="status-row flex items-start gap-6"><span class="text-2xl">🟢</span><div><h3 class="text-green-500 font-bold uppercase">Vert : Situation Nominale</h3><p class="text-xs text-gray-400">Répercussions mineures ou inexistantes sur la fondation.</p></div></div>
+                    <div class="status-row flex items-start gap-6"><span class="text-2xl">🟡</span><div><h3 class="text-yellow-500 font-bold uppercase">Jaune : Vigilance</h3><p class="text-xs text-gray-400">Répercussions moyennes sur la fondation à l'échelle du site.</p></div></div>
+                    <div class="status-row flex items-start gap-6"><span class="text-2xl">🟠</span><div><h3 class="text-orange-600 font-bold uppercase">Orange : Alerte</h3><p class="text-xs text-gray-400">Répercussions importantes au site. Pas d'impact humanitaire majeur.</p></div></div>
+                    <div class="status-row flex items-start gap-6"><span class="text-2xl">🔴</span><div><h3 class="text-red-600 font-bold uppercase">Rouge : Danger</h3><p class="text-xs text-gray-400">Répercussions considérables. Risques graves à l'échelle de l'humanité.</p></div></div>
+                    <div class="status-row flex items-start gap-6"><span class="text-2xl">🟣</span><div><h3 class="text-purple-600 font-bold uppercase">Violet : Critique</h3><p class="text-xs text-gray-400">Répercussions critiques Fondation + Humanité.</p></div></div>
+                    <div class="status-row flex items-start gap-6"><span class="text-2xl">⚫</span><div><h3 class="text-white font-bold uppercase">Noir : Gravissime</h3><p class="text-xs text-gray-300">Scénario de type K possible | Destruction du complexe.</p></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            ['pds', 'incidents', 'codes'].forEach(t => {
+                document.getElementById(`section-${t}`).classList.toggle('hidden', t !== tab);
+                document.getElementById(`tab-${t}`).classList.toggle('active-tab', t === tab);
+            });
+        }
+
+        function generatePDS() {
+            const data = { disc: document.getElementById('p-disc').value, rob: document.getElementById('p-rob').value, grade: document.getElementById('p-grade').value, pseudo: document.getElementById('p-pseudo').value, hpds: document.getElementById('p-h-pds').value, hfds: document.getElementById('p-h-fds').value, brief: document.getElementById('p-brief').value, preuve: document.getElementById('p-preuve').value };
+            document.getElementById('pds-title').innerText = `[Rapport ${data.grade} "${data.pseudo}"]`;
+            document.getElementById('pds-final-text').innerText = `==================================\n\n---- Format de Rapport ----\n\nPseudo discord : ${data.disc}\nPseudo roblox : ${data.rob}\nGrade : ${data.grade}\n\nHeur de PDS : ${data.hpds}\nHeur de FDS : ${data.hfds}\n\nRapport bref :\n${data.brief}\n\nPreuve : ${data.preuve}\n\n==================================`;
+            document.getElementById('pds-output').classList.remove('hidden');
+        }
+
+        function generateIncident() {
+            const agent = document.getElementById('i-agent').value;
+            const zone = document.getElementById('i-lieu').value;
+            const type = document.getElementById('i-type').value;
+            const faits = document.getElementById('i-faits').value;
+            const mesures = document.getElementById('i-mesures').value;
+            const statut = document.getElementById('i-statut').value;
+            
+            const report = `RAPPORT D'INCIDENT SDS #${Math.floor(Math.random()*9000+1000)}\n---------------------------\nDATE : ${new Date().toLocaleDateString()}\nAGENT : ${agent}\nZONE : ${zone}\nTYPE : ${type}\n\nDESCRIPTION DES FAITS :\n${faits}\n\nMESURES TACTIQUES :\n${mesures}\n\nRÉSULTAT : ${statut}\n---------------------------`;
+            
+            document.getElementById('incident-final-text').innerText = report;
+            document.getElementById('incident-output').classList.remove('hidden');
+        }
+
+        function copyToClipboard(id) {
+            navigator.clipboard.writeText(document.getElementById(id).innerText);
+            alert("Données copiées dans le presse-papier.");
+        }
+    </script>
+</body>
+</html>
