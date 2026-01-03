@@ -33,27 +33,34 @@ header .title p { font-size:10px; font-weight:bold; color:#ef4444; text-transfor
 
 <header class="sds-header">
     <div class="title">
-        <div class="w-10 h-10 border-2 border-red-600 rounded-full flex items-center justify-center font-bold text-white text-[10px]">CE</div>
+        <div class="w-10 h-10 border-2 border-red-600 rounded-full flex items-center justify-center font-bold text-white text-[10px]">SDS</div>
         <div>
-            <h1>Comité d'Éthique</h1>
+            <h1>Département sécuritaire</h1>
             <p>Site-80 // Terminal Officiel</p>
         </div>
     </div>
-    <div class="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">CE // Gestion des protocoles</div>
+    <div class="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">SDS // Gestion des protocoles</div>
 </header>
 
 <div class="main">
-<p class="description">
-Bienvenue dans le terminal du Comité d'Éthique. Utilisez les boutons ci-dessous pour accéder aux différents modules :  
-Protocole, rapport ou guide des statuts du CE. Chaque module conserve le style officiel du terminal.
-</p>
+  <h1 class="text-red-500 text-4xl font-bold uppercase mb-6 text-center">
+    Terminal du Département de Sécurité
+  </h1>
+  <p class="description mb-6 text-center">
+    Bienvenue dans le terminal du département de sécurité. Utilisez les boutons ci-dessous pour accéder aux différents modules :  
+    Protocole, rapport ou guide des codes couleur des alarmes.
+  </p>
+  <h2 class="text-yellow-500 text-2xl font-bold uppercase mb-4 text-center">
+    Modules Disponibles
+  </h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <button onclick="location.href='PDS/pds.html'">Prise De Service</button>
+    <button onclick="location.href='protocoles/codes.html'">Explication des codes couleur</button>
+    <button onclick="location.href='rapportincident/incidents.html'">Générateur de rapport d'incidents</button>
+  </div>
 
-<div class="grid">
-<button onclick="location.href='PDS/pds.html'">Prise De Service</button>
-<button onclick="location.href='protocoles/codes.html'">Explication des codes couleur</button>
-<button onclick="location.href='rapportincident/incidents.html'">Générateur de rapport d'incidents</button>
 </div>
-</div>
+
 
 </body>
 </html>
