@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>SCP - Accueil Personnel Médical</title>
+<style>
+:root {
+    --scp-blue: #2a4d69;
+    --scp-medical: #e1f5fe;
+    --scp-accent: #0288d1;
+    --danger: #d32f2f;
+    --bg-body: #f0f2f5;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-body);
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+header {
+    background: var(--scp-blue);
+    color: white;
+    padding: 25px 20px;
+    border-bottom: 4px solid var(--scp-accent);
+    margin-bottom: 40px;
+}
+
+header h1 { margin: 0; font-size: 2rem; }
+header small { font-size: 0.9rem; display: block; margin-top: 5px; }
+
+p.info {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    text-align: left;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+button {
+    background: var(--scp-accent);
+    color: white;
+    border: none;
+    padding: 18px 35px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:hover {
+    background: var(--scp-medical);
+    color: var(--scp-accent);
+    transform: translateY(-2px);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<header>
+    <h1>S.C.P. FOUNDATION</h1>
+    <small>ACCUEIL PERSONNEL MÉDICAL - SITE-19</small>
+</header>
+
+<p class="info">
+Bienvenue sur le portail sécurisé du personnel médical SCP.  
+Ici, vous pouvez accéder directement aux protocoles internes et aux rapports médicaux des patients sous confinement.  
+Tout accès est horodaté et soumis aux niveaux d’accréditation.  
+Merci de respecter scrupuleusement les règles de sécurité et de confidentialité.
+</p>
+
+<div class="btn-container">
+    <!-- Redirection vers les pages hébergées sur le même serveur -->
+    <button onclick="window.location.href='protocoles/main.html'">Protocoles SCP</button>
+    <button onclick="window.location.href='rapports/main.html'">Rapports Médicaux</button>
+</div>
+
+</div>
+
+</body>
+</html>
