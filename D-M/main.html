@@ -1,197 +1,249 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>SCP - Medical Record System</title>
-    <style>
-        :root {
-            --scp-blue: #2a4d69;
-            --scp-medical: #e1f5fe;
-            --scp-accent: #0288d1;
-            --danger: #d32f2f;
-            --bg-body: #f0f2f5;
-        }
+<meta charset="UTF-8">
+<title>SCP - Medical Record System</title>
+<style>
+:root {
+    --scp-blue: #2a4d69;
+    --scp-medical: #e1f5fe;
+    --scp-accent: #0288d1;
+    --danger: #d32f2f;
+    --bg-body: #f0f2f5;
+}
 
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: var(--bg-body); 
-            color: #333; 
-            margin: 0;
-            padding: 20px;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-body);
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
 
-        .container { 
-            max-width: 1000px; 
-            margin: auto; 
-            background: white; 
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            overflow: hidden;
-            border: 1px solid #dcdfe3;
-        }
+.container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid #dcdfe3;
+}
 
-        header { 
-            background: var(--scp-blue); 
-            color: white; 
-            padding: 20px; 
-            text-align: left;
-            border-bottom: 4px solid var(--scp-accent);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+header {
+    background: var(--scp-blue);
+    color: white;
+    padding: 20px;
+    text-align: left;
+    border-bottom: 4px solid var(--scp-accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; }
-        .status-badge { background: var(--danger); padding: 5px 10px; font-size: 0.8rem; border-radius: 4px; font-weight: bold; }
+header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 1px; }
+.status-badge { background: var(--danger); padding: 5px 10px; font-size: 0.8rem; border-radius: 4px; font-weight: bold; }
 
-        .menu { 
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 2px;
-            background: #dcdfe3;
-            border-bottom: 1px solid #ccc;
-        }
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 2px;
+    background: #dcdfe3;
+    border-bottom: 1px solid #ccc;
+}
 
-        button.nav-btn { 
-            background: #fff; 
-            color: var(--scp-blue); 
-            border: none; 
-            padding: 15px 5px; 
-            cursor: pointer; 
-            font-weight: 600;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-        }
+button.nav-btn {
+    background: #fff;
+    color: var(--scp-blue);
+    border: none;
+    padding: 15px 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
 
-        button.nav-btn:hover { background: var(--scp-medical); color: var(--scp-accent); }
-        button.nav-btn.active { background: var(--scp-accent); color: white; }
+button.nav-btn:hover { background: var(--scp-medical); color: var(--scp-accent); }
+button.nav-btn.active { background: var(--scp-accent); color: white; }
 
-        .content-area { padding: 30px; }
-        .form-section { display: none; animation: fadeIn 0.3s; }
-        .form-section.active { display: block; }
+.content-area { padding: 30px; }
+.form-section { display: none; animation: fadeIn 0.3s; }
+.form-section.active { display: block; }
 
-        h2 { border-left: 5px solid var(--scp-accent); padding-left: 15px; color: var(--scp-blue); margin-bottom: 25px; font-size: 1.2rem; }
+h2 { border-left: 5px solid var(--scp-accent); padding-left: 15px; color: var(--scp-blue); margin-bottom: 25px; font-size: 1.2rem; }
 
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .full-width { grid-column: span 2; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group { margin-bottom: 15px; }
+.full-width { grid-column: span 2; }
 
-        label { display: block; font-size: 0.75rem; font-weight: bold; color: #666; margin-bottom: 5px; text-transform: uppercase; }
-        input, textarea, select { 
-            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; 
-            background: #fafafa; font-size: 0.95rem; box-sizing: border-box;
-        }
+label { display: block; font-size: 0.75rem; font-weight: bold; color: #666; margin-bottom: 5px; text-transform: uppercase; }
+input, textarea, select {
+    width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;
+    background: #fafafa; font-size: 0.95rem; box-sizing: border-box;
+}
 
-        input:focus, textarea:focus { outline: none; border-color: var(--scp-accent); background: #fff; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--scp-accent); background: #fff; }
 
-        #output { 
-            margin-top: 30px; padding: 25px; border: 1px solid #000;
-            font-family: 'Courier New', monospace; position: relative;
-            display: none; line-height: 1.4; white-space: pre-wrap; background: #fff;
-        }
+#output {
+    margin-top: 30px; padding: 25px; border: 1px solid #000;
+    font-family: 'Courier New', monospace; position: relative;
+    display: none; line-height: 1.4; white-space: pre-wrap; background: #fff;
+}
 
-        .gen-btn { 
-            background: var(--scp-accent); color: white; padding: 12px 25px; 
-            border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px;
-        }
+.gen-btn {
+    background: var(--scp-accent); color: white; padding: 12px 25px;
+    border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px;
+}
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <div>
-            <h1>S.C.P. FOUNDATION</h1>
-            <small>SYSTÈME MÉDICAL CENTRALISÉ - SITE-19</small>
-        </div>
-        <div class="status-badge">ACCÈS RESTREINT : NIVEAU 4</div>
-    </header>
-
-    <div class="menu">
-        <button class="nav-btn" onclick="showForm('imagerie', this)">Imagerie</button>
-        <button class="nav-btn" onclick="showForm('deces', this)">Décès</button>
-        <button class="nav-btn" onclick="showForm('operation', this)">Opération</button>
-        <button class="nav-btn" onclick="showForm('soins', this)">Soins</button>
-        <button class="nav-btn" onclick="showForm('prescription', this)">Prescription</button>
-        <button class="nav-btn" onclick="showForm('consultation', this)">Consultation</button>
+<header>
+    <div>
+        <h1>S.C.P. FOUNDATION</h1>
+        <small>SYSTÈME MÉDICAL CENTRALISÉ - SITE-19</small>
     </div>
+    <div class="status-badge">ACCÈS RESTREINT : NIVEAU 4</div>
+</header>
 
-    <div class="content-area">
-        <section id="imagerie" class="form-section">
-            <h2>Rapport d'Imagerie Médicale</h2>
-            <div class="form-grid">
-                <div class="form-group"><label>Médecin</label><input id="img-soignant"></div>
-                <div class="form-group"><label>Accréditation</label><input id="img-grade"></div>
-                <div class="form-group"><label>Sujet</label><input id="img-patient"></div>
-                <div class="form-group"><label>Zone d'examen</label><input id="img-zone"></div>
-                <div class="form-group full-width"><label>Résultats I.R.M / Scanner</label><textarea id="img-irm" rows="3"></textarea></div>
-                <div class="form-group full-width"><label>Observations</label><input id="img-suite"></div>
-            </div>
-            <button class="gen-btn" onclick="generateReport('imagerie')">GÉNÉRER RAPPORT</button>
-        </section>
+<div class="menu">
+    <button class="nav-btn" onclick="showForm('imagerie', this)">Imagerie</button>
+    <button class="nav-btn" onclick="showForm('deces', this)">Décès</button>
+    <button class="nav-btn" onclick="showForm('operation', this)">Opération</button>
+    <button class="nav-btn" onclick="showForm('soins', this)">Soins</button>
+    <button class="nav-btn" onclick="showForm('prescription', this)">Prescription</button>
+    <button class="nav-btn" onclick="showForm('consultation', this)">Consultation</button>
+</div>
 
-        <section id="deces" class="form-section">
-            <h2>Constat de Décès</h2>
-            <div class="form-grid">
-                <div class="form-group"><label>Médecin Légiste</label><input id="dec-pro"></div>
-                <div class="form-group"><label>Défunt (ID/Matricule)</label><input id="dec-defunt"></div>
-                <div class="form-group full-width"><label>Causes du décès (Létales/Anormales)</label><textarea id="dec-cause" rows="3"></textarea></div>
-                <div class="form-group full-width"><label>Substances détectées / Produits utilisés</label><input id="dec-prod"></div>
-            </div>
-            <button class="gen-btn" onclick="generateReport('deces')">GÉNÉRER CONSTAT</button>
-        </section>
+<div class="content-area">
 
-        <section id="operation" class="form-section">
-            <h2>Rapport de Chirurgie</h2>
-            <div class="form-grid">
-                <div class="form-group"><label>Chirurgien Principal</label><input id="op-chir"></div>
-                <div class="form-group"><label>Patient</label><input id="op-patient"></div>
-                <div class="form-group full-width"><label>Type d'intervention</label><input id="op-type"></div>
-                <div class="form-group full-width"><label>Protocole Opératoire</label><textarea id="op-compte" rows="4"></textarea></div>
-                <div class="form-group"><label>État Post-Opératoire</label><input id="op-etat"></div>
-            </div>
-            <button class="gen-btn" onclick="generateReport('operation')">GÉNÉRER COMPTE-RENDU</button>
-        </section>
+<!-- ===== RAPPORT DE DÉCÈS ===== -->
+<section id="deces" class="form-section">
+<h2>Constat de Décès</h2>
+<div class="form-grid">
+    <div class="form-group"><label>Identité du/des Professionnel(s)</label><input id="dec-pro"></div>
+    <div class="form-group"><label>Grade</label><input id="dec-grade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="dec-accr"></div>
+    <div class="form-group"><label>Identité du Défunt</label><input id="dec-defunt"></div>
+    <div class="form-group"><label>Grade</label><input id="dec-pgrade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="dec-paccr"></div>
+    <div class="form-group"><label>Date et Heure du Décès</label><input id="dec-date" type="datetime-local"></div>
+    <div class="form-group full-width"><label>Cause(s) du Décès</label><textarea id="dec-cause" rows="3"></textarea></div>
+    <div class="form-group full-width"><label>Bilan</label><textarea id="dec-bilan" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Acte(s) ayant été Réalisé(s)</label><textarea id="dec-acte" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Produit(s) ayant été Utilisé(s)</label><textarea id="dec-prod" rows="2"></textarea></div>
+</div>
+<button class="gen-btn" onclick="generateReport('deces')">GÉNÉRER RAPPORT</button>
+</section>
 
-        <section id="soins" class="form-section">
-            <h2>Rapport de Soins Quotidiens</h2>
-            <div class="form-grid">
-                <div class="form-group"><label>Infirmier / Personnel</label><input id="soin-pers"></div>
-                <div class="form-group"><label>Patient</label><input id="soin-patient"></div>
-                <div class="form-group full-width"><label>Description des Soins</label><textarea id="soin-desc" rows="3"></textarea></div>
-                <div class="form-group full-width"><label>Observations comportementales</label><textarea id="soin-obs" rows="2"></textarea></div>
-            </div>
-            <button class="gen-btn" onclick="generateReport('soins')">GÉNÉRER RAPPORT</button>
-        </section>
+<!-- ===== RAPPORT D'OPÉRATION ===== -->
+<section id="operation" class="form-section">
+<h2>Rapport d'Opération</h2>
+<div class="form-grid">
+    <div class="form-group"><label>Identité du/des Opérateur(s)</label><input id="op-op"></div>
+    <div class="form-group"><label>Grade</label><input id="op-grade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="op-accr"></div>
+    <div class="form-group"><label>Identité du Patient</label><input id="op-patient"></div>
+    <div class="form-group"><label>Grade</label><input id="op-pgrade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="op-paccr"></div>
+    <div class="form-group"><label>État du Patient</label><input id="op-etat"></div>
+    <div class="form-group"><label>Zone(s) Opérée(s)</label><input id="op-zone"></div>
+    <div class="form-group full-width"><label>Bilan</label><textarea id="op-bilan" rows="3"></textarea></div>
+    <div class="form-group full-width"><label>Actes Réalisés</label><textarea id="op-acte" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Produit(s) Utilisé(s)</label><textarea id="op-prod" rows="2"></textarea></div>
+</div>
+<button class="gen-btn" onclick="generateReport('operation')">GÉNÉRER RAPPORT</button>
+</section>
 
-        <section id="prescription" class="form-section">
-            <h2>Prescription Médicale</h2>
-            <div class="form-grid">
-                <div class="form-group"><label>Médecin Prescripteur</label><input id="pre-med"></div>
-                <div class="form-group"><label>Patient</label><input id="pre-patient"></div>
-                <div class="form-group full-width"><label>Traitements / Amnésiques</label><textarea id="pre-medoc" rows="3"></textarea></div>
-                <div class="form-group"><label>Posologie & Durée</label><input id="pre-duree"></div>
-            </div>
-            <button class="gen-btn" onclick="generateReport('prescription')">GÉNÉRER ORDONNANCE</button>
-        </section>
+<!-- ===== RAPPORT D'IMAGERIE ===== -->
+<section id="imagerie" class="form-section">
+<h2>Rapport d'Imagerie Médicale</h2>
+<div class="form-grid">
+    <div class="form-group"><label>Identité du/des Soignant(s)</label><input id="img-soignant"></div>
+    <div class="form-group"><label>Grade</label><input id="img-grade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="img-accr"></div>
+    <div class="form-group"><label>Identité du Patient</label><input id="img-patient"></div>
+    <div class="form-group"><label>Grade</label><input id="img-pgrade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="img-paccr"></div>
+    <div class="form-group"><label>État de santé</label><input id="img-etat"></div>
+    <div class="form-group full-width"><label>Bilan d'I.R.M.</label><textarea id="img-irm" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Bilan du Fluoroscope</label><textarea id="img-fluo" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Suite des Soins</label><input id="img-suite"></div>
+</div>
+<button class="gen-btn" onclick="generateReport('imagerie')">GÉNÉRER RAPPORT</button>
+</section>
 
-        <section id="consultation" class="form-section">
-            <h2>Rapport de Consultation</h2>
-            <div class="form-grid">
-                <div class="form-group"><label>Praticien</label><input id="con-med"></div>
-                <div class="form-group"><label>Patient</label><input id="con-patient"></div>
-                <div class="form-group full-width"><label>Motif de la visite</label><input id="con-motif"></div>
-                <div class="form-group full-width"><label>Diagnostic Final</label><textarea id="con-diag" rows="4"></textarea></div>
-            </div>
-            <button class="gen-btn" onclick="generateReport('consultation')">GÉNÉRER BILAN</button>
-        </section>
-
-        <div id="output"></div>
-        <button id="btn-print" class="gen-btn" style="display:none; background: #333;" onclick="window.print()">IMPRIMER / SAUVEGARDER PDF</button>
+<!-- ===== RAPPORT DE SOINS ===== -->
+<section id="soins" class="form-section">
+<h2>Rapport de Soins</h2>
+<div class="form-grid">
+    <div class="form-group"><label>Identité du/des Soignant(s)</label><input id="soin-soignant"></div>
+    <div class="form-group"><label>Grade</label><input id="soin-grade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="soin-accr"></div>
+    <div class="form-group"><label>Identité du Patient</label><input id="soin-patient"></div>
+    <div class="form-group"><label>Grade</label><input id="soin-pgrade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="soin-paccr"></div>
+    <div class="form-group"><label>À quel Moment</label>
+        <select id="soin-moment">
+            <option value="">-- Sélectionner --</option>
+            <option value="À l’arrivée aux urgences">À l’arrivée aux urgences</option>
+            <option value="Avant une opération">Avant une opération</option>
+            <option value="Après une opération">Après une opération</option>
+        </select>
     </div>
+    <div class="form-group full-width"><label>Bilan</label><textarea id="soin-bilan" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Actes Réalisés</label><textarea id="soin-acte" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Produit(s) Prescrit(s)</label><textarea id="soin-prod" rows="2"></textarea></div>
+</div>
+<button class="gen-btn" onclick="generateReport('soins')">GÉNÉRER RAPPORT</button>
+</section>
+
+<!-- ===== RAPPORT DE PRESCRIPTION ===== -->
+<section id="prescription" class="form-section">
+<h2>Rapport de Prescription</h2>
+<div class="form-grid">
+    <div class="form-group"><label>Identité du Prescripteur</label><input id="pre-med"></div>
+    <div class="form-group"><label>Grade</label><input id="pre-grade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="pre-accr"></div>
+    <div class="form-group"><label>Identité du Consultant</label><input id="pre-patient"></div>
+    <div class="form-group"><label>Grade</label><input id="pre-pgrade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="pre-paccr"></div>
+    <div class="form-group full-width"><label>Bilan</label><textarea id="pre-bilan" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Produit(s) Prescrit(s)</label><textarea id="pre-prod" rows="2"></textarea></div>
+</div>
+<button class="gen-btn" onclick="generateReport('prescription')">GÉNÉRER RAPPORT</button>
+</section>
+
+<!-- ===== RAPPORT DE CONSULTATION ===== -->
+<section id="consultation" class="form-section">
+<h2>Rapport de Consultation</h2>
+<div class="form-grid">
+    <div class="form-group"><label>Identité du Consulté</label><input id="con-patient"></div>
+    <div class="form-group"><label>Grade</label><input id="con-pgrade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="con-paccr"></div>
+    <div class="form-group"><label>Identité du Consultant</label><input id="con-med"></div>
+    <div class="form-group"><label>Grade</label><input id="con-grade"></div>
+    <div class="form-group"><label>Accréditation</label><input id="con-accr"></div>
+    <div class="form-group full-width"><label>Bilan</label><textarea id="con-bilan" rows="2"></textarea></div>
+    <div class="form-group full-width"><label>Prescription</label>
+        <select id="con-prescription">
+            <option value="">-- Sélectionner --</option>
+            <option value="Non">Non</option>
+            <option value="Oui">Oui</option>
+        </select>
+        <textarea id="con-pres-detail" rows="2" placeholder="Si Oui, quoi"></textarea>
+    </div>
+</div>
+<button class="gen-btn" onclick="generateReport('consultation')">GÉNÉRER RAPPORT</button>
+</section>
+
+<div id="output"></div>
+<button id="btn-print" class="gen-btn" style="display:none; background: #333;" onclick="window.print()">IMPRIMER / SAUVEGARDER PDF</button>
+</div>
 </div>
 
 <script>
@@ -205,39 +257,128 @@ function showForm(id, btn) {
 }
 
 function generateReport(type) {
-    const d = new Date().toLocaleString('fr-FR');
-    const v = id => document.getElementById(id).value;
+    const v = id => document.getElementById(id).value.trim();
     const separator = "------------------------------------------";
-    let c = `FONDATION SCP - DÉPARTEMENT MÉDICAL\n${separator}\n`;
-    c += `DATE DU RAPPORT : ${d}\n`;
-    c += `ID LOG : ${Math.random().toString(36).substr(2, 9).toUpperCase()}\n${separator}\n\n`;
+    let c = "";
 
-    if (type === "imagerie") {
-        c += `TYPE : IMAGERIE MÉDICALE\nPATIENT : ${v("img-patient")}\nMÉDECIN : ${v("img-soignant")} (${v("img-grade")})\nZONE : ${v("img-zone")}\n\nRÉSULTATS :\n${v("img-irm")}\n\nOBSERVATIONS :\n${v("img-suite")}`;
-    } else if (type === "deces") {
-        c += `TYPE : CONSTAT DE DÉCÈS\nDÉFUNT : ${v("dec-defunt")}\nPRATICIEN : ${v("dec-pro")}\n\nCAUSES :\n${v("dec-cause")}\n\nPRODUITS/SUBSTANCES :\n${v("dec-prod")}`;
-    } else if (type === "operation") {
-        c += `TYPE : RAPPORT CHIRURGICAL\nPATIENT : ${v("op-patient")}\nCHIRURGIEN : ${v("op-chir")}\nINTERVENTION : ${v("op-type")}\n\nCOMPTE-RENDU :\n${v("op-compte")}\n\nÉTAT POST-OP : ${v("op-etat")}`;
-    } else if (type === "soins") {
-        c += `TYPE : RAPPORT DE SOINS\nPATIENT : ${v("soin-patient")}\nPERSONNEL : ${v("soin-pers")}\n\nSOINS APPLIQUÉS :\n${v("soin-desc")}\n\nOBSERVATIONS :\n${v("soin-obs")}`;
-    } else if (type === "prescription") {
-        c += `TYPE : PRESCRIPTION\nPATIENT : ${v("pre-patient")}\nMÉDECIN : ${v("pre-med")}\n\nMÉDICAMENTS :\n${v("pre-medoc")}\n\nPOSOLOGIE :\n${v("pre-duree")}`;
-    } else if (type === "consultation") {
-        c += `TYPE : BILAN DE CONSULTATION\nPATIENT : ${v("con-patient")}\nMÉDECIN : ${v("con-med")}\nMOTIF : ${v("con-motif")}\n\nDIAGNOSTIC :\n${v("con-diag")}`;
+    function fail(msg) {
+        alert("ACCÈS REFUSÉ\n" + msg);
+        return null;
     }
 
-    c += `\n\n${separator}\nSÉCURISER. CONTENIR. PROTÉGER.`;
-    
+    const d = new Date().toLocaleString('fr-FR');
+
+    if(type === "deces") {
+        if(!v("dec-pro")||!v("dec-grade")||!v("dec-accr")||!v("dec-defunt")||!v("dec-date")||!v("dec-cause")||!v("dec-bilan"))
+            return fail("RAPPORT DE DÉCÈS INCOMPLET\nVALIDATION MÉDICALE IMPOSSIBLE");
+        c = `# Rapport de Décès
+Identité du/des Professionnel(s) : ${v("dec-pro")}
+Grade : ${v("dec-grade")}
+Accréditation : ${v("dec-accr")}
+
+Identité du Défunt : ${v("dec-defunt")}
+Grade : ${v("dec-pgrade")}
+Accréditation : ${v("dec-paccr")}
+Date et Heure du Décès : ${v("dec-date")}
+Cause(s) du Décès : ${v("dec-cause")}
+Bilan : ${v("dec-bilan")}
+Acte(s) ayant été Réalisé(s) : ${v("dec-acte")||'N/A'}
+Produit(s) ayant été Utilisé(s) : ${v("dec-prod")||'N/A'}`;
+    }
+
+    else if(type === "operation") {
+        if(!v("op-op")||!v("op-grade")||!v("op-accr")||!v("op-patient")||!v("op-etat")||!v("op-zone")||!v("op-bilan")||!v("op-acte"))
+            return fail("RAPPORT D'OPÉRATION INCOMPLET\nVALIDATION MÉDICALE IMPOSSIBLE");
+        c = `# Rapport d'Opération
+Identité du/des Opérateur(s) : ${v("op-op")}
+Grade : ${v("op-grade")}
+Accréditation : ${v("op-accr")}
+
+Identité du Patient : ${v("op-patient")}
+Grade : ${v("op-pgrade")}
+Accréditation : ${v("op-paccr")}
+État du Patient : ${v("op-etat")}
+Zone(s) Opérée(s) : ${v("op-zone")}
+Bilan : ${v("op-bilan")}
+Actes Réalisés : ${v("op-acte")}
+Produit(s) Utilisé(s) : ${v("op-prod")||'N/A'}`;
+    }
+
+    else if(type === "imagerie") {
+        if(!v("img-soignant")||!v("img-grade")||!v("img-accr")||!v("img-patient")||!v("img-etat"))
+            return fail("RAPPORT D'IMAGERIE INCOMPLET\nVALIDATION MÉDICALE IMPOSSIBLE");
+        c = `# Rapport d'Imagerie Médicale
+Identité du/des Soignant(s) : ${v("img-soignant")}
+Grade : ${v("img-grade")}
+Accréditation : ${v("img-accr")}
+
+Identité du Patient : ${v("img-patient")}
+Grade : ${v("img-pgrade")}
+Accréditation : ${v("img-paccr")}
+État de santé : ${v("img-etat")}
+Bilan d'I.R.M. : ${v("img-irm")||'N/A'}
+Bilan du Fluoroscope : ${v("img-fluo")||'N/A'}
+Suite des Soins : ${v("img-suite")||'N/A'}`;
+    }
+
+    else if(type === "soins") {
+        if(!v("soin-soignant")||!v("soin-grade")||!v("soin-accr")||!v("soin-patient")||!v("soin-moment")||!v("soin-bilan")||!v("soin-acte"))
+            return fail("RAPPORT DE SOINS INCOMPLET\nVALIDATION MÉDICALE IMPOSSIBLE");
+        c = `# Rapport de Soins
+Identité du/des Soignant(s) : ${v("soin-soignant")}
+Grade : ${v("soin-grade")}
+Accréditation : ${v("soin-accr")}
+
+Identité du Patient : ${v("soin-patient")}
+Grade : ${v("soin-pgrade")}
+Accréditation : ${v("soin-paccr")}
+À quel Moment : ${v("soin-moment")}
+Bilan : ${v("soin-bilan")}
+Actes Réalisés : ${v("soin-acte")}
+Produit(s) Prescrit(s) : ${v("soin-prod")||'N/A'}`;
+    }
+
+    else if(type === "prescription") {
+        if(!v("pre-med")||!v("pre-grade")||!v("pre-accr")||!v("pre-patient")||!v("pre-bilan"))
+            return fail("RAPPORT DE PRESCRIPTION INCOMPLET\nVALIDATION MÉDICALE IMPOSSIBLE");
+        c = `# Rapport de Prescription
+Identité du Prescripteur : ${v("pre-med")}
+Grade : ${v("pre-grade")}
+Accréditation : ${v("pre-accr")}
+
+Identité du Consultant : ${v("pre-patient")}
+Grade : ${v("pre-pgrade")}
+Accréditation : ${v("pre-paccr")}
+Bilan : ${v("pre-bilan")}
+Produit(s) Prescrit(s) : ${v("pre-prod")||'N/A'}`;
+    }
+
+    else if(type === "consultation") {
+        if(!v("con-patient")||!v("con-pgrade")||!v("con-paccr")||!v("con-med")||!v("con-grade")||!v("con-accr")||!v("con-bilan")||!v("con-prescription"))
+            return fail("RAPPORT DE CONSULTATION INCOMPLET\nVALIDATION MÉDICALE IMPOSSIBLE");
+        let pres = v("con-prescription") === "Oui" ? v("con-pres-detail")||'À préciser' : 'Non';
+        c = `# Rapport de Consultation
+Identité du Consulté : ${v("con-patient")}
+Grade : ${v("con-pgrade")}
+Accréditation : ${v("con-paccr")}
+
+Identité du Consultant : ${v("con-med")}
+Grade : ${v("con-grade")}
+Accréditation : ${v("con-accr")}
+Bilan : ${v("con-bilan")}
+Prescription : ${pres}`;
+    }
+
     const o = document.getElementById("output");
     o.innerText = c;
     o.style.display = "block";
     document.getElementById("btn-print").style.display = "block";
-    o.scrollIntoView({behavior: "smooth"});
+    o.scrollIntoView({behavior:"smooth"});
 }
 
 // Activer le premier onglet par défaut
 document.addEventListener('DOMContentLoaded', () => {
-    showForm('imagerie', document.querySelector('.nav-btn'));
+    showForm('deces', document.querySelector('.nav-btn'));
 });
 </script>
 
