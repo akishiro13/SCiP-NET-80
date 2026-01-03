@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapport d'Incident - SDS Site-80</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+body { background:#050505; color:#d1d1d1; font-family:'Share Tech Mono', monospace; margin:0; overflow-x:hidden; }
+input, textarea, select { 
+    background:#0f0f0f; border:1px solid #450a0a; color:#ef4444; padding:10px; width:100%; margin-bottom:10px; outline:none; font-size:12px;
+}
+.report-paper { 
+    background:#f0f0f0; color:#000; font-family:'Courier New', monospace; padding:30px; border:1px solid #991b1b; margin-top:20px; 
+}
+button { background:#450a0a; color:#ef4444; padding:12px; width:100%; border:1px solid #991b1b; font-weight:bold; text-transform:uppercase; transition: all 0.3s; }
+button:hover { background:#ef4444; color:#450a0a; }
+
+header.sds-header { background: linear-gradient(90deg, #450a0a 0%, #1a1a1a 100%); border-bottom: 2px solid #991b1b; padding:15px; display:flex; justify-content:space-between; align-items:center; }
+header .title { display:flex; gap:12px; align-items:center; }
+header .title h1 { font-size:1.5rem; font-weight:bold; color:white; text-transform:uppercase; }
+header .title p { font-size:10px; font-weight:bold; color:#ef4444; text-transform:uppercase; letter-spacing:0.1em; }
+</style>
+</head>
+<body>
+
+<header class="sds-header">
+    <div class="title">
+        <div class="w-10 h-10 border-2 border-red-600 rounded-full flex items-center justify-center font-bold text-white text-[10px]">SDS</div>
+        <div>
+            <h1>Département de Sécurité</h1>
+            <p>Site-80 // Secure Terminal</p>
+        </div>
+    </div>
+    <div class="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">SDS-80 // TERMINAL OFFICIEL</div>
+</header>
+
+<div class="p-6 max-w-4xl mx-auto">
+    <h2 class="text-red-500 text-2xl font-bold uppercase mb-4">Nouveau Rapport d'Incident</h2>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <input type="text" id="i-agent" placeholder="Agent Rapporteur">
+        <input type="text" id="i-lieu" placeholder="Zone / Secteur">
+        <select id="i-type">
+            <option value="BRÈCHE DE CONFINEMENT">BRÈCHE DE CONFINEMENT</option>
+            <option value="INTRUSION EXTÉRIEURE">INTRUSION EXTÉRIEURE</option>
+            <option value="ÉMEUTE CLASSE-D">ÉMEUTE CLASSE-D</option>
+            <option value="DÉFAILLANCE TECHNIQUE">DÉFAILLANCE TECHNIQUE</option>
+            <option value="AGRESSION / CONFLIT">AGRESSION / CONFLIT</option>
+        </select>
+    </div>
+
+    <textarea id="i-faits" rows="4" placeholder="Description des faits..."></textarea>
+    <textarea id="i-mesures" rows="3" placeholder="Mesures prises..."></textarea>
+    <select id="i-statut">
+        <option value="NEUTRALISÉ">NEUTRALISÉ</option>
+        <option value="EN COURS">EN COURS</option>
+        <option value="ÉCHEC">ÉCHEC DE CONFINEMENT</option>
+    </select>
+    <button onclick="generateIncident()">Générer Rapport</button>
+
+    <div id="incident-output" class="hidden report-paper">
+        <h3 class="font-bold text-red-600 mb-2">Rapport d'Incident SDS</h3>
+        <div id="incident-final-text"></div>
+        <button onclick="copyToClipboard('incident-final-text')">Copier Rapport</button>
+    </div>
+</div>
+
+<script>
+function generateIncident() {
+    const agent=document.getElementById('i-agent').value;
+    const zone=document.getElementById('i-lieu').value;
+    const type=document.getElementById('i-type').value;
+    const faits=document.getElementById('i-faits').value;
+    const mesures=document.getElementById('i-mesures').value;
+    const statut=document.getElementById('i-statut').value;
+
+    const report=`RAPPORT D'INCIDENT SDS #${Math.floor(Math.random()*9000+1000)}
+---------------------------
+DATE : ${new Date().toLocaleDateString()}
+AGENT : ${agent}
+ZONE : ${zone}
+TYPE : ${type}
+
+FAITS :
+${faits}
+
+MESURES :
+${mesures}
+
+STATUT : ${statut}
+---------------------------`;
+
+    document.getElementById('incident-final-text').innerText=report;
+    document.getElementById('incident-output').classList.remove('hidden');
+}
+
+function copyToClipboard(id){
+    navigator.clipboard.writeText(document.getElementById(id).innerText);
+    alert("Rapport copié dans le presse-papier !");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide des Statuts - SDS Site-80</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+body { background:#050505; color:#d1d1d1; font-family:'Share Tech Mono', monospace; margin:0; overflow-x:hidden; padding:10px; }
+.status-row { border-bottom:1px solid #1a1a1a; padding:12px 0; display:flex; gap:12px; align-items:flex-start; }
+h3 { font-weight:bold; text-transform:uppercase; margin:0; }
+header.sds-header { background: linear-gradient(90deg, #450a0a 0%, #1a1a1a 100%); border-bottom: 2px solid #991b1b; padding:15px; display:flex; justify-content:space-between; align-items:center; }
+header .title { display:flex; gap:12px; align-items:center; }
+header .title h1 { font-size:1.5rem; font-weight:bold; color:white; text-transform:uppercase; }
+header .title p { font-size:10px; font-weight:bold; color:#ef4444; text-transform:uppercase; letter-spacing:0.1em; }
+</style>
+</head>
+<body>
+
+<header class="sds-header">
+    <div class="title">
+        <div class="w-10 h-10 border-2 border-red-600 rounded-full flex items-center justify-center font-bold text-white text-[10px]">SDS</div>
+        <div>
+            <h1>Département de Sécurité</h1>
+            <p>Site-80 // Secure Terminal</p>
+        </div>
+    </div>
+    <div class="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">SDS-80 // TERMINAL OFFICIEL</div>
+</header>
+
+<div class="max-w-4xl mx-auto mt-6">
+    <h2 class="text-red-500 text-2xl font-bold uppercase mb-6">Guide des Statuts SDS</h2>
+
+    <div class="status-row"><span class="text-2xl">🟢</span>
+        <div>
+            <h3 class="text-green-500">Vert : Nominal</h3>
+            <p class="text-xs text-gray-400">Impact faible ou nul.</p>
+        </div>
+    </div>
+    <div class="status-row"><span class="text-2xl">🟡</span>
+        <div>
+            <h3 class="text-yellow-500">Jaune : Vigilance</h3>
+            <p class="text-xs text-gray-400">Répercussions modérées.</p>
+        </div>
+    </div>
+    <div class="status-row"><span class="text-2xl">🟠</span>
+        <div>
+            <h3 class="text-orange-500">Orange : Alerte</h3>
+            <p class="text-xs text-gray-400">Impact important sur le site.</p>
+        </div>
+    </div>
+    <div class="status-row"><span class="text-2xl">🔴</span>
+        <div>
+            <h3 class="text-red-500">Rouge : Danger</h3>
+            <p class="text-xs text-gray-400">Impact grave sur la fondation.</p>
+        </div>
+    </div>
+    <div class="status-row"><span class="text-2xl">🟣</span>
+        <div>
+            <h3 class="text-purple-500">Violet : Critique</h3>
+            <p class="text-xs text-gray-400">Répercussions critiques.</p>
+        </div>
+    </div>
+    <div class="status-row"><span class="text-2xl">⚫</span>
+        <div>
+            <h3 class="text-white">Noir : Gravissime</h3>
+            <p class="text-xs text-gray-300">Destruction possible du complexe.</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

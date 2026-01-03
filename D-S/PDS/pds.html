@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocole PDS - SDS Site-80</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+body { background-color: #050505; color: #d1d1d1; font-family: 'Share Tech Mono', monospace; margin: 0; overflow-x: hidden; padding:10px; }
+input, textarea { background:#0f0f0f; border:1px solid #450a0a; color:#ef4444; padding:10px; width:100%; font-size:12px; margin-bottom:10px; outline:none; }
+.report-paper { background:#f0f0f0; color:#000; font-family:'Courier New', monospace; padding:30px; border:1px solid #991b1b; margin-top:20px; }
+button { background:#450a0a; color:#ef4444; font-weight:bold; padding:12px; width:100%; border:1px solid #991b1b; text-transform:uppercase; }
+button:hover { background:#ef4444; color:#450a0a; transition:0.2s; }
+header.sds-header { background: linear-gradient(90deg, #450a0a 0%, #1a1a1a 100%); border-bottom: 2px solid #991b1b; padding:15px; display:flex; justify-content:space-between; align-items:center; }
+header .title { display:flex; gap:12px; align-items:center; }
+header .title h1 { font-size:1.5rem; font-weight:bold; color:white; text-transform:uppercase; }
+header .title p { font-size:10px; font-weight:bold; color:#ef4444; text-transform:uppercase; letter-spacing:0.1em; }
+</style>
+</head>
+<body>
+
+<header class="sds-header">
+    <div class="title">
+        <div class="w-10 h-10 border-2 border-red-600 rounded-full flex items-center justify-center font-bold text-white text-[10px]">SDS</div>
+        <div>
+            <h1>Département de Sécurité</h1>
+            <p>Site-80 // Secure Terminal</p>
+        </div>
+    </div>
+    <div class="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">SDS-80 // TERMINAL OFFICIEL</div>
+</header>
+
+<div class="max-w-6xl mx-auto mt-6">
+<h1 class="text-red-500 text-2xl font-bold uppercase mb-4">Protocole PDS</h1>
+<p class="italic mb-6 text-gray-400">Remplissez le formulaire ci-dessous pour générer un rapport PDS officiel.</p>
+
+<div class="grid grid-cols-2 gap-4 mb-4">
+<input type="text" id="p-disc" placeholder="Pseudo Discord">
+<input type="text" id="p-rob" placeholder="Pseudo Roblox">
+<input type="text" id="p-grade" placeholder="Grade (Ex: CPL)">
+<input type="text" id="p-pseudo" placeholder="Pseudo (Ex: 'Viper')">
+<input type="text" id="p-h-pds" placeholder="Heure Début">
+<input type="text" id="p-h-fds" placeholder="Heure Fin">
+</div>
+
+<textarea id="p-brief" rows="4" placeholder="Description courte du service..."></textarea>
+<input type="text" id="p-preuve" placeholder="Lien Preuve (Imgur/Discord)">
+<button onclick="generatePDS()">Générer Rapport PDS</button>
+
+<div id="pds-output" class="hidden report-paper">
+<h3 class="font-bold text-red-600 mb-2">Titre du rapport</h3>
+<div id="pds-title" class="mb-4"></div>
+<div id="pds-final-text"></div>
+<button onclick="copyToClipboard('pds-final-text')">Copier Rapport</button>
+</div>
+</div>
+
+<script>
+function generatePDS() {
+    const data = {
+        disc: document.getElementById('p-disc').value,
+        rob: document.getElementById('p-rob').value,
+        grade: document.getElementById('p-grade').value,
+        pseudo: document.getElementById('p-pseudo').value,
+        hpds: document.getElementById('p-h-pds').value,
+        hfds: document.getElementById('p-h-fds').value,
+        brief: document.getElementById('p-brief').value,
+        preuve: document.getElementById('p-preuve').value
+    };
+    document.getElementById('pds-title').innerText = `[Rapport ${data.grade} "${data.pseudo}"]`;
+    document.getElementById('pds-final-text').innerText = `==================================\nPseudo Discord : ${data.disc}\nPseudo Roblox : ${data.rob}\nGrade : ${data.grade}\nHeure PDS : ${data.hpds}\nHeure FDS : ${data.hfds}\n\nRapport bref :\n${data.brief}\n\nPreuve : ${data.preuve}\n==================================`;
+    document.getElementById('pds-output').classList.remove('hidden');
+}
+function copyToClipboard(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); alert("Copié dans le presse-papier."); }
+</script>
+
+</body>
+</html>
