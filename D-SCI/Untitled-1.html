@@ -1,349 +1,63 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCP Foundation - Terminal Site-80</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        
-        body { 
-            background-color: #0a0a0a; 
-            color: #c0c0c0; 
-            font-family: 'Share Tech Mono', monospace; 
-            margin: 0;
-            overflow: hidden;
-        }
-        
-        .scp-header { background: linear-gradient(90deg, #1a1a1a 0%, #333 100%); border-bottom: 2px solid #444; }
-        .terminal-border { border: 1px solid #333; }
-        .sidebar-item { border-bottom: 1px solid #1a1a1a; transition: all 0.2s; cursor: pointer; }
-        .sidebar-item:hover { background-color: #222; color: #fff; }
-        .active-item { background-color: #333; color: #00ff41; border-left: 4px solid #00ff41; }
-        .active-tab { border-bottom: 3px solid #00ff41; color: white; background: rgba(255,255,255,0.05); }
-        
-        .scanline { 
-            width: 100%; height: 2px; z-index: 100; 
-            background: rgba(0, 255, 65, 0.05); 
-            position: absolute; pointer-events: none; 
-            animation: scan 4s linear infinite; 
-        }
-        @keyframes scan { from { top: 0; } to { top: 100%; } }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Département Scientifique - Site-80</title>
+<script src="https://cdn.tailwindcss.com"></script>
 
-        input, textarea, select { 
-            background: #0d0d0d !important; border: 1px solid #333 !important; 
-            color: #00ff41 !important; padding: 8px; width: 100%; font-size: 12px; 
-            outline: none;
-        }
-        input:focus, textarea:focus { border-color: #00ff41 !important; }
-
-        .report-paper { 
-            background: #e2e2e2; color: #1a1a1a; 
-            font-family: 'Courier New', Courier, monospace; 
-            padding: 40px; box-shadow: 0 0 30px rgba(0,0,0,0.8); 
-            position: relative;
-            min-height: 500px;
-        }
-        
-        .protocol-card { border-left: 4px solid #991b1b; background: #111; transition: all 0.3s; cursor: pointer; }
-        .protocol-card:hover { background: #1a1a1a; border-left-color: #ef4444; }
-
-        #loading-screen { transition: opacity 0.8s ease-out; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #333; }
-
-        .ethic-text { font-family: 'serif'; font-size: 13px; color: #ddd; text-align: justify; }
-        .search-box { background: #111; border-bottom: 1px solid #333; padding: 10px; }
-    </style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+body {
+  background:#050505;
+  color:#d1d1d1;
+  font-family:'Share Tech Mono', monospace;
+  margin:0;
+}
+button {
+  background:#0f172a;
+  color:#38bdf8;
+  border:2px solid #0284c7;
+  padding:20px 40px;
+  font-weight:bold;
+  text-transform:uppercase;
+}
+button:hover {
+  background:#38bdf8;
+  color:#020617;
+}
+</style>
 </head>
-<body class="h-screen flex flex-col">
 
-    <div id="loading-screen" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-[1000] text-green-500">
-        <div class="mb-8 flex flex-col items-center">
-            <div class="w-16 h-16 border-4 border-white rounded-full flex items-center justify-center font-bold text-xs mb-4 text-white">SCP</div>
-            <h2 class="text-xl tracking-[0.3em] font-bold uppercase">Accès Terminal Site-80</h2>
-        </div>
-        <div class="w-72 h-1 bg-zinc-900 border border-zinc-800 relative overflow-hidden">
-            <div id="loading-bar" class="absolute top-0 left-0 h-full bg-green-500 w-0 transition-all duration-300"></div>
-        </div>
-        <div id="loading-text" class="mt-4 text-[10px] uppercase tracking-widest animate-pulse">Initialisation des protocoles...</div>
-    </div>
+<body>
 
-    <div class="scanline"></div>
-    
-    <header class="scp-header p-4 flex justify-between items-center shadow-lg relative z-10">
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 border-2 border-white rounded-full flex items-center justify-center font-bold text-[10px] text-white">SCP</div>
-                <div>
-                    <h1 class="text-xl tracking-tighter text-white uppercase font-bold">Base de Données SCIP</h1>
-                    <p class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.2em]">Site-80 // Terminal Guowei</p>
-                </div>
-            </div>
-            <nav class="flex ml-10">
-                <button onclick="switchTab('archives')" id="tab-archives" class="px-6 py-2 uppercase text-xs font-bold active-tab">Archives</button>
-                <button onclick="switchTab('labo')" id="tab-labo" class="px-6 py-2 uppercase text-xs font-bold">Laboratoire</button>
-                <button onclick="switchTab('protocoles')" id="tab-protocoles" class="px-6 py-2 uppercase text-xs font-bold text-red-500">Protocoles & Éthique</button>
-            </nav>
-        </div>
-        <div id="status" class="text-[10px] font-bold text-green-500 animate-pulse uppercase tracking-widest text-right">
-            SÉCURISÉ // EN LIGNE
-        </div>
-    </header>
+<header class="p-5 border-b-4 border-cyan-600 text-center">
+  <h1 class="text-2xl uppercase font-black text-cyan-400">
+    Département Scientifique
+  </h1>
+  <p class="text-xs text-cyan-300 uppercase">
+    Terminal Officiel — Site-80
+  </p>
+</header>
 
-    <div class="flex flex-1 overflow-hidden">
-        
-        <div id="section-archives" class="flex w-full overflow-hidden">
-            <nav class="w-1/4 bg-[#0d0d0d] border-r border-gray-800 flex flex-col">
-                <div class="search-box">
-                    <input type="text" id="scp-search" placeholder="Rechercher un matricule ou nom..." onkeyup="filterScp()">
-                </div>
-                <div class="overflow-y-auto flex-1" id="list-container">
-                    </div>
-            </nav>
-            <main class="w-3/4 p-10 overflow-y-auto bg-black relative">
-                <div id="welcome" class="h-full flex flex-col items-center justify-center opacity-20 text-center">
-                    <h2 class="text-2xl font-bold uppercase italic tracking-widest">Sélectionnez un dossier confidentiel</h2>
-                </div>
-                <article id="article" class="hidden">
-                    <div class="flex justify-between items-start mb-8 border-b border-gray-800 pb-6">
-                        <div>
-                            <h2 id="view-title" class="text-5xl font-black text-white uppercase tracking-tighter"></h2>
-                            <p id="view-number" class="text-xl text-yellow-500 font-bold mt-2"></p>
-                        </div>
-                        <div id="view-class-box" class="px-6 py-2 border-2 font-black text-2xl uppercase"></div>
-                    </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                        <div class="lg:col-span-2 space-y-8 text-sm">
-                            <div><h3 class="bg-zinc-900 px-2 py-1 w-fit text-white font-bold mb-3 uppercase tracking-widest">Procédures de confinement</h3><p id="view-confinement" class="text-gray-300 leading-relaxed text-justify whitespace-pre-wrap"></p></div>
-                            <div><h3 class="bg-zinc-900 px-2 py-1 w-fit text-white font-bold mb-3 uppercase tracking-widest">Description</h3><p id="view-description" class="text-gray-300 leading-relaxed text-justify whitespace-pre-wrap"></p></div>
-                        </div>
-                        <div id="view-img-box" class="space-y-4">
-                            <div class="terminal-border p-2 bg-[#111]"><img id="view-image" src="" class="w-full grayscale contrast-125"></div>
-                        </div>
-                    </div>
-                </article>
-            </main>
-        </div>
+<div class="flex flex-col items-center justify-center gap-8 min-h-[calc(100vh-120px)]">
 
-        <div id="section-labo" class="hidden w-full overflow-y-auto bg-[#0a0a0a] p-10">
-            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
-                <div class="space-y-6 bg-zinc-900/30 p-8 border border-zinc-800 h-fit shadow-2xl">
-                    <h2 class="text-xl font-bold border-b border-zinc-700 pb-2 mb-4 uppercase italic text-green-500">Générateur de Rapport</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="f-nom" placeholder="Votre Identité (ex: Dr. Bright)">
-                        <input type="text" id="f-grade" placeholder="Votre Grade (ex: 4)">
-                        <input type="text" id="f-scp" placeholder="Matricule du SCP (ex: SCP-173)">
-                        <input type="text" id="f-succes" placeholder="Est-ce un Succès ? (Oui/Non)">
-                    </div>
-                    <textarea id="f-but" rows="2" placeholder="But Scientifique du test"></textarea>
-                    <div>
-                        <label class="text-[10px] uppercase text-zinc-500 flex justify-between mb-2">Personnel(s) Présent(s) <button onclick="addStaffRow()" class="text-green-500 font-bold text-xs hover:underline">+ AJOUTER</button></label>
-                        <div id="staff-container" class="space-y-2"></div>
-                    </div>
-                    <textarea id="f-flow" rows="4" placeholder="Déroulé de l'opération..."></textarea>
-                    <textarea id="f-hyp" rows="2" placeholder="Hypothèses (Facultatif)"></textarea>
-                    <textarea id="f-ccl" rows="2" placeholder="Conclusion du rapport"></textarea>
-                    <button onclick="generateReport()" class="w-full bg-green-900/20 border border-green-500 text-green-500 py-4 font-bold uppercase hover:bg-green-500 hover:text-black transition-all">Générer Rapport Officiel</button>
-                </div>
-                <div id="report-output" class="hidden">
-                    <div class="report-paper">
-                        <div id="final-text" class="text-[11px] whitespace-pre-line leading-tight"></div>
-                    </div>
-                    <button onclick="copyReport()" class="mt-4 text-[10px] text-zinc-500 hover:text-white uppercase tracking-widest">[ Copier le texte brut (Markdown) ]</button>
-                </div>
-            </div>
-        </div>
+  <h2 class="text-3xl uppercase font-black text-cyan-500">
+    Terminal Scientifique
+  </h2>
 
-        <div id="section-protocoles" class="hidden w-full overflow-y-auto bg-[#050505] p-10">
-            <div class="max-w-4xl mx-auto space-y-6">
-                <h2 class="text-3xl font-black text-red-600 mb-8 border-b border-red-900 pb-4 uppercase tracking-tighter">Documentation Légale & Éthique</h2>
-                <div id="protocol-list" class="space-y-4"></div>
-                <div id="protocol-viewer" class="hidden bg-zinc-900 p-8 border border-zinc-700 mt-10">
-                    <button onclick="closeProtocol()" class="text-red-500 mb-4 font-bold uppercase text-xs tracking-widest hover:underline"><- Retour</button>
-                    <div id="protocol-content" class="ethic-text whitespace-pre-line"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <p class="max-w-xl text-center text-sm text-gray-400">
+    Accès sécurisé aux archives SCP, protocoles de recherche
+    et générateurs de rapports scientifiques.
+  </p>
 
-    <script>
-        let scpData = [];
-        
-        const documentation = [
-            { 
-                id: "CODE-ETHIC", 
-                title: "CODE ÉTHIQUE - INSTALLATION GUOWEI", 
-                desc: "Règles de conduite du personnel.",
-                full: "Art 1 : La vie humaine est précieuse mais le confinement est primordial.\nArt 2 : Tout abus de pouvoir sur un Classe-D sera sanctionné.\nArt 3 : L'accès aux douches est un droit, pas un privilège."
-            },
-            { 
-                id: "CONTRAT-D", 
-                title: "CONTRAT CLASSE-DELTA", 
-                desc: "Cadre juridique des cobayes.",
-                full: "Le signataire accepte les risques de mort, de mutation ou de folie en échange d'une remise de peine."
-            }
-        ];
+  <div class="flex flex-col gap-5">
+    <button onclick="location.href='wiki/archives.html'">Archives SCP</button>
+    <button onclick="location.href='protocole/protocoles.html'">Protocoles de Recherche</button>
+    <button onclick="location.href='rapports/rapports.html'">Rapports Scientifiques</button>
+  </div>
 
-        function startLoading() {
-            const bar = document.getElementById('loading-bar');
-            let i = 0;
-            const interval = setInterval(() => {
-                if (i <= 100) {
-                    bar.style.width = i + "%";
-                    i += 10;
-                } else {
-                    clearInterval(interval);
-                    document.getElementById('loading-screen').style.opacity = "0";
-                    setTimeout(() => document.getElementById('loading-screen').remove(), 800);
-                    loadData();
-                }
-            }, 100);
-        }
+</div>
 
-        async function loadData() {
-            try {
-                const response = await fetch('scp_articles_export.json');
-                if (!response.ok) throw new Error();
-                scpData = await response.json();
-            } catch (err) {
-                // DONNÉES DE SECOURS SI LE JSON N'EST PAS TROUVÉ
-                scpData = [
-                    { item_number: "SCP-173", title: "La Sculpture", object_class: "Euclid", containment_procedures: "Maintenir contact visuel...", description: "Statue de béton qui bouge quand on cligne des yeux.", image_url: "" },
-                    { item_number: "SCP-049", title: "Le Médecin de Peste", object_class: "Euclid", containment_procedures: "Cellule standard de confinement...", description: "Humanoïde en costume de médecin de peste médiéval.", image_url: "" }
-                ];
-            }
-            renderList(scpData);
-            renderProtocoles();
-        }
-
-        function renderList(data) {
-            const container = document.getElementById('list-container');
-            container.innerHTML = data.map((scp) => {
-                // Trouver l'index original pour la fonction showScp
-                const originalIndex = scpData.findIndex(s => s.item_number === scp.item_number);
-                return `
-                <div class="sidebar-item p-5" onclick="showScp(${originalIndex}, this)">
-                    <div class="text-[10px] text-yellow-600 font-bold tracking-widest">${scp.item_number}</div>
-                    <div class="text-sm font-bold text-white uppercase">${scp.title}</div>
-                </div>
-            `}).join('');
-        }
-
-        function filterScp() {
-            const query = document.getElementById('scp-search').value.toLowerCase();
-            const filtered = scpData.filter(s => 
-                s.title.toLowerCase().includes(query) || 
-                s.item_number.toLowerCase().includes(query)
-            );
-            renderList(filtered);
-        }
-
-        function showScp(index, element) {
-            const scp = scpData[index];
-            document.getElementById('welcome').classList.add('hidden');
-            document.getElementById('article').classList.remove('hidden');
-            document.getElementById('view-title').textContent = scp.title;
-            document.getElementById('view-number').textContent = `Dossier : ${scp.item_number}`;
-            document.getElementById('view-confinement').textContent = scp.containment_procedures;
-            document.getElementById('view-description').textContent = scp.description;
-            
-            const box = document.getElementById('view-class-box');
-            box.textContent = scp.object_class;
-            box.className = "px-6 py-2 border-2 font-black text-2xl uppercase " + 
-                (scp.object_class.includes('Sûr') ? 'border-green-600 text-green-600' : 
-                 scp.object_class.includes('Euclid') ? 'border-yellow-600 text-yellow-600' : 'border-red-600 text-red-600');
-            
-            document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active-item'));
-            if(element) element.classList.add('active-item');
-        }
-
-        function renderProtocoles() {
-            document.getElementById('protocol-list').innerHTML = documentation.map((p, idx) => `
-                <div class="protocol-card p-6 border border-zinc-800" onclick="viewProtocol(${idx})">
-                    <h3 class="text-white font-bold uppercase text-lg mb-2">${p.title}</h3>
-                    <p class="text-zinc-400 text-xs italic">${p.desc}</p>
-                </div>
-            `).join('');
-        }
-
-        function viewProtocol(idx) {
-            document.getElementById('protocol-list').classList.add('hidden');
-            document.getElementById('protocol-viewer').classList.remove('hidden');
-            document.getElementById('protocol-content').innerText = documentation[idx].full;
-        }
-
-        function closeProtocol() {
-            document.getElementById('protocol-list').classList.remove('hidden');
-            document.getElementById('protocol-viewer').classList.add('hidden');
-        }
-
-        function addStaffRow() {
-            const div = document.createElement('div');
-            div.className = "flex gap-2 mb-2 staff-row";
-            div.innerHTML = `<input type="text" placeholder="Rôle" class="staff-role w-1/2 text-[10px]"><input type="text" placeholder="Nom" class="staff-name w-1/2 text-[10px]"><button onclick="this.parentElement.remove()" class="text-red-500 px-2">X</button>`;
-            document.getElementById('staff-container').appendChild(div);
-        }
-
-        function generateReport() {
-            const get = (id) => document.getElementById(id).value;
-            const now = new Date().toLocaleDateString('fr-FR');
-            
-            let staffRes = "";
-            let staffExt = "";
-
-            document.querySelectorAll('.staff-row').forEach(row => {
-                const r = row.querySelector('.staff-role').value;
-                const n = row.querySelector('.staff-name').value;
-                if(r && n) {
-                    const line = `\n  * [${r.toUpperCase()}] ${n}`;
-                    const search = r.toUpperCase();
-                    if(search.includes("D") || search.includes("GARDE") || search.includes("FIM")) staffExt += line;
-                    else staffRes += line;
-                }
-            });
-
-            const report = `**- Votre Identité :** Dr. ${get('f-nom')}
-**- Votre Grade :** Niveau ${get('f-grade')}
-**- Matricule du SCP :** ${get('f-scp')}
-**- But Scientifique :** ${get('f-but')}
-
-**- Date du test :** ${now}
-**- Date du Rapport :** ${now}
-**- Personnel(s) de Recherche Présent :** ${staffRes || "\n  * Aucun"}
-**- Personnel(s) Externe Présent :** ${staffExt || "\n  * Aucun"}
-
-**- Déroulé :**
-${get('f-flow')}
-
-**- Conclusion :**
-${get('f-ccl')}
-
-**- Hypothèses :** ${get('f-hyp') || "(Aucune hypothèse spécifiée)"}
-**- Est-ce un Succès :** ${get('f-succes').toUpperCase()}
-
-*Cordialement, ${get('f-nom')}*`;
-
-            window.currentRaw = report;
-            document.getElementById('final-text').innerHTML = report.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            document.getElementById('report-output').classList.remove('hidden');
-            document.getElementById('report-output').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function copyReport() {
-            navigator.clipboard.writeText(window.currentRaw);
-            alert("Rapport copié au format Markdown !");
-        }
-
-        function switchTab(tab) {
-            ['archives', 'labo', 'protocoles'].forEach(t => {
-                document.getElementById(`section-${t}`).classList.toggle('hidden', t !== tab);
-                document.getElementById(`tab-${t}`).classList.toggle('active-tab', t === tab);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', startLoading);
-    </script>
 </body>
 </html>
