@@ -2,164 +2,149 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>SCiP-NET Central Command</title>
+    <title>SCiP-NET Central Command | Site-80</title>
     <style>
         :root {
             --terminal-green: #00ff41;
-            --scp-orange: #ff9800;
+            --scp-orange: #f27121;
             --scp-red: #d32f2f;
-            --bg-dark: #0a0a0a;
-            --panel-bg: #1a1a1a;
+            --bg-dark: #080808;
+            --panel-bg: #121212;
         }
 
         body {
             background-color: var(--bg-dark);
-            color: white;
+            color: #e0e0e0;
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
-        }
-
-
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 100;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-
-        header {
-            width: 100%;
-            padding: 40px 0;
-            text-align: center;
-            border-bottom: 2px solid var(--scp-orange);
-            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
-            margin-bottom: 50px;
-        }
-
-        .logo-text {
-            font-size: 2.5rem;
-            font-weight: bold;
-            letter-spacing: 5px;
-            color: var(--scp-orange);
-            text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
-        }
-
-        .container {
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 20px;
-            width: 90%;
-            z-index: 2;
-        }
-
-        .nav-card {
-            background: var(--panel-bg);
-            border: 1px solid #333;
-            padding: 25px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border-left: 5px solid var(--scp-orange);
-        }
-
-        .nav-card:hover {
-            background: #252525;
-            transform: translateY(-5px);
-            border-left: 5px solid white;
-            box-shadow: 0 0 20px rgba(255, 152, 0, 0.2);
-        }
-
-        .nav-card h2 {
-            margin: 0 0 10px 0;
-            font-size: 1.2rem;
-            color: var(--scp-orange);
-            text-transform: uppercase;
-        }
-
-        .nav-card p {
-            font-size: 0.9rem;
-            color: #aaa;
-            line-height: 1.4;
-        }
-
-        .status {
-            display: inline-block;
-            margin-top: 15px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            padding: 3px 8px;
-            background: #333;
-            border-radius: 3px;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
-
-        .online { color: var(--terminal-green); animation: pulse 2s infinite; }
-        .offline { color: #555; }
-
-        footer {
-            margin-top: auto;
-            padding: 40px;
-            font-size: 0.8rem;
-            color: #555;
-            text-align: center;
+            /* Texture de fond discrète */
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+                              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
         }
 
         .warning-bar {
             background: var(--scp-red);
             color: white;
-            width: 100%;
             text-align: center;
-            padding: 5px 0;
+            padding: 6px 0;
             font-weight: bold;
             font-size: 0.8rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            border-bottom: 2px solid #500;
         }
 
+        header {
+            width: 100%;
+            padding: 45px 0;
+            text-align: center;
+            background: linear-gradient(to bottom, #151515, var(--bg-dark));
+            border-bottom: 1px dashed var(--scp-orange);
+            margin-bottom: 30px;
+        }
+
+        .logo-text {
+            font-size: 2.8rem;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: white;
+            text-shadow: 3px 3px 0px var(--scp-orange);
+        }
+
+        .container {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            width: 90%;
+            align-self: center;
+        }
+
+        .nav-card {
+            background: var(--panel-bg);
+            border: 1px solid #222;
+            padding: 25px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.2s ease;
+            position: relative;
+            border-left: 4px solid var(--scp-orange);
+            clip-path: polygon(0 0, 100% 0, 100% 88%, 94% 100%, 0 100%);
+        }
+
+        .nav-card:hover {
+            background: #1a1a1a;
+            transform: translateY(-3px);
+            border-left: 10px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .nav-card h2 {
+            margin: 0 0 12px 0;
+            font-size: 1.1rem;
+            color: var(--scp-orange);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-card p {
+            font-size: 0.85rem;
+            color: #999;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            background: #000;
+            border: 1px solid #333;
+            letter-spacing: 1px;
+        }
+
+        .online { color: var(--terminal-green); }
+        .offline { color: #444; }
+
+        .disabled-card {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-left-color: #333;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            font-size: 0.75rem;
+            color: #444;
+            text-align: center;
+            border-top: 1px solid #111;
+        }
 
         .secret-trigger {
             position: fixed;
-            bottom: 5px;
-            right: 10px;
+            bottom: 10px;
+            right: 15px;
             font-size: 0.6rem;
-            color: #1a1a1a; /* Presque invisible */
+            color: #151515;
             cursor: pointer;
-            transition: color 0.3s;
-            z-index: 101;
             user-select: none;
-        }
-
-        .secret-trigger:hover {
-            color: var(--scp-red);
-            text-shadow: 0 0 5px var(--scp-red);
         }
     </style>
 </head>
 <body>
 
-    <div class="warning-bar">Accès restreint - Niveau d'accréditation 0 requis</div>
+    <div class="warning-bar">Accès restreint - Accréditation Niveau 0 Requise</div>
 
     <header>
         <div class="logo-text">SCiP-NET-80</div>
-        <div style="color: #666; margin-top: 10px;">Système de Gestion Centralisé du Site-80</div>
+        <div style="color: #666; margin-top: 8px; font-size: 0.8rem; letter-spacing: 1px;">SYSTÈME DE GESTION CENTRALISÉ // SITE-80</div>
     </header>
 
     <div class="container">
@@ -200,15 +185,21 @@
             <span class="status online">● SYSTÈME ACTIF</span>
         </a>
 
-        <div class="nav-card" style="opacity: 0.5; cursor: not-allowed;">
+        <div class="nav-card disabled-card">
             <h2>Département Inconnu</h2>
             <p>Données corrompues ou accès non assigné au terminal actuel.</p>
             <span class="status offline">● SYSTÈME INACTIF</span>
         </div>
 
-        <div class="nav-card" style="opacity: 0.5; cursor: not-allowed;">
-            <h2>Division Admin</h2>
-            <p>Requiert une clé cryptographique de niveau 4 ou supérieur.</p>
+        <div class="nav-card disabled-card">
+            <h2>Département Inconnu</h2>
+            <p>Données corrompues ou accès non assigné au terminal actuel.</p>
+            <span class="status offline">● SYSTÈME INACTIF</span>
+        </div>
+
+        <div class="nav-card disabled-card">
+            <h2>Département Inconnu</h2>
+            <p>Données corrompues ou accès non assigné au terminal actuel.</p>
             <span class="status offline">● SYSTÈME INACTIF</span>
         </div>
 
@@ -216,14 +207,12 @@
 
     <footer>
         <p>Fondation SCP - Sécuriser, Contenir, Protéger</p>
-        <p>&copy; 2026 SCiP-NET OS v.4.0.1 - Terminal Site-80</p>
+        <p>&copy; 2026 SCiP-NET OS v.4.0.1 - Terminal Local Site-80</p>
     </footer>
 
-    <div class="secret-trigger" onclick="accessSecret()">
+    <div class="secret-trigger" onclick="console.log('Access Granted')">
         [SESSION_ID: 0x88-SITE80]
     </div>
-
-
 
 </body>
 </html>
