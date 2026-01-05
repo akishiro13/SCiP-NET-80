@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SCiP-NET | TRANSMISSION GENERATOR</title>
+    <style>
+        :root {
+            --scp-gold: #c5a059; /* Couleur Or Administration */
+            --bg-dark: #0a0a0c;
+            --panel-bg: #16161a;
+            --text-gray: #a0a0a0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--panel-bg);
+            border: 1px solid #333;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        header {
+            border-bottom: 2px solid var(--scp-gold); /* Changé en Or */
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--scp-gold); /* Changé en Or */
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--scp-gold);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        input, select {
+            background: #000;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px;
+            font-family: inherit;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus { border-color: var(--scp-gold); }
+
+        /* Zone de résultat */
+        #output-area {
+            margin-top: 40px;
+            background: #000;
+            border: 1px dashed var(--scp-gold);
+            padding: 20px;
+            position: relative;
+        }
+
+        #output-text {
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #ddd;
+        }
+
+        .copy-btn {
+            background: var(--scp-gold); /* Bouton en Or */
+            color: black; /* Texte noir pour meilleur contraste sur l'or */
+            border: none;
+            padding: 12px 20px;
+            text-transform: uppercase;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            letter-spacing: 2px;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover { background: #e2b86a; }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .back-link:hover { color: var(--scp-gold); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../menu.html" class="back-link">← RETOUR AU TERMINAL CENTRAL</a>
+    
+    <header>
+        <h1>GÉNÉRATEUR DE TRANSMISSION : FIM</h1>
+    </header>
+
+    <div class="form-grid">
+        <div class="input-group">
+            <label>Votre Grade</label>
+            <input type="text" id="grade" placeholder="ex: Directeur de Site" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Votre Nom / Prénom</label>
+            <input type="text" id="nom" placeholder="ex: Jean Dupont" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Nom de la Crise</label>
+            <input type="text" id="crise" placeholder="ex: Brèche de confinement" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Auteur de la Crise</label>
+            <input type="text" id="auteur" placeholder="ex: SCP-049" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Durée de la Crise</label>
+            <input type="text" id="duree" placeholder="ex: 2 heures" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Code Menace</label>
+            <select id="code" onchange="updateMessage()">
+                <option value="VERT">VERT (Faible)</option>
+                <option value="JAUNE">JAUNE (Modéré)</option>
+                <option value="ORANGE">ORANGE (Élevé)</option>
+                <option value="ROUGE">ROUGE (Critique)</option>
+                <option value="NOIR">NOIR (Destruction imminente)</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="output-area">
+        <label style="position:absolute; top:-10px; left:10px; background:var(--panel-bg); padding:0 5px; color:var(--scp-gold); font-size:0.7rem;">APERCU SECURISE</label>
+        <div id="output-text"></div>
+    </div>
+
+    <button class="copy-btn" onclick="copyToClipboard()">Copier la transmission</button>
+</div>
+
+<script>
+    function updateMessage() {
+        const grade = document.getElementById('grade').value || "<grade>";
+        const nom = document.getElementById('nom').value || "<Nom / Prénom>";
+        const crise = document.getElementById('crise').value || "<nom de la crise>";
+        const auteur = document.getElementById('auteur').value || "<auteur de la crise>";
+        const duree = document.getElementById('duree').value || "<durée de la crise>";
+        const code = document.getElementById('code').value;
+
+        const message = `Transmission émanant de ${grade}, ${nom}
+-# À l’attention des membres des @Forces d'intervention Mobiles
+
+Bonjour,
+
+Dans le cadre de ${crise} causé par ${auteur} le site est actuellement en crise depuis maintenant ${duree}. Le niveau de menace est évalué au code ${code}.
+
+Dans cette optique nous demandons l'intervention de la Force d'Intervention Mobile pour réglé cette problématique.
+
+*Espérant une réponse dans les plus bref délais,*
+*Bien cordialement,*
+***${grade}***
+***${nom}***`;
+
+        document.getElementById('output-text').innerText = message;
+    }
+
+    function copyToClipboard() {
+        const text = document.getElementById('output-text').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Transmission copiée avec succès.");
+        });
+    }
+
+    updateMessage();
+</script>
+
+</body>
+</html>

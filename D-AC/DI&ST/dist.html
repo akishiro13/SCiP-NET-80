@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SCiP-NET | DI&ST DISPATCH</title>
+    <style>
+        :root {
+            --scp-gold: #c5a059;
+            --scp-dist-blue: #2196f3; /* Bleu DI&ST */
+            --bg-dark: #0a0a0c;
+            --panel-bg: #16161a;
+            --text-gray: #a0a0a0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--panel-bg);
+            border: 1px solid #333;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        header {
+            border-bottom: 2px solid var(--scp-dist-blue);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--scp-dist-blue);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--scp-gold);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        input, textarea, select {
+            background: #000;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        input:focus, textarea:focus { border-color: var(--scp-dist-blue); }
+
+        .full-width { grid-column: span 2; }
+
+        #output-area {
+            margin-top: 40px;
+            background: #000;
+            border: 1px dashed var(--scp-dist-blue);
+            padding: 20px;
+            position: relative;
+        }
+
+        #output-text {
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #ddd;
+        }
+
+        .copy-btn {
+            background: var(--scp-dist-blue);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            text-transform: uppercase;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .copy-btn:hover { background: #0b76cc; }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .back-link:hover { color: var(--scp-dist-blue); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../menu.html" class="back-link">← RETOUR AU TERMINAL CENTRAL</a>
+    
+    <header>
+        <h1>DEMANDE DE SUPPORT : DI & ST</h1>
+    </header>
+
+    <div class="form-grid">
+        <div class="input-group">
+            <label>Nom :</label>
+            <input type="text" id="nom" placeholder="Votre nom" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Prénom :</label>
+            <input type="text" id="prenom" placeholder="Votre prénom" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Grade :</label>
+            <input type="text" id="grade" placeholder="ex: Chercheur / Agent" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Accréditation (L1, L2...) :</label>
+            <select id="lvl" onchange="updateMessage()">
+                <option value="L0">L0</option>
+                <option value="L1">L1</option>
+                <option value="L2">L2</option>
+                <option value="L3">L3</option>
+                <option value="L4">L4</option>
+                <option value="L5">L5</option>
+            </select>
+        </div>
+        <div class="input-group full-width">
+            <label>Raison(s) d'appel :</label>
+            <textarea id="raison" rows="3" placeholder="Description du problème technique..." oninput="updateMessage()"></textarea>
+        </div>
+        <div class="input-group full-width">
+            <label>Ping (@Rôle ou utilisateur) :</label>
+            <input type="text" id="ping" placeholder="ex: @DI&ST / @Personnel" oninput="updateMessage()">
+        </div>
+    </div>
+
+    <div id="output-area">
+        <label style="position:absolute; top:-10px; left:10px; background:var(--panel-bg); padding:0 5px; color:var(--scp-dist-blue); font-size:0.7rem;">DEMANDE DE MAINTENANCE</label>
+        <div id="output-text"></div>
+    </div>
+
+    <button class="copy-btn" onclick="copyToClipboard()">Copier la demande DI&ST</button>
+</div>
+
+<script>
+    function updateMessage() {
+        const nom = document.getElementById('nom').value || "";
+        const prenom = document.getElementById('prenom').value || "";
+        const grade = document.getElementById('grade').value || "";
+        const lvl = document.getElementById('lvl').value || "";
+        const raison = document.getElementById('raison').value || "";
+        const ping = document.getElementById('ping').value || "";
+
+        const message = `> Nom : ${nom}
+> Prénom : ${prenom}
+> Grade : ${grade}
+> Accréditation (L1,L2...) : ${lvl}
+
+> Raison(s) d'appel : ${raison}
+> Ping : ${ping}`;
+
+        document.getElementById('output-text').innerText = message;
+    }
+
+    function copyToClipboard() {
+        const text = document.getElementById('output-text').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Demande DI&ST copiée avec succès !");
+        });
+    }
+
+    // Initialisation
+    updateMessage();
+</script>
+
+</body>
+</html>

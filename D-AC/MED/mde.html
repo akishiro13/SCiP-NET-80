@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SCiP-NET | MEDICAL DISPATCH</title>
+    <style>
+        :root {
+            --scp-gold: #c5a059;
+            --scp-skyblue: rgb(34, 122, 34);
+            --bg-dark: #0a0a0c;
+            --panel-bg: #16161a;
+            --text-gray: #a0a0a0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--panel-bg);
+            border: 1px solid #333;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        header {
+            border-bottom: 2px solid var(--scp-skyblue);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--scp-skyblue); /* Titre en Bleu Ciel */
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .checkbox-group {
+            grid-column: span 2;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border: 1px solid #333;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-item input {
+            margin-right: 10px;
+            accent-color: var(--scp-skyblue);
+            width: 18px;
+            height: 18px;
+        }
+
+        label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--scp-gold);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        input, textarea {
+            background: #000;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        input:focus, textarea:focus { border-color: var(--scp-skyblue); }
+
+        .full-width { grid-column: span 2; }
+
+        #output-area {
+            margin-top: 40px;
+            background: #000;
+            border: 1px dashed var(--scp-skyblue);
+            padding: 20px;
+            position: relative;
+        }
+
+        #output-text {
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #ddd;
+        }
+
+        .copy-btn {
+            background: var(--scp-skyblue);
+            color: black;
+            border: none;
+            padding: 12px 20px;
+            text-transform: uppercase;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .copy-btn:hover { background: #55e6ff; }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .back-link:hover { color: var(--scp-skyblue); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../menu.html" class="back-link">← RETOUR AU TERMINAL CENTRAL</a>
+    
+    <header>
+        <h1>GÉNÉRATEUR D'APPEL : SECTEUR MÉDICAL</h1>
+    </header>
+
+    <div class="form-grid">
+        <div class="checkbox-group">
+            <label>Unités à destination de l'appel :</label><br><br>
+            <label class="checkbox-item"><input type="checkbox" class="unit-check" value="- UMS" onchange="updateMessage()"> UMS</label>
+            <label class="checkbox-item"><input type="checkbox" class="unit-check" value="- MSS" onchange="updateMessage()"> MSS</label>
+            <label class="checkbox-item"><input type="checkbox" class="unit-check" value="- Psychiatre" onchange="updateMessage()"> Psychiatre</label>
+        </div>
+
+        <div class="input-group full-width">
+            <label>raison :</label>
+            <textarea id="raison" rows="3" placeholder="Indiquez la raison..." oninput="updateMessage()"></textarea>
+        </div>
+        <div class="input-group">
+            <label>Date (si rendez-vous) :</label>
+            <input type="text" id="date" placeholder="ex: 05/01/2026" oninput="updateMessage()">
+        </div>
+        <div class="input-group">
+            <label>Heure (appel ou rendez-vous) :</label>
+            <input type="text" id="heure" placeholder="ex: 14:30" oninput="updateMessage()">
+        </div>
+        <div class="input-group full-width">
+            <label>cordialement :</label>
+            <input type="text" id="signature" placeholder="Votre nom / grade" oninput="updateMessage()">
+        </div>
+    </div>
+
+    <div id="output-area">
+        <label style="position:absolute; top:-10px; left:10px; background:var(--panel-bg); padding:0 5px; color:var(--scp-skyblue); font-size:0.7rem;">MESSAGE À COPIER</label>
+        <div id="output-text"></div>
+    </div>
+
+    <button class="copy-btn" onclick="copyToClipboard()">Copier l'appel médical</button>
+</div>
+
+<script>
+    function updateMessage() {
+        // Récupération des unités cochées
+        const checkboxes = document.querySelectorAll('.unit-check');
+        let selectedUnits = [];
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                selectedUnits.push(checkbox.value);
+            }
+        });
+
+        const raison = document.getElementById('raison').value || "";
+        const date = document.getElementById('date').value || "";
+        const heure = document.getElementById('heure').value || "";
+        const signature = document.getElementById('signature').value || "";
+
+        const unitList = selectedUnits.length > 0 ? selectedUnits.join('\n') : "";
+
+        const message = `Appel a destination de : 
+${unitList}
+
+raison : ${raison}
+
+Date (si rendez-vous) : ${date}
+Heure (de l'appel ou pour le rendez-vous) : ${heure}
+
+cordialement : ${signature}`;
+
+        document.getElementById('output-text').innerText = message;
+    }
+
+    function copyToClipboard() {
+        const text = document.getElementById('output-text').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Appel médical copié !");
+        });
+    }
+
+    updateMessage();
+</script>
+
+</body>
+</html>
