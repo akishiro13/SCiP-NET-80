@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CENTRAL DISPATCH | FOUNDATION COMMAND</title>
+    <style>
+        :root {
+            --emergency-red: #ff1111;
+            --secure-blue: #0077ff;
+            --gold: #c5a059;
+            --bg-dark: #020202;
+            --panel: #0f1215;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .top-status {
+            background: #111;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            border-bottom: 1px solid #333;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(to bottom, #0a0a0a, var(--bg-dark));
+        }
+
+        .main-title {
+            font-size: 2rem;
+            letter-spacing: 5px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .dispatch-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-grow: 1;
+        }
+
+        .unit-card {
+            background: var(--panel);
+            border: 1px solid #222;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .unit-card:hover {
+            border-color: var(--secure-blue);
+            background: #161a1f;
+        }
+
+        .unit-card h2 {
+            margin: 0;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: var(--secure-blue);
+        }
+
+        .unit-card .code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /* Bouton d'appel */
+        .call-btn {
+            background: transparent;
+            border: 1px solid var(--secure-blue);
+            color: var(--secure-blue);
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+
+        .unit-card:hover .call-btn {
+            background: var(--secure-blue);
+            color: white;
+            box-shadow: 0 0 15px var(--secure-blue);
+        }
+
+        /* Couleurs spécifiques */
+        .fim { border-left: 5px solid #ff9800; } /* Forces d'Intervention */
+        .secu { border-left: 5px solid #ff1111; } /* Militaire / Ploton */
+        .med { border-left: 5px solid #4caf50; } /* Médical */
+        .dist { border-left: 5px solid #2196f3; } /* DI&ST */
+
+        /* Effet radar / Pulse */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff00;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            box-shadow: 0 0 5px #00ff00;
+        }
+
+        footer {
+            background: #000;
+            padding: 15px;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #333;
+            border-top: 1px solid #111;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-status">
+        <span>UNITÉ DE CONTRÔLE : ADMINISTRATION CENTRALE</span>
+        <span>STATUT RÉSEAU : SÉCURISÉ</span>
+        <span>OVERWATCH CONNECTÉ</span>
+    </div>
+
+    <header>
+        <p style="color: #444; margin: 0; font-size: 0.8rem;">CENTRE DE DISPATCHING NATIONAL</p>
+        <h1 class="main-title">UNITÉS D'INTERVENTION</h1>
+    </header>
+
+    <div class="dispatch-grid">
+        
+        <div class="unit-card fim">
+            <div>
+                <div class="code">MTF-GLOBAL-NET</div>
+                <h2>FORCES D'INTERVENTION MOBILES</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: #888;">Déploiement immédiat de forces spécialisées multi-sites.</p>
+            <div class="call-btn">Lancer l'appel (FIM)</div>
+        </div>
+
+        <div class="unit-card secu">
+            <div>
+                <div class="code">QUICK-RESPONSE-TEAM</div>
+                <h2>PLOTON D'INTERVENTION</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: #888;">Unité de réaction rapide pour brèche de confinement locale.</p>
+            <div class="call-btn">Mobiliser le Ploton</div>
+        </div>
+
+        <div class="unit-card secu">
+            <div>
+                <div class="code">INTERNAL-SECURITY</div>
+                <h2>POLICE MILITAIRE</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: #888;">Maintien de l'ordre, escortes sécurisées et interrogatoires.</p>
+            <div class="call-btn">Contacter la PM</div>
+        </div>
+
+        <div class="unit-card med">
+            <div>
+                <div class="code">BIO-HAZARD-MED</div>
+                <h2>SERVICE MÉDICAL</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: #888;">Extraction d'urgence, soins intensifs et gestion virale.</p>
+            <div class="call-btn">Urgence Médicale</div>
+        </div>
+
+        <div class="unit-card dist">
+            <div>
+                <div class="code">DEPT-INFO-SEC-TECH</div>
+                <h2>DI & ST</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: #888;">Soutien technique, cyber-sécurité et ingénierie de confinement.</p>
+            <div class="call-btn">Demande de Support Tech</div>
+        </div>
+
+        <div class="unit-card" style="border: 2px solid var(--emergency-red); background: rgba(255,0,0,0.05);">
+            <div>
+                <div class="code" style="color: var(--emergency-red);">DANGER_NIVEAU_5</div>
+                <h2 style="color: var(--emergency-red);">CODE ROUGE GÉNÉRAL</h2>
+            </div>
+            <p style="font-size: 0.8rem; color: #888;">Alerte maximale. Mobilisation de toutes les unités de zone.</p>
+            <div class="call-btn" style="border-color: var(--emergency-red); color: var(--emergency-red);">ACTIVER L'ALARME</div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="status-dot"></div> TRANSMISSION EN CONTINU - CANAL CRYPTÉ
+    </footer>
+
+</body>
+</html>
