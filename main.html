@@ -21,7 +21,6 @@
             flex-direction: column;
             min-height: 100vh;
             overflow-x: hidden;
-            /* Texture de fond discrète */
             background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
                               linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
             background-size: 100% 4px, 3px 100%;
@@ -59,11 +58,12 @@
         .container {
             max-width: 1200px;
             display: grid;
+            /* Correction de la grille pour un alignement propre */
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 20px;
             padding: 20px;
             width: 90%;
-            align-self: center;
+            margin: 0 auto;
         }
 
         .nav-card {
@@ -75,7 +75,10 @@
             transition: all 0.2s ease;
             position: relative;
             border-left: 4px solid var(--scp-orange);
+            /* Design trapèze */
             clip-path: polygon(0 0, 100% 0, 100% 88%, 94% 100%, 0 100%);
+            display: flex;
+            flex-direction: column;
         }
 
         .nav-card:hover {
@@ -98,6 +101,7 @@
             color: #999;
             line-height: 1.5;
             margin-bottom: 20px;
+            flex-grow: 1;
         }
 
         .status {
@@ -107,6 +111,7 @@
             background: #000;
             border: 1px solid #333;
             letter-spacing: 1px;
+            align-self: flex-start;
         }
 
         .online { color: var(--terminal-green); }
@@ -163,7 +168,7 @@
 
         <a href="D-SCI/Untitled-1.html" class="nav-card">
             <h2>Département Scientifique</h2>
-            <p>Base de données des objets confinés et procédures de confinement (CENSURÉ). Aide à la rédaction de rapports.</p>
+            <p>Base de données des objets confinés et procédures de confinement (CENSURÉ).</p>
             <span class="status online">● SYSTÈME ACTIF</span>
         </a>
 
@@ -186,16 +191,16 @@
         </a>
 
         <a href="D-AC/menu.html" class="nav-card">
-            <h2>Administration central</h2>
-            <p>systéme pour effectuer des appeles</p>
+            <h2>Administration Centrale</h2>
+            <p>Système de gestion des appels prioritaires et coordination administrative.</p>
             <span class="status online">● SYSTÈME ACTIF</span>
-        </div>
+        </a>
 
-        <div class="nav-card disabled-card">
-            <h2>Département Inconnu</h2>
-            <p>Données corrompues ou accès non assigné au terminal actuel.</p>
-            <span class="status offline">● SYSTÈME INACTIF</span>
-        </div>
+        <a href="FIM/menu.html" class="nav-card">
+            <h2>Forces d'Intervention</h2>
+            <p>Déploiement des unités mobiles et rapports d'opérations tactiques de terrain.</p>
+            <span class="status online">● SYSTÈME ACTIF</span>
+        </a>
 
         <div class="nav-card disabled-card">
             <h2>Département Inconnu</h2>

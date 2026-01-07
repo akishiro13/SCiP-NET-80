@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personnel FIM - Base de données</title>
+    <style>
+        :root {
+            --header-bg: #121212;
+            --body-bg: #1a1a1a;
+            --accent: #f48024;
+            --text: #e0e0e0;
+            --border: #333;
+            --card-bg: #222;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--body-bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- HEADER RÉUTILISABLE --- */
+        .scp-header {
+            background-color: var(--header-bg);
+            border-bottom: 3px solid var(--accent);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scp-header .logo {
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+
+        /* --- CONTENU --- */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        /* --- STYLES DES UNITÉS --- */
+        .fim-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 60px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .fim-section {
+                flex-direction: row;
+                align-items: center;
+            }
+            /* Inverse l'ordre pour une unité sur deux */
+            .fim-section.reverse {
+                flex-direction: row-reverse;
+            }
+        }
+
+        .fim-image {
+            flex: 1;
+            min-height: 250px;
+            background-color: #333;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--border);
+        }
+
+        .fim-content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .fim-content h2 {
+            color: var(--accent);
+            margin-top: 0;
+            border-bottom: 1px solid var(--accent);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .fim-content p {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 40px 0;
+            color: var(--accent);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="scp-header">
+        <div class="logo">S.C.P. FOUNDATION</div>
+        <div class="status">DOSSIERS UNITÉS OPÉRATIONNELLES</div>
+    </header>
+
+    <div class="container">
+        
+        <div class="intro">
+            <h1>UNITÉS D'INTERVENTION MOBILES</h1>
+            <p>Liste des forces spécialisées pour la récupération et le confinement d'anomalies.</p>
+        </div>
+
+
+        <div class="fim-section reverse">
+            <div class="fim-image" style="background-image: url('logo/Epsilon11.png');"></div>
+            <div class="fim-content">
+                <h2>Epsilon-11 ("Nine-Tailed Fox")</h2>
+                <p>Spécialisée dans la gestion des brèches de confinement internes. Elle est l'unité principale déployée pour sécuriser à nouveau les sites de la Fondation après une perte de contrôle majeure.</p>
+            </div>
+        </div>
+
+        <div class="fim-section">
+            <div class="fim-image" style="background-image: url('logo/Nu7.jpg');"></div>
+            <div class="fim-content">
+                <h2>Nu-7 ("Hammer Down")</h2>
+                <p>Une force de combat de la taille d'un bataillon armée de véhicules lourds, de chars et d'appui aérien. Elle intervient quand les anomalies sortent des sites et nécessitent une réponse militaire à grande échelle.</p>
+            </div>
+        </div>
+
+        <div class="fim-section reverse">
+            <div class="fim-image" style="background-image: url('logo/Beta7.png');"></div>
+            <div class="fim-content">
+                <h2>Beta-7 ("Maz Hatters")</h2>
+                <p>Spécialisée dans la récupération d'anomalies présentant des risques biologiques, chimiques ou radiologiques extrêmes. Ils sont les experts en nettoyage et décontamination de zones infectées.</p>
+            </div>
+        </div>
+
+        <a href="../menu.html" class="back-link">← Retour au menu principal</a>
+
+    </div>
+
+</body>
+</html>

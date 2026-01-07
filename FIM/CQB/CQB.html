@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CQB - Manuel Tactique FIM</title>
+    <style>
+        :root {
+            --header-bg: #121212;
+            --body-bg: #1a1a1a;
+            --accent: #f48024;
+            --text: #e0e0e0;
+            --border: #333;
+            --video-bg: #000;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--body-bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* --- HEADER RÉUTILISABLE --- */
+        .scp-header {
+            background-color: var(--header-bg);
+            border-bottom: 3px solid var(--accent);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scp-header .logo {
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+
+        /* --- CONTENU --- */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        /* --- ZONE VIDÉO --- */
+        .video-container {
+            background-color: var(--video-bg);
+            border: 1px solid var(--accent);
+            padding: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            outline: none;
+        }
+
+        .video-label {
+            font-size: 0.7rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        /* --- RETOUR --- */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="scp-header">
+        <div class="logo">S.C.P. FOUNDATION</div>
+        <div class="status">MANUEL TACTIQUE // CQB</div>
+    </header>
+
+    <div class="container">
+        
+        <h2 class="section-title">Combat en Milieu Clos (CQB)</h2>
+
+        <section class="description">
+            <p>Le <strong>CQB (Close Quarters Battle)</strong> est l'ensemble des techniques de combat urbain utilisées par les unités FIM lors des assauts en intérieur ou dans les sites de confinement. 
+            La priorité est donnée à la <strong>vitesse</strong>, la <strong>surprise</strong> et la <strong>violence d'action</strong>.</p>
+        </section>
+
+        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : changement de coté d'une route</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Changement_de_coter_de_route_-_Combat_Urbain.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                <div class="video-container">
+            <div class="video-label">Enregistrement tactique : déplacement d'un bléssé</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Deplacement_dun_Blesser.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : entré en X</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Entree_en_X.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                <div class="video-container">
+            <div class="video-label">Enregistrement tactique : montée des escalier</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/escalier.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : Evacuation Quadrinome - Combat Urbain</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Evacuation_Quadrinome_-_Combat_Urbain.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : netoyage angles 1</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/ouverture_dangle.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : netoyage angle 2</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/ouverture_dangle_sec.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : ouverture de porte</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Ouverture_de_porte_CQB.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                <div class="video-container">
+            <div class="video-label">Enregistrement tactique : passage lent - combat urbain</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Passage_Lent_-_Combat_Urbain.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                <div class="video-container">
+            <div class="video-label">Enregistrement tactique : passage Passage Rapide - Combat Urbain</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Passage_Rapide_-_Combat_Urbain.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : Reorganisation de la colonne</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Reorganisation_de_la_colonne.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : Sortis colonne simple</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Sortis_colonne_simple.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+                        <div class="video-container">
+            <div class="video-label">Enregistrement tactique : Sortis colonne double</div>
+            <video controls poster="image-de-fond.jpg">
+                <source src="video/Sortis_en_colonne_double.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+
+        <section class="description">
+            <h3>Principes Fondamentaux :</h3>
+            <ul>
+                <li><strong>Nettoyage de pièce :</strong> Entrée en "croisé" ou "boutonnière".</li>
+                <li><strong>Gestion des angles :</strong> Technique de la "tarte" (slicing the pie).</li>
+                <li><strong>Communication :</strong> Signalétique silencieuse requise.</li>
+            </ul>
+        </section>
+
+        <a href="../menu.html" class="back-link">← Retour au menu principal</a>
+
+    </div>
+
+</body>
+</html>

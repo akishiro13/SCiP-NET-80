@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface de Navigation FIM</title>
+    <style>
+        /* --- VARIABLES DE COULEURS SCP --- */
+        :root {
+            --header-bg: #121212;
+            --body-bg: #1a1a1a;
+            --accent: #f48024; /* Orange Fondation */
+            --text: #e0e0e0;
+            --btn-bg: #252525;
+            --border: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--body-bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* --- HEADER (À COPIER SUR CHAQUE PAGE) --- */
+        .scp-header {
+            background-color: var(--header-bg);
+            border-bottom: 3px solid var(--accent);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scp-header .logo {
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+
+        .scp-header .status {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        /* --- SECTION CONTENU --- */
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .intro-text {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 2px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* --- BLOC DES 3 BOUTONS --- */
+        .button-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-button {
+            display: block;
+            background-color: var(--btn-bg);
+            color: var(--text);
+            text-decoration: none;
+            padding: 20px;
+            border: 1px solid var(--border);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background-color: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive : passage en côte à côte sur grand écran si besoin */
+        @media (min-width: 600px) {
+            .button-grid {
+                flex-direction: row;
+                justify-content: center;
+            }
+            .nav-button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="scp-header">
+        <div class="logo">S.C.P. FOUNDATION</div>
+        <div class="status">Terminal Local v4.0.1</div>
+    </header>
+
+    <div class="container">
+        
+        <section class="intro-text">
+            <h2>UNITÉS D'INTERVENTION MOBILES</h2>
+            <p>Sélectionnez une branche opérationnelle pour consulter les déploiements en cours, les protocoles de sécurité et l'inventaire tactique des unités FIM.</p>
+        </section>
+
+        <nav class="button-grid">
+            <a href="CQB/CQB.html" class="nav-button">CQB</a>
+            <a href="unités/unites.html" class="nav-button">unités</a>
+            <a href="hierarchie/hierarchie.html" class="nav-button">hiérarchie global</a>
+        </nav>
+
+    </div>
+
+</body>
+</html>
