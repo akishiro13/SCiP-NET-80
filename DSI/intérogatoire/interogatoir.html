@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>DSI // INTERROGATION_PROTOCOLS</title>
+    <style>
+        :root {
+            --dsi-accent: #0078ff;
+            --dsi-bg: #020408;
+            --dsi-panel: #0a101a;
+            --dsi-border: #1e293b;
+            --dsi-danger: #ff0000;
+            --dsi-warning: #f59e0b;
+        }
+
+        body {
+            background-color: var(--dsi-bg);
+            color: #e0e6ed;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-transform: uppercase;
+            background-image: radial-gradient(circle at 10% 10%, #0a1221 0%, #020408 100%);
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        header {
+            border-bottom: 2px solid var(--dsi-border);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 { font-size: 1.4rem; margin: 0; letter-spacing: 3px; color: #fff; }
+        .dept-tag { color: var(--dsi-danger); font-size: 0.7rem; font-weight: bold; border: 1px solid var(--dsi-danger); padding: 4px 10px; }
+
+        /* --- GRID DES PROTOCOLES --- */
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .protocol-card {
+            background: var(--dsi-panel);
+            border: 1px solid var(--dsi-border);
+            padding: 25px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .protocol-card:hover {
+            border-color: var(--dsi-accent);
+            background: #0d1526;
+        }
+
+        .protocol-card h2 {
+            font-size: 0.9rem;
+            color: var(--dsi-accent);
+            margin-top: 0;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
+        }
+
+        .level {
+            position: absolute;
+            top: 10px; right: 10px;
+            font-size: 0.6rem;
+            color: #475569;
+        }
+
+        .method-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .method-list li {
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
+            color: #94a3b8;
+            text-transform: none;
+        }
+
+        .method-list li::before {
+            content: "»";
+            position: absolute;
+            left: 0;
+            color: var(--dsi-accent);
+        }
+
+        .method-list b { color: #fff; }
+
+        /* --- WARNING BOX --- */
+        .warning-footer {
+            margin-top: 40px;
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px dashed var(--dsi-warning);
+            padding: 20px;
+            color: var(--dsi-warning);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-action {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--dsi-accent);
+            color: var(--dsi-accent);
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: 0.3s;
+        }
+
+        .btn-action:hover {
+            background: var(--dsi-accent);
+            color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div>
+                <div style="font-size: 0.6rem; color: var(--dsi-accent);">DIRECTIVE ADMINISTRATIVE // 88-ALPHA</div>
+                <h1>PROTOCOLES D'INTERROGATOIRE</h1>
+            </div>
+            <div class="dept-tag">SECTION EXTRACTION // DSI</div>
+        </header>
+
+        <div class="protocol-grid">
+
+            <div class="protocol-card">
+                <span class="level">NIVEAU I - PSYCHOLOGIQUE</span>
+                <h2>PROCÉDURE "MIROIR"</h2>
+                <ul class="method-list">
+                    <li><b>Isolement Social :</b> Suppression de tout contact humain pendant 48h.</li>
+                    <li><b>Privation de Sommeil :</b> Cycles lumineux haute intensité toutes les 15 min.</li>
+                    <li><b>Désorientation Temporelle :</b> Suppression des repères chronologiques.</li>
+                </ul>
+                <a href="#" class="btn-action">ACTIVER LE CYCLE</a>
+            </div>
+
+            <div class="protocol-card">
+                <span class="level">NIVEAU II - CHIMIQUE</span>
+                <h2>PROCÉDURE "SÉRUM V"</h2>
+                <ul class="method-list">
+                    <li><b>Administration intraveineuse :</b> Utilisation du composé CI-9.</li>
+                    <li><b>Effets attendus :</b> Inhibition du lobe frontal, logorrhée incontrôlée.</li>
+                    <li><b>Risque :</b> <span style="color:var(--dsi-danger)">Lésions neuronales irréversibles (12%)</span>.</li>
+                </ul>
+                <a href="#" class="btn-action">PRÉPARER L'INJECTION</a>
+            </div>
+
+            <div class="protocol-card" style="border-color: var(--dsi-danger);">
+                <span class="level" style="color: var(--dsi-danger);">NIVEAU III - PHYSIQUE</span>
+                <h2 style="color: var(--dsi-danger);">PROCÉDURE "CORRECTIVE"</h2>
+                <ul class="method-list">
+                    <li><b>Stimulation Nerveuse :</b> Application de décharges de 15mA à 50mA.</li>
+                    <li><b>Extraction par la contrainte :</b> Utilisation de la table d'ajustement structurel.</li>
+                    <li><b>Objectif :</b> Rupture de la volonté par la douleur systématique.</li>
+                </ul>
+                <a href="#" class="btn-action" style="border-color: var(--dsi-danger); color: var(--dsi-danger);">AUTORISER L'EXTRACTION</a>
+            </div>
+
+            <div class="protocol-card">
+                <span class="level">NIVEAU IV - ANORMAL</span>
+                <h2>PROCÉDURE "ÉCHO TERNRE"</h2>
+                <ul class="method-list">
+                    <li><b>Sonde Mémétique :</b> Projection d'images subliminales fractales.</li>
+                    <li><b>Interface Neuronale :</b> Lecture directe des influx synaptiques par anomalie.</li>
+                    <li><b>Conséquence :</b> Effacement total de la personnalité du sujet.</li>
+                </ul>
+                <a href="#" class="btn-action">DÉPLOYER L'ANOMALIE</a>
+            </div>
+
+        </div>
+
+        <div class="warning-footer">
+            ATTENTION : Toutes les sessions d'interrogatoire doivent être enregistrées. En cas de décès prématuré du sujet avant l'obtention des informations, l'officier traitant fera l'objet d'un audit disciplinaire immédiat.
+        </div>
+
+        <a href="javascript:history.back()" style="display:block; margin-top:30px; color:#475569; font-size:0.6rem; text-decoration:none;">← RETOUR AU MENU DSI</a>
+    </div>
+
+</body>
+</html>

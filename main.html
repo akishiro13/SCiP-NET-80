@@ -132,6 +132,20 @@
             letter-spacing: 2px;
         }
 
+        /* --- STYLE CENSURE --- */
+        .censored {
+            background: #fff;
+            color: #fff;
+            padding: 0 2px;
+            transition: 0.3s;
+            user-select: none;
+        }
+
+        .nav-card:hover .censored {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+        }
+
         .nav-card p {
             font-size: 0.85rem;
             color: #aaa;
@@ -157,6 +171,7 @@
         }
 
         .online { border-color: var(--terminal-green); color: var(--terminal-green); text-shadow: 0 0 5px var(--terminal-green); }
+        .compromised { border-color: var(--scp-red); color: var(--scp-red); text-shadow: 0 0 5px var(--scp-red); }
 
         .nav-card:hover {
             transform: translateY(-8px);
@@ -281,19 +296,17 @@
             </div>
         </a>
 
-                <a href="CI/menu.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/Insurrection_du_Chaos.png');"></div>
+        <a href="GI/menu.html" class="nav-card" style="border-color: var(--scp-red);">
+            <div class="card-image" style="background-image: url('IMAGESMENU/Insurrection_du_Chaos.png'); filter: sepia(1) hue-rotate(-50deg) saturate(3);"></div>
             <div class="card-content">
-                <h2>chaos insurgency</h2>
-                <p>[cencured]</p>
+                <h2 style="color: var(--scp-red);">Groupes d'Intérêt</h2>
+                <p>Données relatives aux puissances tierces : <span class="censored">INSURRECTION DU CHAOS</span>, <span class="censored">G.O.C.</span>, et <span class="censored">CULTES SARKICIQUES</span>.</p>
                 <div class="status-box">
-                    <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: CI-GLOBAL</span>
+                    <span class="status compromised">DATA_LEAK</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: GOI-INTEL</span>
                 </div>
             </div>
         </a>
-
-
 
         <div class="nav-card" style="opacity: 0.5; cursor: not-allowed;">
             <div class="card-image" style="background-image: url('img/unknown.jpg');"></div>
@@ -307,18 +320,17 @@
             </div>
         </div>
 
-            <a href="DSI/menu.html" class="nav-card">
+        <a href="DSI/menu.html" class="nav-card">
             <div class="card-image" style="background-image: url('IMAGESMENU/D.S.I..png');"></div>
             <div class="card-content">
-                <h2>Sécurité Interne</h2>
-                <p>Département charger de garder la sécurité a l'intérieur de la fondation</p>
+                <h2>Service d'Enquête (DSI)</h2>
+                <p>Département chargé de la sécurité interne et des audits de loyauté du personnel.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: CI-GLOBAL</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: DSI-80</span>
                 </div>
             </div>
         </a>
-
 
     </div>
 

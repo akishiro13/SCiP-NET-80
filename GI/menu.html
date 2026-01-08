@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CI // EXTERNAL_INTEL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+
+        :root {
+            --bg: #050505;
+            --accent: #ff003c;
+            --glass: rgba(15, 15, 15, 0.8);
+            --border: rgba(255, 255, 255, 0.05);
+            --text: #a0a0a0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #111 0%, #050505 100%);
+            z-index: -1;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 80px;
+        }
+
+        header h1 {
+            font-size: 0.8rem;
+            letter-spacing: 0.5rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        .header-main {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 10px;
+            letter-spacing: -2px;
+        }
+
+        .goi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* --- LIEN DE REDIRECTION --- */
+        .goi-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .goi-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 40px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .goi-link:hover .goi-card {
+            border-color: rgba(255, 0, 60, 0.5);
+            background: rgba(20, 20, 20, 0.9);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .goi-card::after {
+            content: "LIRE LE DOSSIER →";
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            font-size: 0.6rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .goi-link:hover .goi-card::after {
+            opacity: 1;
+        }
+
+        .goi-card h2 {
+            color: #fff;
+            font-size: 1.4rem;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .goi-card h2 span {
+            font-size: 0.6rem;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 2px 8px;
+            border-radius: 2px;
+        }
+
+        .glitch-text {
+            background: #fff;
+            color: transparent;
+            padding: 0 5px;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .goi-link:hover .glitch-text {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .desc {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #777;
+        }
+
+        .footer-info {
+            margin-top: 100px;
+            font-size: 0.6rem;
+            color: #333;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Intelligence Report // GOI-DATABASE</h1>
+        <div class="header-main">Groupes d'Intérêt.</div>
+    </header>
+
+    <div class="goi-grid">
+
+        <a href="CI/menu.html" class="goi-link">
+            <div class="goi-card">
+                <h2>chaos insurgency<span>MILITARY</span></h2>
+                <p class="desc">
+                    ils cherche a detruire la<span class="glitch-text">FONDATION</span>. 
+                    L'Insurrection prévoit une incursion majeure au <span class="glitch-text">DANS LA</span> totalité des cite pour la fair tomber
+                </p>
+            </div>
+        </a>
+
+        <a href="goc.html" class="goi-link">
+            <div class="goi-card">
+                <h2>G.O.C. <span>MILITARY</span></h2>
+                <p class="desc">
+                    Coalition Mondiale Occulte. Équipés de technologies de pointe de type <span class="glitch-text">EXO-SQUELETTES</span>. 
+                    Éviter tout contact frontal immédiat.
+                </p>
+            </div>
+        </a>
+
+        <a href="serpent.html" class="goi-link">
+            <div class="goi-card">
+                <h2>MAIN DU SERPENT <span>UNKNOWN</span></h2>
+                <p class="desc">
+                    Localisés dans la Bibliothèque. Ils utilisent des portails nommés <span class="glitch-text">LES CHEMINS</span>. 
+                    Leur chef est activement recherché.
+                </p>
+            </div>
+        </a>
+
+        <a href="mcd.html" class="goi-link">
+            <div class="goi-card">
+                <h2>M.C.D. & FILS <span>ASSET</span></h2>
+                <p class="desc">
+                    Ventes aux enchères d'objets anormaux. Propriétaires : <span class="glitch-text">CLASSIFIÉ</span>. 
+                    Opportunité financière et matérielle : Élevée.
+                </p>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="footer-info">
+        BYPASSING ENCRYPTION... 100% SUCCESSFUL // CI-INTERNAL-NET
+    </div>
+
+</body>
+</html>

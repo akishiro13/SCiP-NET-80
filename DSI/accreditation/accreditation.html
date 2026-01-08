@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>DSI // ANALYSE_ACCRÉDITATIONS_SCP</title>
+    <style>
+        :root {
+            --dsi-accent: #0078ff;
+            --dsi-bg: #020408;
+            --dsi-panel: #0a0d14;
+            --dsi-border: #1e293b;
+            --scp-white: #ffffff;
+        }
+
+        body {
+            background-color: var(--dsi-bg);
+            color: #e0e6ed;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-transform: uppercase;
+        }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 40px;
+            border-bottom: 2px solid var(--dsi-accent);
+            padding-bottom: 20px;
+        }
+
+        header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 2px; }
+
+        .intel-box {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* --- STYLE DES CARTES D'ACCRÉDITATION --- */
+        .clearance-card {
+            background: var(--dsi-panel);
+            border: 1px solid var(--dsi-border);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 120px 1fr 250px;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%);
+            transition: 0.3s;
+        }
+
+        .clearance-card:hover {
+            border-color: var(--dsi-accent);
+            background: #0f172a;
+        }
+
+        /* Le badge de niveau */
+        .lvl-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: #111;
+            color: var(--dsi-accent);
+            border-right: 1px solid var(--dsi-border);
+        }
+
+        .lvl-content { padding: 20px; }
+        .lvl-content h2 { margin: 0 0 10px 0; font-size: 1rem; color: #fff; }
+        .lvl-content p { margin: 0; font-size: 0.8rem; color: #64748b; text-transform: none; }
+
+        /* Note tactique pour la CI */
+        .dsi-note {
+            background: rgba(0, 120, 255, 0.05);
+            padding: 20px;
+            border-left: 1px solid var(--dsi-accent);
+            font-size: 0.7rem;
+        }
+
+        .dsi-note b { color: var(--dsi-accent); display: block; margin-bottom: 5px; }
+
+        /* Couleurs spécifiques par niveau */
+        .lvl-0 { color: #888; }
+        .lvl-1 { color: #00ff41; }
+        .lvl-2 { color: #0078ff; }
+        .lvl-3 { color: #ffae00; }
+        .lvl-4 { color: #ff0000; }
+        .lvl-5 { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ANALYSE DES ACCRÉDITATIONS // FONDATION SCP</h1>
+        <div style="font-size: 0.7rem; color: #475569; margin-top: 5px;">SOURCE : INTELLIGENCE PIRATÉE SCiP-NET</div>
+    </header>
+
+    <div class="intel-box">
+
+        <div class="clearance-card">
+            <div class="lvl-badge lvl-0">0</div>
+            <div class="lvl-content">
+                <h2>Niveau 0 (Usage Restreint)</h2>
+                <p>Personnel non-essentiel (entretien, logistique civile). Aucune donnée anormale accessible.</p>
+            </div>
+            <div class="dsi-note">
+                <b>NOTE TACTIQUE :</b>
+                Inutile pour l'interrogatoire. Peuvent servir de complices pour infiltrer les zones de maintenance.
+            </div>
+        </div>
+
+        <div class="clearance-card">
+            <div class="lvl-badge lvl-1">1</div>
+            <div class="lvl-content">
+                <h2>Niveau 1 (Confidentiel)</h2>
+                <p>Personnel administratif ou de sécurité junior. Accès aux zones de stockage non-anormales.</p>
+            </div>
+            <div class="dsi-note">
+                <b>NOTE TACTIQUE :</b>
+                Possèdent les horaires des patrouilles de base. Faible résistance psychologique.
+            </div>
+        </div>
+
+        <div class="clearance-card">
+            <div class="lvl-badge lvl-2">2</div>
+            <div class="lvl-content">
+                <h2>Niveau 2 (Interne)</h2>
+                <p>Chercheurs de terrain et agents de sécurité. Accès aux documents sur les objets de classe Safe et certains Euclide.</p>
+            </div>
+            <div class="dsi-note">
+                <b>NOTE TACTIQUE :</b>
+                Cibles principales pour le recrutement. Connaissent les procédures de confinement standards.
+            </div>
+        </div>
+
+        <div class="clearance-card">
+            <div class="lvl-badge lvl-3">3</div>
+            <div class="lvl-content">
+                <h2>Niveau 3 (Secret)</h2>
+                <p>Chercheurs seniors et officiers tactiques. Accès complet aux données régionales et objets Keter.</p>
+            </div>
+            <div class="dsi-note">
+                <b>NOTE TACTIQUE :</b>
+                Détiennent les codes de déverrouillage des secteurs. Capture prioritaire lors des raids.
+            </div>
+        </div>
+
+        <div class="clearance-card">
+            <div class="lvl-badge lvl-4">4</div>
+            <div class="lvl-content">
+                <h2>Niveau 4 (Top Secret)</h2>
+                <p>Directeurs de Site et hauts gradés. Accès aux projets à l'échelle mondiale et données stratégiques.</p>
+            </div>
+            <div class="dsi-note">
+                <b>NOTE TACTIQUE :</b>
+                Sujets d'interrogatoire de classe A. Connaissent les points faibles structurels de la Fondation.
+            </div>
+        </div>
+
+        <div class="clearance-card" style="border-color: #ff00ff;">
+            <div class="lvl-badge lvl-5">5</div>
+            <div class="lvl-content">
+                <h2 style="color: #ff00ff;">Niveau 5 (Thaumiel)</h2>
+                <p>Conseil O5 uniquement. Accès illimité à toute la base de données et aux secrets existentiels.</p>
+            </div>
+            <div class="dsi-note">
+                <b>NOTE TACTIQUE :</b>
+                Cibles mythiques. Leur capture équivaudrait à la victoire totale de l'Insurrection.
+            </div>
+        </div>
+
+    </div>
+
+    <a href="../menu.html" class="back-link">← RETOUR AU PANNEAU DSI</a>
+
+</body>
+</html>

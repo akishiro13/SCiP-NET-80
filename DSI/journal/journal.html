@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>DSI // ACCESS_DENIED</title>
+    <style>
+        :root {
+            --dsi-accent: #0078ff;
+            --dsi-bg: #020408;
+            --dsi-panel: #0a0d14;
+            --dsi-border: #1e293b;
+            --dsi-danger: #ff0000;
+        }
+
+        body {
+            background-color: var(--dsi-bg);
+            color: #e0e6ed;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            overflow: hidden;
+            background-image: radial-gradient(circle at center, #0a101a 0%, #020408 100%);
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 60px;
+            border: 1px solid var(--dsi-border);
+            background: var(--dsi-panel);
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            position: relative;
+            max-width: 600px;
+        }
+
+        /* --- EFFET DE SCANLINE ROUGE --- */
+        .error-container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--dsi-danger);
+            box-shadow: 0 0 15px var(--dsi-danger);
+            animation: scan 3s infinite linear;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .icon {
+            font-size: 3rem;
+            color: var(--dsi-danger);
+            margin-bottom: 20px;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            margin: 0 0 10px 0;
+            color: #fff;
+        }
+
+        .message {
+            font-size: 0.8rem;
+            color: #64748b;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .details {
+            font-family: monospace;
+            font-size: 0.7rem;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-left: 3px solid var(--dsi-danger);
+            text-align: left;
+            margin-bottom: 30px;
+            color: #94a3b8;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 30px;
+            border: 1px solid var(--dsi-accent);
+            color: var(--dsi-accent);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--dsi-accent);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(0, 120, 255, 0.4);
+        }
+
+        /* --- EFFET DE BRUIT/GLITCH --- */
+        .glitch-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.05;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glitch-overlay"></div>
+
+    <div class="error-container">
+        <div class="icon">⚠</div>
+        <h1>ACCÈS INTERROMPU</h1>
+        <p class="message">Cette ressource n'est pas disponible pour le moment.</p>
+        
+        <div class="details">
+            > STATUS: OFFLINE<br>
+            > ERROR_CODE: DSI_REF_404<br>
+            > LOG: Tentative d'accès non-autorisée ou fichier déplacé par la Section-6.<br>
+            > TRACE: Votre adresse IP a été enregistrée par le département de sécurité.
+        </div>
+
+        <a href="javascript:history.back()" class="back-btn">RETOUR AU TERMINAL</a>
+    </div>
+
+</body>
+</html>
