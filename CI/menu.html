@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CI-NET // MAIN INTERFACE</title>
+    <style>
+        :root {
+            --ci-red: #ff0000;
+            --ci-bg: #050505;
+            --ci-card: #0d0d0d;
+            --ci-border: #222;
+            --ci-text: #b0b0b0;
+        }
+
+        body {
+            background-color: var(--ci-bg);
+            color: var(--ci-text);
+            font-family: 'Consolas', 'Courier New', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            /* Effet de scanlines */
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+        }
+
+        /* --- BANDEAU D'ALERTE --- */
+        .alert-strip {
+            background: var(--ci-red);
+            color: black;
+            text-align: center;
+            padding: 5px;
+            font-weight: bold;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header {
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--ci-border);
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--ci-red);
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        /* --- GRILLE DU MENU --- */
+        .menu-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .menu-card {
+            background: var(--ci-card);
+            border: 1px solid var(--ci-border);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Effet "Glitched" au hover */
+        .menu-card:hover {
+            border-color: var(--ci-red);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.1);
+        }
+
+        .card-img {
+            height: 150px;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%) brightness(0.6);
+            transition: 0.3s;
+            border-bottom: 1px solid var(--ci-border);
+        }
+
+        .menu-card:hover .card-img {
+            filter: grayscale(0%) brightness(0.8) contrast(1.2);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h2 {
+            margin: 0 0 10px 0;
+            color: #fff;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .card-content p {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            padding: 10px 20px;
+            font-size: 0.6rem;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid var(--ci-border);
+            display: flex;
+            justify-content: space-between;
+            color: #444;
+        }
+
+        .menu-card:hover .card-footer {
+            color: var(--ci-red);
+        }
+
+        /* --- ANIMATION --- */
+        .blink { animation: blinker 1.5s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #333;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="alert-strip">
+        <span class="blink">●</span> TRANSMISSION ENCRYPTÉE // ACCÈS DELTA COMMAND // SITE-REBELLE-80
+    </div>
+
+    <header>
+        <div class="logo">CI-NET</div>
+        <div style="color: #444; font-size: 0.7rem; margin-top: 10px;">"SHOULD THE FOUNDATION FALL, WE SHALL RISE"</div>
+    </header>
+
+    <div class="menu-container">
+        
+        <a href="missions.html" class="menu-card">
+            <div class="card-img" style="background-image: url('IMAGESMENU/Missions_CI.png');"></div>
+            <div class="card-content">
+                <h2>Missions</h2>
+                <p>Consulter les directives de sabotage, les rapports de raids et les opérations de capture d'anomalies.</p>
+            </div>
+            <div class="card-footer">
+                <span>REF: OPS_Dossier</span>
+                <span>STATUS: ACTIVE</span>
+            </div>
+        </a>
+
+        <a href="informations.html" class="menu-card">
+            <div class="card-img" style="background-image: url('IMAGESMENU/Intel_CI.png');"></div>
+            <div class="card-content">
+                <h2>Informations</h2>
+                <p>Base de données sur les actifs de l'Insurrection et renseignements piratés sur la Fondation SCP.</p>
+            </div>
+            <div class="card-footer">
+                <span>REF: INTEL_DB</span>
+                <span>STATUS: ENCRYPTED</span>
+            </div>
+        </a>
+
+        <a href="autorisation.html" class="menu-card">
+            <div class="card-img" style="background-image: url('IMAGESMENU/Auth_CI.png');"></div>
+            <div class="card-content">
+                <h2>Autorisation</h2>
+                <p>Gestion des clés d'accès, niveaux d'accréditation et protocoles de sécurité du Delta Command.</p>
+            </div>
+            <div class="card-footer">
+                <span>REF: CLEARANCE_LVL</span>
+                <span>STATUS: SECURE</span>
+            </div>
+        </a>
+
+    </div>
+
+    <footer>
+        CI-NET TERMINAL // v9.0.2 // LOCALISATION INDÉTERMINÉE
+    </footer>
+
+</body>
+</html>

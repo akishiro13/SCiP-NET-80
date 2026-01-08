@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Rapport - SCiP-NET</title>
+    <style>
+        :root {
+            --header-bg: #121212;
+            --body-bg: #1a1a1a;
+            --accent: #f48024;
+            --text: #e0e0e0;
+            --border: #333;
+            --terminal: #00ff41;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--body-bg);
+            color: var(--text);
+            margin: 0;
+            padding-bottom: 50px;
+        }
+
+        .scp-header {
+            background-color: var(--header-bg);
+            border-bottom: 3px solid var(--accent);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-weight: bold; letter-spacing: 2px; color: var(--accent); }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        /* --- COLONNE GAUCHE : FORMULAIRE --- */
+        .form-section {
+            background: #151515;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        h3 { border-bottom: 1px solid var(--accent); padding-bottom: 5px; text-transform: uppercase; font-size: 0.9rem;}
+
+        .field { margin-bottom: 15px; }
+        label { display: block; font-size: 0.75rem; color: #888; margin-bottom: 5px; text-transform: uppercase; }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            background: #000;
+            border: 1px solid var(--border);
+            color: #fff;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        input:focus { border-color: var(--accent); outline: none; }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .gen-btn {
+            flex: 1;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 1px solid var(--accent);
+            background: rgba(244, 128, 36, 0.1);
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+        .gen-btn:hover { background: var(--accent); color: #000; }
+
+        /* --- COLONNE DROITE : RÉSULTAT --- */
+        .output-section {
+            background: #050505;
+            border: 1px solid var(--terminal);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #output-text {
+            background: transparent;
+            color: var(--terminal);
+            border: none;
+            width: 100%;
+            height: 350px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            resize: none;
+            outline: none;
+        }
+
+        .copy-btn {
+            margin-top: 15px;
+            background: var(--terminal);
+            color: #000;
+            border: none;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="scp-header">
+        <div class="logo">S.C.P. FOUNDATION</div>
+        <div style="font-size: 0.7rem;">GÉNÉRATEUR DE LOGS v1.2</div>
+    </header>
+
+    <div class="container">
+        
+        <div class="form-section">
+            <h3>Saisie des Données</h3>
+            <div class="field">
+                <label>Nom de l'Agent</label>
+                <input type="text" id="name" placeholder="Agent [CENSURÉ]">
+            </div>
+            <div class="field">
+                <label>Unité / Branche</label>
+                <input type="text" id="unit" placeholder="ex: Nu-7 / Epsilon-11">
+            </div>
+            <div class="field">
+                <label>Type de Service</label>
+                <select id="type">
+                    <option value="PRISE DE SERVICE (PDS)">Prise de Service</option>
+                    <option value="FIN DE SERVICE (FDS)">Fin de Service</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Localisation</label>
+                <input type="text" id="loc" placeholder="ex: Site-80 / Zone de Confinement">
+            </div>
+            <div class="field">
+                <label>Notes / Rapport d'état</label>
+                <textarea id="notes" rows="5" placeholder="Équipement OK, RAS..."></textarea>
+            </div>
+
+            <div class="btn-group">
+                <button class="gen-btn" onclick="generateLog()">Générer le Rapport</button>
+            </div>
+        </div>
+
+        <div class="output-section">
+            <h3 style="color: var(--terminal); border-color: var(--terminal);">Aperçu du Terminal</h3>
+            <textarea id="output-text" readonly></textarea>
+            <button class="copy-btn" onclick="copyText()">Copier dans le Presse-papier</button>
+        </div>
+
+    </div>
+
+    <script>
+        function generateLog() {
+            const name = document.getElementById('name').value || "Inconnu";
+            const unit = document.getElementById('unit').value || "N/A";
+            const type = document.getElementById('type').value;
+            const loc = document.getElementById('loc').value || "Non spécifiée";
+            const notes = document.getElementById('notes').value || "Aucune note particulière.";
+            const date = new Date().toLocaleString('fr-FR');
+
+            const report = `
+╔══════════════════════════════════════════╗
+  SCiP-NET : RAPPORT D'ACTIVITÉ TACTIQUE
+╚══════════════════════════════════════════╝
+[DATE/HEURE] : ${date}
+[STATUT]     : ${type}
+[AGENT]      : ${name}
+[UNITÉ]      : ${unit}
+[ZONE]       : ${loc}
+────────────────────────────────────────────
+[NOTES DU RAPPORT] :
+${notes}
+────────────────────────────────────────────
+  SÉCURISER. CONTENIR. PROTÉGER.
+╚══════════════════════════════════════════╝`;
+
+            document.getElementById('output-text').value = report.trim();
+        }
+
+        function copyText() {
+            const copyText = document.getElementById("output-text");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Rapport copié !");
+        }
+    </script>
+
+</body>
+</html>

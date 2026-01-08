@@ -8,216 +8,311 @@
             --terminal-green: #00ff41;
             --scp-orange: #f27121;
             --scp-red: #d32f2f;
-            --bg-dark: #080808;
-            --panel-bg: #121212;
+            --bg-dark: #050505;
+            --panel-bg: rgba(20, 20, 20, 0.9);
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         body {
             background-color: var(--bg-dark);
             color: #e0e0e0;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Segoe UI', 'Courier New', monospace;
             margin: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            overflow-x: hidden;
-            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
-                              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 4px, 3px 100%;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%),
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+            background-size: cover, 100% 4px;
         }
 
         .warning-bar {
-            background: var(--scp-red);
+            background: repeating-linear-gradient(45deg, #900, #900 10px, #b00 10px, #b00 20px);
             color: white;
             text-align: center;
-            padding: 6px 0;
+            padding: 8px 0;
             font-weight: bold;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            border-bottom: 2px solid #500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         header {
-            width: 100%;
-            padding: 45px 0;
+            padding: 60px 0;
             text-align: center;
-            background: linear-gradient(to bottom, #151515, var(--bg-dark));
-            border-bottom: 1px dashed var(--scp-orange);
-            margin-bottom: 30px;
+            position: relative;
         }
 
         .logo-text {
-            font-size: 2.8rem;
-            font-weight: bold;
-            letter-spacing: 8px;
-            color: white;
-            text-shadow: 3px 3px 0px var(--scp-orange);
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 12px;
+            color: #fff;
+            text-transform: uppercase;
+            filter: drop-shadow(0 0 10px var(--scp-orange));
+        }
+
+        .scanline-header {
+            width: 200px;
+            height: 2px;
+            background: var(--scp-orange);
+            margin: 15px auto;
+            box-shadow: 0 0 10px var(--scp-orange);
+            animation: pulse 2s infinite;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             display: grid;
-            /* Correction de la grille pour un alignement propre */
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            width: 90%;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            padding: 40px;
             margin: 0 auto;
         }
 
         .nav-card {
             background: var(--panel-bg);
-            border: 1px solid #222;
-            padding: 25px;
+            border: 1px solid rgba(242, 113, 33, 0.2);
             text-decoration: none;
             color: white;
-            transition: all 0.2s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            border-left: 4px solid var(--scp-orange);
-            /* Design trapèze */
-            clip-path: polygon(0 0, 100% 0, 100% 88%, 94% 100%, 0 100%);
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
             display: flex;
             flex-direction: column;
         }
 
-        .nav-card:hover {
-            background: #1a1a1a;
-            transform: translateY(-3px);
-            border-left: 10px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        .nav-card::after {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0) 0%, rgba(242, 113, 33, 0.05) 50%, rgba(255,255,255,0) 100%);
+            animation: scan 4s infinite linear;
+            pointer-events: none;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 160px;
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            filter: grayscale(80%) contrast(1.2);
+            transition: 0.4s;
+        }
+
+        .card-image::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent, var(--panel-bg));
+        }
+
+        .card-content {
+            padding: 20px;
+            border-top: 1px solid rgba(242, 113, 33, 0.3);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .nav-card h2 {
-            margin: 0 0 12px 0;
+            margin: 0 0 10px 0;
             font-size: 1.1rem;
-            color: var(--scp-orange);
+            color: #fff;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .nav-card p {
             font-size: 0.85rem;
-            color: #999;
+            color: #aaa;
             line-height: 1.5;
             margin-bottom: 20px;
             flex-grow: 1;
         }
 
+        .status-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .status {
             font-size: 0.65rem;
             font-weight: bold;
-            padding: 4px 8px;
-            background: #000;
+            padding: 4px 10px;
+            background: rgba(0,0,0,0.5);
             border: 1px solid #333;
             letter-spacing: 1px;
-            align-self: flex-start;
+            text-transform: uppercase;
         }
 
-        .online { color: var(--terminal-green); }
-        .offline { color: #444; }
+        .online { border-color: var(--terminal-green); color: var(--terminal-green); text-shadow: 0 0 5px var(--terminal-green); }
 
-        .disabled-card {
-            opacity: 0.4;
-            cursor: not-allowed;
-            border-left-color: #333;
+        .nav-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--scp-orange);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.8);
         }
 
-        footer {
-            margin-top: auto;
-            padding: 30px;
-            font-size: 0.75rem;
-            color: #444;
-            text-align: center;
-            border-top: 1px solid #111;
-        }
+        .nav-card:hover .card-image { filter: grayscale(0%) contrast(1); }
+        .nav-card:hover h2 { color: var(--scp-orange); }
 
-        .secret-trigger {
-            position: fixed;
-            bottom: 10px;
-            right: 15px;
-            font-size: 0.6rem;
-            color: #151515;
-            cursor: pointer;
-            user-select: none;
-        }
+        @keyframes scan { 0% { top: -100%; } 100% { top: 100%; } }
+        @keyframes pulse { 0% { opacity: 0.4; width: 150px; } 50% { opacity: 1; width: 250px; } 100% { opacity: 0.4; width: 150px; } }
+
+        footer { padding: 40px; text-align: center; color: #444; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <div class="warning-bar">Accès restreint - Accréditation Niveau 0 Requise</div>
+    <div class="warning-bar">Système d'Aiguillage Sécurisé - Terminal Site-80</div>
 
     <header>
-        <div class="logo-text">SCiP-NET-80</div>
-        <div style="color: #666; margin-top: 8px; font-size: 0.8rem; letter-spacing: 1px;">SYSTÈME DE GESTION CENTRALISÉ // SITE-80</div>
+        <div class="logo-text">SCiP-NET</div>
+        <div class="scanline-header"></div>
+        <div style="color: var(--scp-orange); font-size: 0.9rem; letter-spacing: 4px;">CENTRAL COMMAND INTERFACE</div>
     </header>
 
     <div class="container">
         
         <a href="D-M/mainDM.html" class="nav-card">
-            <h2>Département Médical</h2>
-            <p>Gestion des rapports d'imagerie, de chirurgie et suivis biologiques du personnel de Classe D.</p>
-            <span class="status online">● SYSTÈME ACTIF</span>
+            <div class="card-image" style="background-image: url('IMAGESMENU/Medical.png');"></div>
+            <div class="card-content">
+                <h2>Département Médical</h2>
+                <p>Analyse biométrique et protocoles de soin post-confinement pour le personnel.</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: MED-80</span>
+                </div>
+            </div>
         </a>
 
         <a href="D-S/secu.html" class="nav-card">
-            <h2>Département Sécurité</h2>
-            <p>Gestion des rapports de PDS et d'incidents. Protocoles des codes couleur d'alarme.</p>
-            <span class="status online">● SYSTÈME ACTIF</span>
+            <div class="card-image" style="background-image: url('IMAGESMENU/Securite.png');"></div>
+            <div class="card-content">
+                <h2>Département Sécurité</h2>
+                <p>Surveillance, gestion des armureries et protocoles de verrouillage tactique.</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: SEC-80</span>
+                </div>
+            </div>
         </a>
 
         <a href="D-SCI/Untitled-1.html" class="nav-card">
-            <h2>Département Scientifique</h2>
-            <p>Base de données des objets confinés et procédures de confinement (CENSURÉ).</p>
-            <span class="status online">● SYSTÈME ACTIF</span>
+            <div class="card-image" style="background-image: url('IMAGESMENU/Scientifique.png');"></div>
+            <div class="card-content">
+                <h2>Recherche & Sciences</h2>
+                <p>Études morphologiques des anomalies et mise à jour des procédures de confinement.</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: SCI-80</span>
+                </div>
+            </div>
         </a>
 
         <a href="D-Logi/menu.html" class="nav-card">
-            <h2>Ingénierie & Technique</h2>
-            <p>Maintenance des infrastructures et liste des zones de maintenance autorisées.</p>
-            <span class="status online">● SYSTÈME ACTIF</span>
+            <div class="card-image" style="background-image: url('IMAGESMENU/DIST.png');"></div>
+            <div class="card-content">
+                <h2>Ingénierie & Technique</h2>
+                <p>Maintenance des infrastructures critiques et gestion des zones de maintenance.</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: TECH-80</span>
+                </div>
+            </div>
         </a>
 
         <a href="D-CE/CE.html" class="nav-card">
-            <h2>Comité d'Éthique</h2>
-            <p>Code éthique de la Fondation et protocoles de traitement des Classes Delta.</p>
-            <span class="status online">● SYSTÈME ACTIF</span>
+            <div class="card-image" style="background-image: url('IMAGESMENU/Comite_dEthique.png');"></div>
+            <div class="card-content">
+                <h2>Comité d'Éthique</h2>
+                <p>Examen des protocoles de test et conformité morale des opérations du Site-80.</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: ETH-80</span>
+                </div>  
+            </div>
         </a>
 
         <a href="D-JI/DJI.html" class="nav-card">
-            <h2>Justice Interne</h2>
-            <p>Code pénal de la Fondation et procédures disciplinaires internes.</p>
-            <span class="status online">● SYSTÈME ACTIF</span>
+            <div class="card-image" style="background-image: url('IMAGESMENU/D.J.I..png');"></div>
+            <div class="card-content">
+                <h2>Justice Interne</h2>
+                <p>Code pénal de la Fondation et procédures disciplinaires pour le personnel.</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: LAW-80</span>
+                </div>
+            </div>
         </a>
 
         <a href="D-AC/menu.html" class="nav-card">
-            <h2>Administration Centrale</h2>
-            <p>Système de gestion des appels prioritaires et coordination administrative.</p>
-            <span class="status online">● SYSTÈME ACTIF</span>
+            <div class="card-image" style="background-image: url('IMAGESMENU/Administration.png');"></div>
+            <div class="card-content">
+                <h2>Administration Centrale</h2>
+                <p>Coordination des appels prioritaires et gestion administrative globale.</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: ADM-80</span>
+                </div>
+            </div>
         </a>
 
         <a href="FIM/menu.html" class="nav-card">
-            <h2>Forces d'Intervention</h2>
-            <p>Déploiement des unités mobiles et rapports d'opérations tactiques de terrain.</p>
-            <span class="status online">● SYSTÈME ACTIF</span>
+            <div class="card-image" style="background-image: url('IMAGESMENU/F.I.M..png');"></div>
+            <div class="card-content">
+                <h2>Forces Mobiles (FIM)</h2>
+                <p>Déploiement rapide des unités d'élite et rapports d'opérations tactiques.</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: MTF-GLOBAL</span>
+                </div>
+            </div>
         </a>
 
-        <div class="nav-card disabled-card">
-            <h2>Département Inconnu</h2>
-            <p>Données corrompues ou accès non assigné au terminal actuel.</p>
-            <span class="status offline">● SYSTÈME INACTIF</span>
+                <a href="CI/menu.html" class="nav-card">
+            <div class="card-image" style="background-image: url('IMAGESMENU/Insurrection_du_Chaos.png');"></div>
+            <div class="card-content">
+                <h2>chaos insurgency</h2>
+                <p>[cencured]</p>
+                <div class="status-box">
+                    <span class="status online">SYS_READY</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: CI-GLOBAL</span>
+                </div>
+            </div>
+        </a>
+
+
+
+        <div class="nav-card" style="opacity: 0.5; cursor: not-allowed;">
+            <div class="card-image" style="background-image: url('img/unknown.jpg');"></div>
+            <div class="card-content">
+                <h2>Archives Classées</h2>
+                <p>Accès restreint aux membres du Conseil O5. Cryptage en cours.</p>
+                <div class="status-box">
+                    <span class="status" style="color: #600; border-color: #600;">LOCKED</span>
+                    <span style="font-size: 0.6rem; color: #555;">REF: ████</span>
+                </div>
+            </div>
         </div>
 
     </div>
 
     <footer>
-        <p>Fondation SCP - Sécuriser, Contenir, Protéger</p>
-        <p>&copy; 2026 SCiP-NET OS v.4.0.1 - Terminal Local Site-80</p>
+        <p>S.C.P. FOUNDATION — SECURE. CONTAIN. PROTECT.</p>
+        <p>Terminal 0x88-A80 | Vers. 4.9.0-GOLD</p>
     </footer>
-
-    <div class="secret-trigger" onclick="console.log('Access Granted')">
-        [SESSION_ID: 0x88-SITE80]
-    </div>
 
 </body>
 </html>
