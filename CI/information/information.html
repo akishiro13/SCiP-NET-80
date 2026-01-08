@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CI-NET // INTEL</title>
+    <style>
+        :root {
+            --ci-red: #ff0000;
+            --ci-bg: #050505;
+            --ci-border: #222;
+            --ci-text: #b0b0b0;
+        }
+
+        body {
+            background-color: var(--ci-bg);
+            color: var(--ci-text);
+            font-family: 'Consolas', monospace;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            color: var(--ci-red);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            border-bottom: 1px solid var(--ci-red);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .info-grid {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .intel-block {
+            background: #0a0a0a;
+            border: 1px solid var(--ci-border);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .intel-block:hover {
+            border-color: var(--ci-red);
+        }
+
+        .intel-block h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .intel-block p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #888;
+        }
+
+        .tag {
+            color: var(--ci-red);
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .back-link {
+            margin-top: 40px;
+            color: #444;
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .back-link:hover { color: var(--ci-red); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>DATABASE_INTEL</h1>
+    </header>
+
+    <div class="info-grid">
+
+        <div class="intel-block">
+            <span class="tag">[TARGET_SITE]</span>
+            <h2>Site-80 : Points Faibles</h2>
+            <p>Le système de ventillation couvre une grand partie du site  il lie : la ZD, les cuissine de la ZD, le couloir inférieur (zone administratif) et les toilette des la zone de confinement safe</p>
+        </div>
+
+        <div class="intel-block">
+            <span class="tag">[ASSET_RECOVERY]</span>
+            <h2>Objets à Prioriser</h2>
+            <p>les objet a priorisé pour les classe D sont les bouteilles de Gaz au DI&ST et les gloc brisée dans la vent devant le secteur scientifique (accée bas)</p>
+    </div>
+
+        <div class="intel-block">
+            <span class="tag">[INTERNAL_PROTOCOL]</span>
+            <h2>info : zone de confinement</h2>
+            <p>la zone de confinement des scp n'a pas accée par les vent le seul accées est la porte blindé principal (necessite une accréditation lVl 2)</p>
+        </div>
+
+        <div class="intel-block">
+            <span class="tag">[ENEMY_INTEL]</span>
+            <h2>La Fondation SCP</h2>
+            <p>Leur force réside dans leur bureaucratie. Ralentissez-les en détruisant leurs serveurs de données et leurs archives papier.</p>
+        </div>
+
+
+
+    <a href="../menu.html" class="back-link">← Retour au terminal</a>
+
+</body>
+</html>

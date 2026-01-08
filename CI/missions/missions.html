@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CI-NET // DIRECTIVES GÉNÉRALES</title>
+    <style>
+        :root {
+            --ci-red: #ff0000;
+            --ci-bg: #050505;
+            --ci-card: #0d0d0d;
+            --ci-border: #222;
+            --ci-text: #b0b0b0;
+        }
+
+        body {
+            background-color: var(--ci-bg);
+            color: var(--ci-text);
+            font-family: 'Consolas', 'Courier New', monospace;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            border-bottom: 2px solid var(--ci-red);
+            padding: 30px;
+            background: linear-gradient(to right, #1a0000, #050505);
+            text-align: center;
+        }
+
+        .header-content h1 {
+            color: var(--ci-red);
+            margin: 0;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-size: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- SECTION DIRECTIVE --- */
+        .directive-section {
+            background: var(--ci-card);
+            border: 1px solid var(--ci-border);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .directive-header {
+            background: #151515;
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--ci-red);
+            display: flex;
+            align-items: center;
+        }
+
+        .directive-num {
+            color: var(--ci-red);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .directive-header h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .directive-body {
+            padding: 25px;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            background: rgba(255, 0, 0, 0.1);
+            color: var(--ci-red);
+            border: 1px solid var(--ci-red);
+            padding: 2px 10px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--ci-red);
+        }
+
+        /* --- DEVISE --- */
+        .motto-box {
+            text-align: center;
+            padding: 40px;
+            border: 2px dashed var(--ci-border);
+            margin-top: 50px;
+        }
+
+        .motto-box h3 {
+            color: #444;
+            font-style: italic;
+            font-size: 1.2rem;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #555;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .back-link:hover { color: var(--ci-red); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Mission d'Insurrection</h1>
+            <p style="color: #666; font-size: 0.8rem; margin-top: 10px;">DOCTRINE OPÉRATIONNELLE DU DELTA COMMAND</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="directive-section">
+            <div class="directive-header">
+                <div class="directive-num">01</div>
+                <h2>Acquisition d'Actifs (Pillage)</h2>
+            </div>
+            <div class="directive-body">
+                <div class="priority-badge">Priorité : Absolue</div>
+                <p>Contrairement à la Fondation qui "confine", l'Insurrection <strong>exploite</strong>. Notre mission est de récupérer les objets anormaux pour notre propre usage.</p>
+                <ul>
+                    <li>Identifier les convois de transport de la Fondation.</li>
+                    <li>Extraire les anomalies des sites de recherche vulnérables.</li>
+                    <li>Utiliser les objets anormaux comme armes tactiques sur le terrain.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="directive-section">
+            <div class="directive-header">
+                <div class="directive-num 02">02</div>
+                <h2>Sabotage & Déstabilisation</h2>
+            </div>
+            <div class="directive-body">
+                <div class="priority-badge">Priorité : Haute</div>
+                <p>L'ordre établi par la Fondation est une illusion. Notre rôle est de prouver que leur contrôle est fragile.</p>
+                <ul>
+                    <li>Provoquer des brèches de confinement à distance.</li>
+                    <li>Détruire les infrastructures critiques (générateurs, serveurs).</li>
+                    <li>Éliminer le personnel clé (Chercheurs, Commandants FIM).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="directive-section">
+            <div class="directive-header">
+                <div class="directive-num 03">03</div>
+                <h2>Recrutement & Infiltration</h2>
+            </div>
+            <div class="directive-body">
+                <div class="priority-badge">Priorité : Médiane</div>
+                <p>La force de l'Insurrection réside dans ses ombres. Chaque membre doit être un agent de corruption.</p>
+                <ul>
+                    <li>Convertir le personnel de la Fondation à notre cause.</li>
+                    <li>Infiltrer les rangs de la Sécurité ou des Classes-D.</li>
+                    <li>Collecter des renseignements sur les codes d'accès et protocoles internes.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="motto-box">
+            <h3>"The Foundation builds walls. We build a future."</h3>
+        </div>
+
+        <a href="../menu.html" class="back-link">← Retour au réseau central</a>
+
+    </div>
+
+</body>
+</html>

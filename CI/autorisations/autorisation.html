@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CI-NET // DROITS_RP</title>
+    <style>
+        :root {
+            --ci-red: #ff0000;
+            --ci-bg: #050505;
+            --ci-border: #222;
+            --ci-text: #b0b0b0;
+        }
+
+        body {
+            background-color: var(--ci-bg);
+            color: var(--ci-text);
+            font-family: 'Consolas', monospace;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: var(--ci-red);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin: 0;
+        }
+
+        .auth-grid {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .auth-category {
+            background: #0a0a0a;
+            border: 1px solid var(--ci-border);
+            padding: 20px;
+        }
+
+        .auth-category h2 {
+            color: #fff;
+            font-size: 1rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--ci-red);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            font-size: 0.85rem;
+        }
+
+        li {
+            margin-bottom: 12px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--ci-red);
+            position: absolute;
+            left: 0;
+        }
+
+        .allowed { color: #00ff41; font-weight: bold; }
+        .forbidden { color: var(--ci-red); font-weight: bold; }
+
+        .back-link {
+            margin-top: 40px;
+            color: #444;
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>AUTORISATIONS_RP</h1>
+        <p style="color: #444; font-size: 0.7rem;">RÈGLES D'ENGAGEMENT ET DROITS OPÉRATIONNELS</p>
+    </header>
+
+    <div class="auth-grid">
+
+        <div class="auth-category">
+            <h2>Combat & Armement</h2>
+            <ul>
+                <li>Usage d'armes létales : <span class="allowed">AUTORISÉ</span> sur tout personnel Fondation.</li>
+                <li>Usage d'objets SCP : <span class="allowed">AUTORISÉ</span> (Uniquement avec accord d'un Gradé).</li>
+                <li>Exécution de Classe-D : <span class="allowed">AUTORISÉ</span> si non-coopératif (tentative d'alerter les garde de la fondation).</li>
+                <li>Tir sur personnel Médical : <span class="forbidden">RESTREINT</span> (Sauf légitime défense).</li>
+            </ul>
+        </div>
+
+        <div class="auth-category">
+            <h2>Raids & Infiltration</h2>
+            <ul>
+                <li>Entrée en Zone de Confinement : <span class="allowed">AUTORISÉ</span> durant les raids.</li>
+                <li>Piratage des terminaux : <span class="allowed">AUTORISÉ</span> (Besoin d'un niveau 2+).</li>
+                <li>Prise d'otage : <span class="allowed">AUTORISÉ</span> (Maximum 2 otages simultanés).</li>
+                <li>Destruction totale du Site : <span class="forbidden">INTERDIT</span> (Sauf Événement Spécial).</li>
+            </ul>
+        </div>
+
+        <div class="auth-category">
+            <h2>Communication</h2>
+            <ul>
+                <li>Utilisation radio Fondation : <span class="allowed">AUTORISÉ</span> pour brouillage/espionnage</li>
+                <li>Négociation avec le Site : <span class="forbidden">INTERDIT</span> (Sauf pour les Commandants).</li>
+                <li>Révélation de la base CI : <span class="forbidden">INTERDIT</span> (Mort RP immédiate).</li>
+            </ul>
+        </div>
+
+        <div class="auth-category">
+            <h2>Relations & Recrutement</h2>
+            <ul>
+                <li>Alliance avec les Classe-D : <span class="allowed">FORTEMENT RECOMMANDÉ</span>.</li>
+                <li>Pacte avec la GOC : <span class="forbidden">INTERDIT</span> (Ennemis prioritaires).</li>
+                <li>Recrutement de Chercheurs : <span class="allowed">AUTORISÉ</span> (Via corruption uniquement).</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <a href="../menu.html" class="back-link">← Retour au terminal</a>
+
+</body>
+</html>
