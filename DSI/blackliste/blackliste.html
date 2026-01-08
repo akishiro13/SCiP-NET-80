@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>DSI // BLACKLIST_SITE</title>
+    <style>
+        :root {
+            --dsi-accent: #0078ff;
+            --dsi-danger: #ff0000;
+            --dsi-bg: #020408;
+            --dsi-panel: #0a0d14;
+            --dsi-border: #1e293b;
+        }
+
+        body {
+            background-color: var(--dsi-bg);
+            color: #e0e6ed;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        header {
+            max-width: 1100px;
+            margin: 0 auto 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--dsi-border);
+            padding-bottom: 20px;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            color: var(--dsi-danger);
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        /* --- GRILLE DE LA BLACKLIST --- */
+        .blacklist-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .target-card {
+            background: var(--dsi-panel);
+            border: 1px solid var(--dsi-border);
+            padding: 0;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 92% 100%, 0 100%);
+            transition: 0.3s;
+        }
+
+        .target-card:hover {
+            border-color: var(--dsi-danger);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+        }
+
+        /* En-tête de carte */
+        .card-header {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--dsi-danger);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--dsi-danger);
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Photo de profil suspecte */
+        .target-photo {
+            width: 80px;
+            height: 80px;
+            background: #111;
+            border: 1px solid var(--dsi-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: grayscale(1) contrast(1.2);
+        }
+
+        .target-info h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .target-info p {
+            margin: 5px 0 0;
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: none; /* Pour garder les descriptions lisibles */
+        }
+
+        /* Statuts tactiques */
+        .tactical-status {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--dsi-border);
+            font-size: 0.65rem;
+        }
+
+        .directive {
+            color: var(--dsi-accent);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* Badges de priorité */
+        .priority-high { color: var(--dsi-danger); animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 60px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>BLACKLIST // SITE-REBELLE</h1>
+            <div style="font-size: 0.7rem; color: #475569;">CIBLES PRIORITAIRES DÉSIGNÉES PAR LE DELTA COMMAND</div>
+        </div>
+        <div style="text-align: right; font-size: 0.7rem; color: var(--dsi-accent);">
+            SCAN_STATUS: CRITICAL<br>
+            THREAT_LEVEL: OMEGA
+        </div>
+    </header>
+
+    <div class="blacklist-container">
+
+        <div class="target-card">
+            <div class="card-header">
+                <span>PRIORITÉ: ALPHA</span>
+                <span class="priority-high">À ÉLIMINER</span>
+            </div>
+            <div class="card-body">
+                <div class="target-photo">
+                    <span style="color:#333; font-size:2rem;">?</span>
+                </div>
+                <div class="target-info">
+                    <h2>Dr. Aris Thorne</h2>
+                    <p>Chercheur Senior (Fondation). Détient les codes de chiffrement du Site-80.</p>
+                </div>
+            </div>
+            <div class="tactical-status">
+                DERNIÈRE VUE: AILE DE RECHERCHE (S80)<br>
+                <div class="directive">DIRECTIVE: CAPTURE OU ÉLIMINATION IMMÉDIATE.</div>
+            </div>
+        </div>
+
+        <div class="target-card">
+            <div class="card-header">
+                <span>PRIORITÉ: BETA</span>
+                <span style="color: #ffae00;">SURVEILLANCE</span>
+            </div>
+            <div class="card-body">
+                <div class="target-photo">
+                    <span style="color:#333; font-size:2rem;">?</span>
+                </div>
+                <div class="target-info">
+                    <h2>Agent "K"</h2>
+                    <p>Membre suspecté de double-jeu. Contact fréquent avec des fréquences GOC.</p>
+                </div>
+            </div>
+            <div class="tactical-status">
+                DERNIÈRE VUE: ARMURERIE INTERNE<br>
+                <div class="directive">DIRECTIVE: NE PAS INTERVENIR. TRACER SES COMMUNICATIONS.</div>
+            </div>
+        </div>
+
+        <div class="target-card">
+            <div class="card-header">
+                <span>PRIORITÉ: GAMMA</span>
+                <span style="color: #fff;">INTERROGATOIRE</span>
+            </div>
+            <div class="card-body">
+                <div class="target-photo">
+                    <span style="color:#333; font-size:2rem;">?</span>
+                </div>
+                <div class="target-info">
+                    <h2>D-9921 (Suzy)</h2>
+                    <p>Sujet de classe D. A été témoin de l'extraction de l'objet CI-401.</p>
+                </div>
+            </div>
+            <div class="tactical-status">
+                STATUT: EN DÉTENTION (BLOC B)<br>
+                <div class="directive">DIRECTIVE: EXTRACTION D'INFO PAR TOUS MOYENS NÉCESSAIRES.</div>
+            </div>
+        </div>
+
+        <div class="target-card">
+            <div class="card-header">
+                <span>PRIORITÉ: ALPHA</span>
+                <span class="priority-high">TRAÎTRE</span>
+            </div>
+            <div class="card-body">
+                <div class="target-photo">
+                    <span style="color:#333; font-size:2rem;">?</span>
+                </div>
+                <div class="target-info">
+                    <h2>Ancien Op. "Mamba"</h2>
+                    <p>Déserteur CI. A fui avec des documents confidentiels vers le GOC.</p>
+                </div>
+            </div>
+            <div class="tactical-status">
+                LOCALISATION: INCONNUE<br>
+                <div class="directive">DIRECTIVE: TRAQUE MONDIALE. ÉLIMINATION PUBLIQUE REQUISE.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="dsi_menu.html" class="back-link">← RETOUR AU PANNEAU DSI</a>
+
+</body>
+</html>
