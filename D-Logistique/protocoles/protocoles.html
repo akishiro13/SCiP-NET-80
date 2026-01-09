@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCP Foundation | Protocoles Logistiques</title>
+    <style>
+        :root {
+            --scp-orange: #f37b1d;
+            --bg-dark: #0f0f0f;
+            --panel-bg: #1a1a1a;
+            --text-main: #d1d1d1;
+            --border-color: #333;
+            --warning-yellow: #ffcc00;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- HEADER (INCHANGÉ) --- */
+        header {
+            background: #000;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 4px solid var(--scp-orange);
+        }
+
+        .scp-logo {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--scp-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--scp-orange);
+            margin-right: 20px;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--scp-orange);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* --- PANNEAU EN COURS DE RÉDACTION --- */
+        .wip-panel {
+            background: rgba(255, 204, 0, 0.05);
+            border: 2px dashed var(--warning-yellow);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wip-panel h2 {
+            color: var(--warning-yellow);
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .wip-panel p {
+            color: #eee;
+            font-style: italic;
+        }
+
+        .warning-stripe {
+            background: repeating-linear-gradient(
+                45deg,
+                var(--warning-yellow),
+                var(--warning-yellow) 10px,
+                #000 10px,
+                #000 20px
+            );
+            height: 10px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        /* --- SECTION PROTOCOLES (VIDE / STRUCTURE) --- */
+        .protocol-placeholder {
+            opacity: 0.3;
+            filter: blur(1px);
+            user-select: none;
+        }
+
+        .protocol-block {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .protocol-title {
+            color: var(--scp-orange);
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* --- SIGNATURE --- */
+        .signature-section {
+            margin-top: 60px;
+            text-align: right;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+        }
+
+        .signature-title {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .signature-name {
+            font-family: 'Brush Script MT', cursive; /* Style écriture manuscrite */
+            color: var(--scp-orange);
+            font-size: 1.8rem;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .dg-blaze {
+            font-size: 0.9rem;
+            color: #888;
+            font-family: monospace;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="scp-logo">DLM</div>
+    <div class="header-title">
+        <h1>DÉPARTEMENT DE LA LOGISTIQUE</h1>
+        <small style="color: #666;">SÉCURISER. CONTENIR. PROTÉGER.</small>
+    </div>
+</header>
+
+<main>
+    <a href="../menu.html" class="back-btn">← Retour au terminal</a>
+
+    <div class="wip-panel">
+        <h2>⚠️ Accès Restreint ⚠️</h2>
+        <p>Les protocoles opérationnels du département sont actuellement en cours de révision et de rédaction par l'administration.</p>
+        <p>Veuillez vous référer aux directives temporaires transmises par vos supérieurs directs.</p>
+        <div class="warning-stripe"></div>
+    </div>
+
+    <div class="protocol-placeholder">
+        <div class="protocol-block">
+            <span class="protocol-title">PROTOCOLE-L01 : TRANSPORT D'ANOMALIES</span>
+            [DONNÉES CORROMPUES - EN ATTENTE DE VALIDATION]
+        </div>
+        <div class="protocol-block">
+            <span class="protocol-title">PROTOCOLE-L05 : GESTION DU PERSONNEL CLASSE D</span>
+            [DONNÉES CORROMPUES - EN ATTENTE DE VALIDATION]
+        </div>
+    </div>
+
+    <div class="signature-section">
+        <span class="signature-title">Validé pour diffusion restreinte par :</span>
+        <span class="signature-name">Mattew Mellor</span>
+        <span class="dg-blaze">@DG-DLM | Directeur Général de la Logistique</span>
+    </div>
+
+</main>
+
+</body>
+</html>

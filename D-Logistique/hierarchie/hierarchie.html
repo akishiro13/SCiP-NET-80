@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCP Foundation | Organigramme Logistique</title>
+    <style>
+        :root {
+            --scp-orange: #f37b1d;
+            --bg-dark: #0f0f0f;
+            --panel-bg: #1a1a1a;
+            --text-main: #d1d1d1;
+            --border-color: #333;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #000;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 4px solid var(--scp-orange);
+        }
+
+        .scp-logo {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--scp-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--scp-orange);
+            margin-right: 20px;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--scp-orange);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* --- STRUCTURE EN CASCADE --- */
+        .level-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hierarchy-level {
+            width: 100%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* Ligne de connexion verticale */
+        .hierarchy-level:not(:last-child)::after {
+            content: "▼";
+            display: block;
+            color: var(--scp-orange);
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .rank-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-top: 3px solid var(--scp-orange);
+            display: inline-block;
+            min-width: 300px;
+        }
+
+        .level-title {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--scp-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .member-name {
+            color: white;
+            font-size: 1.1rem;
+            display: block;
+        }
+
+        .sub-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .small-card {
+            background: #111;
+            border: 1px solid #222;
+            padding: 10px;
+            min-width: 200px;
+        }
+
+        .free-access {
+            color: #00ff41;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 1px solid #00ff41;
+            padding: 2px 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="scp-logo">DLM</div>
+    <div class="header-title">
+        <h1>DÉPARTEMENT DE LA LOGISTIQUE</h1>
+        <small style="color: #666;">SÉCURISER. CONTENIR. PROTÉGER.</small>
+    </div>
+</header>
+
+<main>
+    <a href="../menu.html" class="back-btn">← Retour au terminal</a>
+
+    <div class="level-container">
+        
+        <div class="hierarchy-level">
+            <div class="rank-card">
+                <span class="level-title">Haute Direction</span>
+                <span class="member-name">@DG-DLM | Mattew Mellor</span>
+                <span class="member-name" style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;">Adjoint : @vicdestructer03</span>
+            </div>
+        </div>
+
+        <div class="hierarchy-level">
+            <div class="rank-card">
+                <span class="level-title">Supervision Logistique</span>
+                <span class="member-name">[censured]</span>
+            </div>
+        </div>
+
+        <div class="hierarchy-level">
+            <div class="sub-group">
+                <div class="small-card">
+                    <span class="level-title">Coord. Transport</span>
+                    <span class="member-name" style="font-size: 0.9rem;">@CT | Frédéric Dupond</span>
+                </div>
+                <div class="small-card">
+                    <span class="level-title">Coord. Stockage</span>
+                    <span class="member-name" style="font-size: 0.9rem; opacity: 0.5;">N/A</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hierarchy-level">
+            <div class="rank-card" style="border-top-color: #777;">
+                <span class="level-title">Corps de Maîtrise</span>
+                <div class="member-name" style="font-size: 0.9rem;">Chef Conducteur • Chef de stockage • Chef gestion de ressources</div>
+            </div>
+        </div>
+
+        <div class="hierarchy-level">
+            <div class="sub-group">
+                <div class="small-card" style="min-width: 450px;">
+                    <span class="level-title">Spécialistes Avancés</span>
+                    <span class="member-name" style="font-size: 0.85rem;">Gestionnaire avancé | Conducteur Avancé | Agent de stockage Avancé</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hierarchy-level">
+            <div class="sub-group">
+                <div class="small-card">
+                    <span class="level-title">Opérationnels</span>
+                    <span class="member-name" style="font-size: 0.85rem;">Conducteur | Gestionnaire des ressources</span>
+                </div>
+                <div class="small-card">
+                    <span class="level-title">Personnel Entrant</span>
+                    <span class="member-name" style="font-size: 0.85rem;">Agent de stockage <span class="free-access">FREE ACCESS</span></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

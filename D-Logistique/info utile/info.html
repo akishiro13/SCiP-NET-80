@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCP Foundation | INFOS IMPORTANTES</title>
+    <style>
+        :root {
+            --scp-orange: #f37b1d;
+            --scp-red: #d32f2f;
+            --bg-dark: #0f0f0f;
+            --panel-bg: #1a1a1a;
+            --text-main: #d1d1d1;
+            --border-color: #333;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- HEADER (IDENTIQUE) --- */
+        header {
+            background: #000;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 4px solid var(--scp-orange);
+        }
+
+        .scp-logo {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--scp-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--scp-orange);
+            margin-right: 20px;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--scp-orange);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* --- BLOCS D'INFO --- */
+        .info-section {
+            display: grid;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: var(--panel-bg);
+            border-left: 5px solid var(--scp-orange);
+            padding: 20px;
+            position: relative;
+        }
+
+        .critical {
+            border-left-color: var(--scp-red);
+            background: rgba(211, 47, 47, 0.05);
+        }
+
+        .info-card h2 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #bbb;
+            margin-bottom: 0;
+        }
+
+        .tag-critical {
+            background: var(--scp-red);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        .memo-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        .memo-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #222;
+            font-size: 0.9rem;
+        }
+
+        .memo-list li::before {
+            content: "•";
+            color: var(--scp-orange);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* --- SIGNATURE DG --- */
+        .footer-sig {
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="scp-logo">DLM</div>
+    <div class="header-title">
+        <h1>DÉPARTEMENT DE LA LOGISTIQUE</h1>
+        <small style="color: #666;">SÉCURISER. CONTENIR. PROTÉGER.</small>
+    </div>
+</header>
+
+<main>
+    <a href="../menu.html" class="back-btn">← Retour au terminal</a>
+
+    <h1 style="color: white; margin-bottom: 30px;">⚠️ INFORMATIONS À SAVOIR ABSOLUMENT</h1>
+
+    <div class="info-section">
+        
+        <div class="info-card critical">
+            <h2><span class="tag-critical">CRITIQUE</span> Chaîne de Commandement</h2>
+            <p>Le respect de la hiérarchie est <strong>obligatoire</strong>. Toute insubordination lors d'un transport d'anomalie de classe Keter sera traitée comme une brèche de confinement. Seul le Directeur Général <strong>Mattew Mellor</strong> ou son Adjoint peuvent outrepasser les ordres d'un Superviseur.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>🚛 Transport et Logistique</h2>
+            <ul class="memo-list">
+                <li>Vérifiez toujours l'intégrité des sceaux de confinement avant le départ.</li>
+                <li>Le personnel de Classe D doit être entravé durant toute la durée du trajet.</li>
+                <li>Tout retard de plus de 10 minutes doit être signalé au Coordinateur Transport immédiatement.</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h2>📦 Gestion du Stockage</h2>
+            <p>Une inventaire des stock doit réguliérement etre fais a fin de prevenir tout rupture de resource indispencable au sites</p>
+        </div>
+
+        <div class="info-card" style="border-left-color: #555;">
+            <h2>💡 Rappels de Sécurité</h2>
+            <ul class="memo-list">
+                <li>Ne jamais ouvrir une caisse</li>
+                <li>Le port de la tenue logistique est requis sur tous les sites de la Fondation.</li>
+                <li>Gardez vos badges d'accès visibles en permanence.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="footer-sig">
+        Document édité par la Direction Générale du DLM - @DG-DLM | Mattew Mellor
+    </div>
+</main>
+
+</body>
+</html>
