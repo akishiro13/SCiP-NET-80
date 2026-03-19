@@ -1,118 +1,830 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>SCP FOUNDATION - REPORT GENERATOR</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Rapport — DEPT. SCIENTIFIQUE // SCiP-NET SITE-80</title>
+    <meta name="description"
+        content="Générateur de rapports d'expérience scientifique, Département Scientifique SCiP-NET Site-80.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&family=Rajdhani:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <style>
-        :root { --scp-cyan: #00ffff; }
-        body { background-color: #050505; color: var(--scp-cyan); font-family: 'Courier Prime', monospace; }
-        
-        body::before {
-            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(0, 255, 255, 0.03), rgba(0, 255, 255, 0.01), rgba(0, 255, 255, 0.03));
-            z-index: 100; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        /* ══════════════════════════════════════
+           ROOT VARIABLES
+        ══════════════════════════════════════ */
+        :root {
+            --bg: #03080f;
+            --bg-panel: rgba(4, 14, 30, 0.97);
+            --bg-card: rgba(6, 18, 36, 0.90);
+            --cyan: #00d4ff;
+            --cyan-dim: #0076a8;
+            --cyan-glow: rgba(0, 212, 255, 0.10);
+            --green: #22c55e;
+            --yellow: #facc15;
+            --orange: #f97316;
+            --red: #ef4444;
+            --red-dk: #991b1b;
+            --white: #f1f5f9;
+            --text: #94c8d8;
+            --text-muted: #2a5060;
+            --text-bright: #e0f7ff;
+            --border: rgba(0, 212, 255, 0.13);
+            --border-hot: rgba(0, 212, 255, 0.45);
+            --grid: rgba(0, 180, 220, 0.04);
+            --accent: #901010;
         }
 
-        .header-glitch { text-shadow: 2px 0 #991b1b, -2px 0 #00ffff; color: #fff; }
-        .cyan-border { border: 4px double #0891b2 !important; }
-
-        input, textarea {
-            background: rgba(0, 20, 20, 0.7) !important;
-            border: 1px solid #134e4a !important;
-            color: #fff !important;
-            padding: 8px; font-size: 12px; outline: none; width: 100%;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        input:focus, textarea:focus { border-color: #00ffff !important; box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 15px;
+            line-height: 1.65;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 80, 160, 0.10) 0%, transparent 65%);
+            background-size: 50px 50px, 50px 50px, cover;
+        }
+
+        /* Scanlines */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px, transparent 3px,
+                    rgba(0, 0, 0, 0.04) 3px, rgba(0, 0, 0, 0.04) 4px);
+            z-index: 9999;
+        }
+
+        /* ══════════════════════════════════════
+           TOP BAR
+        ══════════════════════════════════════ */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 30px;
+            background: rgba(0, 0, 0, 0.75);
+            border-bottom: 1px solid var(--border);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            backdrop-filter: blur(8px);
+        }
+
+        .top-bar a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .top-bar a:hover {
+            color: var(--cyan);
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .pulse-dot {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 6px var(--cyan);
+            margin-right: 5px;
+            animation: blink 1.6s ease-in-out infinite;
+        }
+
+        .clock {
+            color: var(--cyan);
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .15
+            }
+        }
+
+        /* ══════════════════════════════════════
+           PAGE HEADER
+        ══════════════════════════════════════ */
+        .page-header {
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            padding: 26px 35px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--cyan), transparent);
+        }
+
+        .header-classification {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--red-dk);
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 3px;
+            padding: 5px 18px;
+            text-transform: uppercase;
+        }
+
+        .doc-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            color: var(--cyan-dim);
+            margin-bottom: 10px;
+        }
+
+        .page-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.9rem);
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 24px rgba(0, 212, 255, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            padding: 3px 10px;
+            border: 1px solid;
+            text-transform: uppercase;
+        }
+
+        .badge-cyan {
+            border-color: var(--cyan-dim);
+            color: var(--cyan);
+        }
+
+        .badge-green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .badge-red {
+            border-color: var(--red-dk);
+            color: var(--red-dk);
+        }
+
+        /* ══════════════════════════════════════
+           MAIN LAYOUT — 2 colonnes
+        ══════════════════════════════════════ */
+        .generator-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 30px 60px;
+            align-items: start;
+        }
+
+        /* ══════════════════════════════════════
+           PANEL (conteneur section)
+        ══════════════════════════════════════ */
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--cyan-dim), transparent);
+        }
+
+        .panel-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .panel-title::before {
+            content: "// ";
+            color: var(--cyan-dim);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        .panel-badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 2px;
+            color: var(--green);
+            border: 1px solid var(--green);
+            padding: 2px 8px;
+        }
+
+        .panel-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* ══════════════════════════════════════
+           FORM ELEMENTS
+        ══════════════════════════════════════ */
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .field-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cyan-dim);
+        }
+
+        .field-label .optional {
+            color: var(--text-muted);
+            font-size: 0.45rem;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 9px 12px;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid var(--border);
+            color: var(--text-bright);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            outline: none;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--cyan-dim);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.08);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        select option {
+            background: #0a1520;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* Succes selector visuel */
+        .succes-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .succes-btn {
+            flex: 1;
+            padding: 7px 10px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .succes-btn.active-oui {
+            border-color: var(--green);
+            color: var(--green);
+            background: rgba(34, 197, 94, 0.07);
+        }
+
+        .succes-btn.active-non {
+            border-color: var(--red);
+            color: var(--red);
+            background: rgba(239, 68, 68, 0.07);
+        }
+
+        .succes-btn.active-partiel {
+            border-color: var(--yellow);
+            color: var(--yellow);
+            background: rgba(250, 204, 21, 0.07);
+        }
+
+        /* Divider */
+        .field-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 4px 0;
+        }
+
+        .field-section-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 6px 0 2px;
+        }
+
+        /* ══════════════════════════════════════
+           PREVIEW PANEL
+        ══════════════════════════════════════ */
+        .preview-panel {
+            position: sticky;
+            top: 58px;
+        }
 
         .preview-area {
-            background: rgba(0, 10, 10, 0.9);
-            border: 1px dashed #0891b2;
+            padding: 22px 24px;
+            background: rgba(0, 0, 0, 0.6);
+            border-top: none;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            line-height: 1.9;
+            color: #a0d4e0;
             white-space: pre-wrap;
-            font-size: 13px;
-            color: #00ffff;
+            word-break: break-word;
+            min-height: 400px;
+            max-height: 65vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--cyan-dim) transparent;
         }
-        
-        label { font-size: 10px; text-transform: uppercase; font-weight: bold; color: #0891b2; }
+
+        .preview-area::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .preview-area::-webkit-scrollbar-thumb {
+            background: var(--cyan-dim);
+        }
+
+        /* Highlight bold markers */
+        .preview-area .bold-field {
+            color: var(--cyan);
+        }
+
+        /* ══════════════════════════════════════
+           ACTION BUTTONS
+        ══════════════════════════════════════ */
+        .action-bar {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: transparent;
+            border: 1px solid;
+            padding: 10px 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-primary {
+            border-color: var(--cyan-dim);
+            color: var(--cyan);
+        }
+
+        .btn-primary:hover {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: var(--cyan);
+            box-shadow: 0 0 14px rgba(0, 212, 255, 0.12);
+        }
+
+        .btn-secondary {
+            border-color: var(--border);
+            color: var(--text-muted);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-panel);
+            border: 1px solid var(--green);
+            color: var(--green);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            z-index: 9000;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ══════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════ */
+        footer {
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-left {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            line-height: 1.9;
+        }
+
+        .footer-left strong {
+            color: var(--cyan-dim);
+        }
+
+        .footer-back {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--cyan-dim);
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 5px 14px;
+            transition: 0.2s;
+        }
+
+        .footer-back:hover {
+            color: var(--cyan);
+            border-color: var(--cyan-dim);
+            background: rgba(0, 212, 255, 0.04);
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @media (max-width: 900px) {
+            .generator-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-panel {
+                position: static;
+            }
+
+            .preview-area {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
-<body class="p-4 md:p-10">
 
-    <header class="max-w-7xl mx-auto mb-10 cyan-border p-6 relative bg-black/50">
-        <div class="absolute -top-4 left-6 bg-black px-4 text-red-600 font-bold tracking-[0.3em]">TOP SECRET / EYES ONLY</div>
-        <div class="flex justify-between items-center">
-            <div>
-                <h1 class="text-4xl md:text-5xl font-black uppercase header-glitch">Foundation Database</h1>
-                <p class="text-sm opacity-70 mt-2 text-cyan-400">GÉNÉRATEUR DE RAPPORT SCIENTIFIQUE | SITE-80</p>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div>
+            <a href="../../main.html">◀ SCiP-NET</a>
+            &nbsp;/&nbsp; <a href="../Untitled-1.html">DEPT. SCIENTIFIQUE</a>
+            &nbsp;/&nbsp; GÉNÉRATEUR DE RAPPORT
+        </div>
+        <div class="top-bar-right">
+            <span><span class="pulse-dot"></span>RÉSEAU: ACTIF</span>
+            <span>OUTIL: RPT-GEN v1.2</span>
+            <span class="clock" id="clock">00:00:00 UTC</span>
+        </div>
+    </div>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="header-classification">TOP SECRET / YEUX SEULEMENT</div>
+        <div class="doc-meta">SCiP-NET // SITE-80 // DEPT. SCIENTIFIQUE // OUTIL INTERNE</div>
+        <div class="page-title">Générateur de Rapport Scientifique</div>
+        <div class="page-subtitle">RAPPORT D'EXPÉRIENCE — REMPLISSEZ LES CHAMPS, COPIEZ LE RAPPORT FINAL</div>
+        <div class="header-badges">
+            <span class="badge badge-cyan">RPT-GEN v1.2</span>
+            <span class="badge badge-green">OPÉRATIONNEL</span>
+            <span class="badge badge-red">ACCÈS RESTREINT</span>
+        </div>
+    </div>
+
+    <!-- GENERATOR LAYOUT -->
+    <div class="generator-layout">
+
+        <!-- ═══════════════════════════════
+             COLONNE GAUCHE — FORMULAIRE
+        ═══════════════════════════════ -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">Saisie des Données</div>
+                <div class="panel-badge">FORMULAIRE ACTIF</div>
             </div>
-            <div class="text-right hidden md:block">
-                <p class="text-[10px]" id="current-date"></p>
-                <button onclick="location.href='../Untitled-1.html'" class="text-xs text-red-500 hover:text-white uppercase font-bold mt-2">[ QUITTER ]</button>
+            <div class="panel-body">
+
+                <!-- Identité -->
+                <div class="field-section-label">— Informations Personnelles</div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Identité</label>
+                        <input type="text" id="nom" placeholder="Dr. Dupont" oninput="update()">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Grade</label>
+                        <input type="text" id="grade" placeholder="Chercheur Nv.3" oninput="update()">
+                    </div>
+                </div>
+
+                <div class="field-divider"></div>
+
+                <!-- SCP + Succès -->
+                <div class="field-section-label">— Objet de l'Expérience</div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Matricule SCP</label>
+                        <input type="text" id="scp" placeholder="SCP-XXX" oninput="update()">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Succès ?</label>
+                        <div class="succes-selector">
+                            <button class="succes-btn" id="btn-oui" onclick="setSucces('Oui')">OUI</button>
+                            <button class="succes-btn" id="btn-partiel" onclick="setSucces('Partiel')">PARTIEL</button>
+                            <button class="succes-btn" id="btn-non" onclick="setSucces('Non')">NON</button>
+                        </div>
+                        <!-- Input caché pour stocker la valeur -->
+                        <input type="hidden" id="succes" value="">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">But Scientifique</label>
+                    <input type="text" id="but" placeholder="Objectif de l'expérience…" oninput="update()">
+                </div>
+
+                <div class="field-divider"></div>
+
+                <!-- Dates -->
+                <div class="field-section-label">— Dates & Personnel</div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label class="field-label">Date du Test</label>
+                        <input type="text" id="dTest" placeholder="JJ/MM/AAAA" oninput="update()">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Date du Rapport</label>
+                        <input type="text" id="dRapport" placeholder="JJ/MM/AAAA" oninput="update()">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Personnel(s) Recherche</label>
+                    <input type="text" id="pRecherche" placeholder="Dr. X, Dr. Y…" oninput="update()">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Personnel(s) Externe</label>
+                    <input type="text" id="pExterne" placeholder="Agent X, Classe-D Y…" oninput="update()">
+                </div>
+
+                <div class="field-divider"></div>
+
+                <!-- Contenu -->
+                <div class="field-section-label">— Contenu du Rapport</div>
+
+                <div class="field-group">
+                    <label class="field-label">Déroulé de l'expérience</label>
+                    <textarea id="deroule" rows="5" placeholder="Décrivez le déroulement chronologique de l'expérience…"
+                        oninput="update()"></textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Conclusion</label>
+                    <textarea id="conclusion" rows="3" placeholder="Résultats observés et conclusion générale…"
+                        oninput="update()"></textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Hypothèses <span class="optional">(Facultatif)</span></label>
+                    <input type="text" id="hypotheses" placeholder="Hypothèses supplémentaires…" oninput="update()">
+                </div>
+
+            </div><!-- /panel-body -->
+        </div><!-- /panel -->
+
+        <!-- ═══════════════════════════════
+             COLONNE DROITE — APERÇU
+        ═══════════════════════════════ -->
+        <div class="panel preview-panel">
+            <div class="panel-header">
+                <div class="panel-title">Aperçu du Rapport</div>
+                <div class="panel-badge" id="preview-status">EN DIRECT</div>
+            </div>
+
+            <!-- Zone de préview -->
+            <div id="preview" class="preview-area"></div>
+
+            <!-- Actions -->
+            <div class="action-bar">
+                <button class="btn btn-primary" onclick="copyReport()" id="copyBtn">⎘ Copier le Rapport Final</button>
+                <button class="btn btn-secondary" onclick="resetForm()">↺ Réinitialiser</button>
             </div>
         </div>
-    </header>
 
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
-        
-        <section class="space-y-4 bg-black/40 p-6 border border-cyan-900/50">
-            <h3 class="text-white border-b border-cyan-900 mb-4 pb-2 font-bold uppercase underline">Saisie des Données</h3>
-            
-            <div class="grid grid-cols-2 gap-4">
-                <div><label>Identité</label><input type="text" id="nom" oninput="update()"></div>
-                <div><label>Grade</label><input type="text" id="grade" oninput="update()"></div>
-            </div>
+    </div><!-- /generator-layout -->
 
-            <div class="grid grid-cols-2 gap-4">
-                <div><label>Matricule SCP</label><input type="text" id="scp" placeholder="SCP-XXX" oninput="update()"></div>
-                <div><label>Succès ?</label><input type="text" id="succes" placeholder="Oui/Non" oninput="update()"></div>
-            </div>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-left">
+            <strong>SCiP-NET</strong> // SITE-80 // DEPT. SCIENTIFIQUE<br>
+            RAPPORT SCIENTIFIQUE — GÉNÉRATEUR v1.2 — USAGE INTERNE UNIQUEMENT
+        </div>
+        <a href="../Untitled-1.html" class="footer-back">◀ RETOUR AU DEPT.</a>
+    </footer>
 
-            <div><label>But Scientifique</label><input type="text" id="but" oninput="update()"></div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div><label>Date du Test</label><input type="text" id="dTest" oninput="update()"></div>
-                <div><label>Date du Rapport</label><input type="text" id="dRapport" oninput="update()"></div>
-            </div>
-
-            <div><label>Personnel(s) Recherche</label><input type="text" id="pRecherche" oninput="update()"></div>
-            <div><label>Personnel(s) Externe</label><input type="text" id="pExterne" oninput="update()"></div>
-
-            <div><label>Déroulé de l'expérience</label><textarea id="deroule" rows="4" oninput="update()"></textarea></div>
-            <div><label>Conclusion</label><textarea id="conclusion" rows="2" oninput="update()"></textarea></div>
-            <div><label>Hypothèses (Facultatif)</label><input type="text" id="hypotheses" oninput="update()"></div>
-        </section>
-
-        <section class="flex flex-col">
-            <h3 class="text-white border-b border-cyan-900 mb-4 pb-2 font-bold uppercase underline">Aperçu du Rapport</h3>
-            <div id="preview" class="preview-area flex-grow p-8"></div>
-            
-            <button onclick="copyReport()" class="mt-4 bg-cyan-950 border border-cyan-400 p-4 text-white font-bold hover:bg-cyan-400 hover:text-black transition uppercase tracking-widest">
-                Copier le Rapport Final
-            </button>
-        </section>
-
-    </main>
+    <!-- TOAST -->
+    <div id="toast">✓ RAPPORT COPIÉ DANS LE PRESSE-PAPIER</div>
 
     <script>
+        /* ════════════════════════════════════
+           HORLOGE
+        ════════════════════════════════════ */
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getUTCHours()).padStart(2, '0');
+            const m = String(now.getUTCMinutes()).padStart(2, '0');
+            const s = String(now.getUTCSeconds()).padStart(2, '0');
+            const el = document.getElementById('clock');
+            if (el) el.textContent = `${h}:${m}:${s} UTC`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        /* ════════════════════════════════════
+           SUCCÈS SELECTOR
+        ════════════════════════════════════ */
+        function setSucces(val) {
+            document.getElementById('succes').value = val;
+
+            // Reset all
+            ['btn-oui', 'btn-partiel', 'btn-non'].forEach(id => {
+                const btn = document.getElementById(id);
+                btn.className = 'succes-btn';
+            });
+
+            // Activate correct
+            if (val === 'Oui') document.getElementById('btn-oui').classList.add('active-oui');
+            if (val === 'Non') document.getElementById('btn-non').classList.add('active-non');
+            if (val === 'Partiel') document.getElementById('btn-partiel').classList.add('active-partiel');
+
+            update();
+        }
+
+        /* ════════════════════════════════════
+           GÉNÉRATION DU RAPPORT
+           (Format identique à l'original)
+        ════════════════════════════════════ */
         function update() {
+            const get = id => document.getElementById(id).value;
+
             const fields = {
-                nom: document.getElementById('nom').value,
-                grade: document.getElementById('grade').value,
-                scp: document.getElementById('scp').value,
-                but: document.getElementById('but').value,
-                dTest: document.getElementById('dTest').value,
-                dRapport: document.getElementById('dRapport').value,
-                pRecherche: document.getElementById('pRecherche').value,
-                pExterne: document.getElementById('pExterne').value,
-                deroule: document.getElementById('deroule').value,
-                conclusion: document.getElementById('conclusion').value,
-                hypotheses: document.getElementById('hypotheses').value,
-                succes: document.getElementById('succes').value
+                nom: get('nom'),
+                grade: get('grade'),
+                scp: get('scp'),
+                but: get('but'),
+                dTest: get('dTest'),
+                dRapport: get('dRapport'),
+                pRecherche: get('pRecherche'),
+                pExterne: get('pExterne'),
+                deroule: get('deroule'),
+                conclusion: get('conclusion'),
+                hypotheses: get('hypotheses'),
+                succes: get('succes')
             };
 
-            const report = `**- Votre Identité :** ${fields.nom}
+            const report =
+                `**- Votre Identité :** ${fields.nom}
 **- Votre Grade :** ${fields.grade}
 **- Matricule du SCP :** ${fields.scp}
 **- But Scientifique :** ${fields.but}
@@ -131,17 +843,97 @@ ${fields.deroule}
 
 *Cordialement, ${fields.nom}*`;
 
-            document.getElementById('preview').innerText = report;
+            // Affichage avec coloration syntaxique des ** **
+            const htmlReport = report
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\*\*(.*?)\*\*/g, '<span class="bold-field">**$1**</span>')
+                .replace(/\*(Cordialement.*?)\*/g, '<em style="color:var(--text-muted);">*$1*</em>');
+
+            document.getElementById('preview').innerHTML = htmlReport;
         }
 
+        /* ════════════════════════════════════
+           COPIE DU RAPPORT
+        ════════════════════════════════════ */
         function copyReport() {
-            const text = document.getElementById('preview').innerText;
-            navigator.clipboard.writeText(text);
-            alert("RAPPORT COPIÉ DANS LE PRESSE-PAPIER");
+            // On récupère le texte brut (sans HTML)
+            const get = id => document.getElementById(id).value;
+
+            const fields = {
+                nom: get('nom'),
+                grade: get('grade'),
+                scp: get('scp'),
+                but: get('but'),
+                dTest: get('dTest'),
+                dRapport: get('dRapport'),
+                pRecherche: get('pRecherche'),
+                pExterne: get('pExterne'),
+                deroule: get('deroule'),
+                conclusion: get('conclusion'),
+                hypotheses: get('hypotheses'),
+                succes: get('succes')
+            };
+
+            const text =
+                `**- Votre Identité :** ${fields.nom}
+**- Votre Grade :** ${fields.grade}
+**- Matricule du SCP :** ${fields.scp}
+**- But Scientifique :** ${fields.but}
+
+**- Date du test :** ${fields.dTest}
+**- Date du Rapport :** ${fields.dRapport}
+**- Personnel(s) de Recherche Présent :** ${fields.pRecherche}
+**- Personnel(s) Externe Présent :** ${fields.pExterne}
+
+**- Déroulé :**
+${fields.deroule}
+
+**- Conclusion :** ${fields.conclusion}
+**- Hypothèses :** ${fields.hypotheses}
+**- Est-ce un Succès :** ${fields.succes}
+
+*Cordialement, ${fields.nom}*`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+            }).catch(() => {
+                // Fallback si clipboard API non disponible
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed'; ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast();
+            });
         }
 
-        document.getElementById('current-date').innerText = `DATE: ${new Date().toISOString().slice(0,10)}`;
-        update(); // Initialise l'aperçu vide
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2800);
+        }
+
+        /* ════════════════════════════════════
+           RÉINITIALISATION
+        ════════════════════════════════════ */
+        function resetForm() {
+            ['nom', 'grade', 'scp', 'but', 'dTest', 'dRapport', 'pRecherche', 'pExterne', 'deroule', 'conclusion', 'hypotheses'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            document.getElementById('succes').value = '';
+            ['btn-oui', 'btn-partiel', 'btn-non'].forEach(id => {
+                document.getElementById(id).className = 'succes-btn';
+            });
+            update();
+        }
+
+        /* Initialisation */
+        update();
     </script>
 </body>
+
 </html>

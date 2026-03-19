@@ -1,74 +1,1218 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guide des Statuts - SDS Site-80</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-body { background:#050505; color:#d1d1d1; font-family:'Share Tech Mono', monospace; margin:0; overflow-x:hidden; padding:10px; }
-.status-row { border-bottom:1px solid #1a1a1a; padding:12px 0; display:flex; gap:12px; align-items:flex-start; }
-h3 { font-weight:bold; text-transform:uppercase; margin:0; }
-header.sds-header { background: linear-gradient(90deg, #450a0a 0%, #1a1a1a 100%); border-bottom: 2px solid #991b1b; padding:15px; display:flex; justify-content:space-between; align-items:center; }
-header .title { display:flex; gap:12px; align-items:center; }
-header .title h1 { font-size:1.5rem; font-weight:bold; color:white; text-transform:uppercase; }
-header .title p { font-size:10px; font-weight:bold; color:#ef4444; text-transform:uppercase; letter-spacing:0.1em; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide des Codes d'Alerte — SDS // SCiP-NET SITE-80</title>
+    <meta name="description"
+        content="Guide officiel des codes couleur d'alerte du Département de Sécurité, Site-80. Procédures de réponse et niveaux de menace.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&family=Rajdhani:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ══════════════════════════════════════
+           ROOT VARIABLES
+        ══════════════════════════════════════ */
+        :root {
+            --bg: #070303;
+            --bg-panel: rgba(18, 4, 4, 0.97);
+            --bg-card: rgba(22, 8, 8, 0.94);
+            --red: #ef4444;
+            --red-dim: #7f1d1d;
+            --text: #c8a0a0;
+            --text-muted: #4a2020;
+            --text-bright: #ffe8e8;
+            --border: rgba(239, 68, 68, 0.15);
+            --border-hot: rgba(239, 68, 68, 0.50);
+            --grid: rgba(200, 40, 40, 0.04);
+
+            /* Alert level colours */
+            --c-vert: #22c55e;
+            --c-jaune: #facc15;
+            --c-orange: #f97316;
+            --c-rouge: #ef4444;
+            --c-violet: #a855f7;
+            --c-noir: #e2e8f0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            line-height: 1.65;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+                radial-gradient(ellipse at 50% 0%, rgba(120, 0, 0, 0.12) 0%, transparent 65%);
+            background-size: 50px 50px, 50px 50px, cover;
+        }
+
+        /* Scanlines */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px, transparent 3px,
+                    rgba(0, 0, 0, 0.05) 3px, rgba(0, 0, 0, 0.05) 4px);
+            z-index: 9999;
+        }
+
+        /* ══════════════════════════════════════
+           TOP BAR
+        ══════════════════════════════════════ */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 30px;
+            background: rgba(0, 0, 0, 0.82);
+            border-bottom: 1px solid var(--border);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+            backdrop-filter: blur(8px);
+        }
+
+        .top-bar a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .top-bar a:hover {
+            color: var(--red);
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .pulse-dot {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--red);
+            box-shadow: 0 0 6px var(--red);
+            margin-right: 5px;
+            animation: blink 1.6s ease-in-out infinite;
+        }
+
+        .clock {
+            color: var(--red);
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .15
+            }
+        }
+
+        /* ══════════════════════════════════════
+           PAGE HEADER
+        ══════════════════════════════════════ */
+        .page-header {
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            padding: 30px 35px 26px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--red), transparent);
+        }
+
+        .page-header::after {
+            content: "ALERT";
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 7rem;
+            font-weight: 700;
+            color: rgba(239, 68, 68, 0.03);
+            letter-spacing: 10px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .header-classification {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--red-dim);
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 3px;
+            padding: 5px 18px;
+            text-transform: uppercase;
+        }
+
+        .doc-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            color: var(--red-dim);
+            margin-bottom: 10px;
+        }
+
+        .page-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 28px rgba(239, 68, 68, 0.35);
+            margin-bottom: 6px;
+        }
+
+        .page-subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            padding: 3px 10px;
+            border: 1px solid;
+            text-transform: uppercase;
+        }
+
+        .badge-red {
+            border-color: var(--red-dim);
+            color: var(--red);
+        }
+
+        .badge-green {
+            border-color: #15803d;
+            color: #22c55e;
+        }
+
+        .badge-amber {
+            border-color: #92400e;
+            color: #f97316;
+        }
+
+        /* ══════════════════════════════════════
+           CONTENT AREA
+        ══════════════════════════════════════ */
+        .content-area {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 30px 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Section intro */
+        .intro-block {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 18px 22px;
+            position: relative;
+        }
+
+        .intro-block::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--red-dim);
+        }
+
+        .intro-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            line-height: 1.9;
+        }
+
+        .intro-text strong {
+            color: var(--red);
+        }
+
+        /* ══════════════════════════════════════
+           ALERT LEVEL CARD
+        ══════════════════════════════════════ */
+        .alert-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .alert-card:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Left accent strip (colour-coded) */
+        .alert-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        /* Subtle glow bg */
+        .alert-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .alert-card:hover::after {
+            opacity: 1;
+        }
+
+        /* ── VERT ── */
+        .level-vert {
+            --lc: var(--c-vert);
+            --lc-alpha: rgba(34, 197, 94, 0.06);
+        }
+
+        .level-vert::before {
+            background: var(--c-vert);
+        }
+
+        .level-vert::after {
+            background: radial-gradient(ellipse at left, var(--lc-alpha), transparent 60%);
+        }
+
+        .level-vert:hover {
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        /* ── JAUNE ── */
+        .level-jaune {
+            --lc: var(--c-jaune);
+            --lc-alpha: rgba(250, 204, 21, 0.06);
+        }
+
+        .level-jaune::before {
+            background: var(--c-jaune);
+        }
+
+        .level-jaune::after {
+            background: radial-gradient(ellipse at left, var(--lc-alpha), transparent 60%);
+        }
+
+        .level-jaune:hover {
+            border-color: rgba(250, 204, 21, 0.4);
+        }
+
+        /* ── ORANGE ── */
+        .level-orange {
+            --lc: var(--c-orange);
+            --lc-alpha: rgba(249, 115, 22, 0.07);
+        }
+
+        .level-orange::before {
+            background: var(--c-orange);
+        }
+
+        .level-orange::after {
+            background: radial-gradient(ellipse at left, var(--lc-alpha), transparent 60%);
+        }
+
+        .level-orange:hover {
+            border-color: rgba(249, 115, 22, 0.4);
+        }
+
+        /* ── ROUGE ── */
+        .level-rouge {
+            --lc: var(--c-rouge);
+            --lc-alpha: rgba(239, 68, 68, 0.08);
+        }
+
+        .level-rouge::before {
+            background: var(--c-rouge);
+        }
+
+        .level-rouge::after {
+            background: radial-gradient(ellipse at left, var(--lc-alpha), transparent 60%);
+        }
+
+        .level-rouge:hover {
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        /* ── VIOLET ── */
+        .level-violet {
+            --lc: var(--c-violet);
+            --lc-alpha: rgba(168, 85, 247, 0.08);
+        }
+
+        .level-violet::before {
+            background: var(--c-violet);
+        }
+
+        .level-violet::after {
+            background: radial-gradient(ellipse at left, var(--lc-alpha), transparent 60%);
+        }
+
+        .level-violet:hover {
+            border-color: rgba(168, 85, 247, 0.45);
+        }
+
+        /* ── NOIR ── */
+        .level-noir {
+            --lc: var(--c-noir);
+            --lc-alpha: rgba(226, 232, 240, 0.05);
+        }
+
+        .level-noir::before {
+            background: linear-gradient(to bottom, #555, #1a1a1a);
+        }
+
+        .level-noir::after {
+            background: radial-gradient(ellipse at left, var(--lc-alpha), transparent 60%);
+        }
+
+        .level-noir:hover {
+            border-color: rgba(226, 232, 240, 0.3);
+        }
+
+        /* Card layout */
+        .card-main {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+        }
+
+        @media (max-width: 700px) {
+            .card-main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left panel — level identity */
+        .card-id {
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-right: 1px solid var(--border);
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .card-id {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+        }
+
+        .level-swatch {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .level-vert .level-swatch {
+            border-color: var(--c-vert);
+            background: rgba(34, 197, 94, 0.12);
+        }
+
+        .level-jaune .level-swatch {
+            border-color: var(--c-jaune);
+            background: rgba(250, 204, 21, 0.12);
+        }
+
+        .level-orange .level-swatch {
+            border-color: var(--c-orange);
+            background: rgba(249, 115, 22, 0.12);
+        }
+
+        .level-rouge .level-swatch {
+            border-color: var(--c-rouge);
+            background: rgba(239, 68, 68, 0.12);
+        }
+
+        .level-violet .level-swatch {
+            border-color: var(--c-violet);
+            background: rgba(168, 85, 247, 0.12);
+        }
+
+        .level-noir .level-swatch {
+            border-color: #555;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .level-name {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .level-vert .level-name {
+            color: var(--c-vert);
+        }
+
+        .level-jaune .level-name {
+            color: var(--c-jaune);
+        }
+
+        .level-orange .level-name {
+            color: var(--c-orange);
+        }
+
+        .level-rouge .level-name {
+            color: var(--c-rouge);
+        }
+
+        .level-violet .level-name {
+            color: var(--c-violet);
+        }
+
+        .level-noir .level-name {
+            color: var(--c-noir);
+        }
+
+        .level-code {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .threat-pill {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border: 1px solid;
+            margin-top: 4px;
+        }
+
+        .level-vert .threat-pill {
+            border-color: var(--c-vert);
+            color: var(--c-vert);
+        }
+
+        .level-jaune .threat-pill {
+            border-color: var(--c-jaune);
+            color: var(--c-jaune);
+        }
+
+        .level-orange .threat-pill {
+            border-color: var(--c-orange);
+            color: var(--c-orange);
+        }
+
+        .level-rouge .threat-pill {
+            border-color: var(--c-rouge);
+            color: var(--c-rouge);
+        }
+
+        .level-violet .threat-pill {
+            border-color: var(--c-violet);
+            color: var(--c-violet);
+        }
+
+        .level-noir .threat-pill {
+            border-color: #555;
+            color: var(--c-noir);
+        }
+
+        /* Right panel — details */
+        .card-details {
+            padding: 22px 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .detail-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .detail-tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .detail-desc {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Protocol steps */
+        .proto-section-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.48rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .proto-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .proto-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 1px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            border: 1px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.45rem;
+            letter-spacing: 0;
+            margin-top: 1px;
+        }
+
+        .level-vert .step-num {
+            border-color: var(--c-vert);
+            color: var(--c-vert);
+        }
+
+        .level-jaune .step-num {
+            border-color: var(--c-jaune);
+            color: var(--c-jaune);
+        }
+
+        .level-orange .step-num {
+            border-color: var(--c-orange);
+            color: var(--c-orange);
+        }
+
+        .level-rouge .step-num {
+            border-color: var(--c-rouge);
+            color: var(--c-rouge);
+        }
+
+        .level-violet .step-num {
+            border-color: var(--c-violet);
+            color: var(--c-violet);
+        }
+
+        .level-noir .step-num {
+            border-color: #555;
+            color: var(--c-noir);
+        }
+
+        /* Personnel & Zones row */
+        .meta-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        @media (max-width: 500px) {
+            .meta-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .meta-block {}
+
+        .meta-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-bright);
+            letter-spacing: 1px;
+        }
+
+        /* ══════════════════════════════════════
+           LEGEND BAR
+        ══════════════════════════════════════ */
+        .legend-bar {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .legend-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-right: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border: 1px solid var(--border);
+            cursor: default;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ══════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════ */
+        footer {
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-left {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            line-height: 1.9;
+        }
+
+        .footer-left strong {
+            color: var(--red-dim);
+        }
+
+        .footer-back {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--red-dim);
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 5px 14px;
+            transition: 0.2s;
+        }
+
+        .footer-back:hover {
+            color: var(--red);
+            border-color: var(--red-dim);
+            background: rgba(239, 68, 68, 0.06);
+        }
+    </style>
 </head>
+
 <body>
 
-<header class="sds-header">
-    <div class="title">
-        <div class="w-10 h-10 border-2 border-red-600 rounded-full flex items-center justify-center font-bold text-white text-[10px]">SDS</div>
+    <!-- ═══════════════════════════════════
+         TOP BAR
+    ═══════════════════════════════════ -->
+    <div class="top-bar">
         <div>
-            <h1>Département de Sécurité</h1>
-            <p>Site-80 // Secure Terminal</p>
+            <a href="../../main.html">◀ SCiP-NET</a>
+            &nbsp;/&nbsp;<a href="../secu.html">DEPT. SÉCURITAIRE</a>
+            &nbsp;/&nbsp; CODES D'ALERTE
+        </div>
+        <div class="top-bar-right">
+            <span><span class="pulse-dot"></span>SDS: EN LIGNE</span>
+            <span>DOC: SDS-ALT-REF v3.1</span>
+            <span class="clock" id="clock">00:00:00 UTC</span>
         </div>
     </div>
-    <div class="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">SDS-80 // TERMINAL OFFICIEL</div>
-</header>
 
-<div class="max-w-4xl mx-auto mt-6">
-    <h2 class="text-red-500 text-2xl font-bold uppercase mb-6">Guide des Statuts SDS</h2>
+    <!-- ═══════════════════════════════════
+         PAGE HEADER
+    ═══════════════════════════════════ -->
+    <div class="page-header">
+        <div class="header-classification">CONFIDENTIEL / SDS PERSONNEL</div>
+        <div class="doc-meta">SCiP-NET // SITE-80 // DEPT. SÉCURITAIRE // RÉFÉRENTIEL D'ALERTE</div>
+        <div class="page-title">Codes d'Alerte Couleur</div>
+        <div class="page-subtitle">GUIDE OFFICIEL DES STATUTS SDS — PROCÉDURES ET NIVEAUX DE RÉPONSE AUTORISÉS</div>
+        <div class="header-badges">
+            <span class="badge badge-red">SDS-ALT-REF v3.1</span>
+            <span class="badge badge-green">EN VIGUEUR</span>
+            <span class="badge badge-amber">6 NIVEAUX DÉFINIS</span>
+        </div>
+    </div>
 
-    <div class="status-row"><span class="text-2xl">🟢</span>
-        <div>
-            <h3 class="text-green-500">Vert : Nominal</h3>
-            <p class="text-xs text-gray-400">Impact faible ou nul.</p>
+    <!-- ═══════════════════════════════════
+         CONTENT
+    ═══════════════════════════════════ -->
+    <div class="content-area">
+
+        <!-- Légende -->
+        <div class="legend-bar">
+            <span class="legend-label">// Niveaux :</span>
+            <div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>VERT</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#facc15"></span>JAUNE</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f97316"></span>ORANGE</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span>ROUGE</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#a855f7"></span>VIOLET</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#888"></span>NOIR</div>
         </div>
-    </div>
-    <div class="status-row"><span class="text-2xl">🟡</span>
-        <div>
-            <h3 class="text-yellow-500">Jaune : Vigilance</h3>
-            <p class="text-xs text-gray-400">Répercussions modérées.</p>
+
+        <!-- Intro -->
+        <div class="intro-block">
+            <p class="intro-text">
+                Ce document constitue le <strong>référentiel officiel</strong> des codes d'alerte couleur du Site-80.
+                Tout personnel du Département de Sécurité est tenu de connaître et d'appliquer les procédures associées.
+                En cas de doute, contacter immédiatement le <strong>Commandant de Quart</strong>.
+                Référence documentaire : <strong>SDS-ALT-REF // Révision 3.1 // Classifié CONFIDENTIEL</strong>.
+            </p>
         </div>
-    </div>
-    <div class="status-row"><span class="text-2xl">🟠</span>
-        <div>
-            <h3 class="text-orange-500">Orange : Alerte</h3>
-            <p class="text-xs text-gray-400">Impact important sur le site.</p>
-        </div>
-    </div>
-    <div class="status-row"><span class="text-2xl">🔴</span>
-        <div>
-            <h3 class="text-red-500">Rouge : Danger</h3>
-            <p class="text-xs text-gray-400">Impact grave sur la fondation.</p>
-        </div>
-    </div>
-    <div class="status-row"><span class="text-2xl">🟣</span>
-        <div>
-            <h3 class="text-purple-500">Violet : Critique</h3>
-            <p class="text-xs text-gray-400">Répercussions critiques.</p>
-        </div>
-    </div>
-    <div class="status-row"><span class="text-2xl">⚫</span>
-        <div>
-            <h3 class="text-white">Noir : Gravissime</h3>
-            <p class="text-xs text-gray-300">Destruction possible du complexe.</p>
-        </div>
-    </div>
-</div>
+
+        <!-- ═══ CODE VERT ═══ -->
+        <div class="alert-card level-vert">
+            <div class="card-main">
+                <div class="card-id">
+                    <div class="level-swatch">🟢</div>
+                    <div class="level-name">VERT</div>
+                    <div class="level-code">ALT-01 // NOMINAL</div>
+                    <div class="threat-pill">MENACE : AUCUNE</div>
+                </div>
+                <div class="card-details">
+                    <div class="detail-header">
+                        <div class="detail-title">Statut Nominal</div>
+                        <div class="detail-tag">// Opérations standard</div>
+                    </div>
+                    <p class="detail-desc">
+                        Toutes les opérations sont dans les paramètres normaux. Aucune menace détectée sur le site.
+                        Le personnel suit les rotations habituelles. Les systèmes de confinement fonctionnent
+                        correctement.
+                    </p>
+                    <div class="proto-section-label">// Procédures associées</div>
+                    <div class="proto-steps">
+                        <div class="proto-step">
+                            <div class="step-num">1</div>
+                            <span>Maintien des rondes de surveillance selon planning standard.</span>
+                        </div>
+                        <div class="proto-step">
+                            <div class="step-num">2</div>
+                            <span>Vérification quotidienne des systèmes de confinement et d'armement.</span>
+                        </div>
+                        <div class="proto-step">
+                            <div class="step-num">3</div>
+                            <span>Rapport de situation transmis au commandement toutes les 6 heures.</span>
+                        </div>
+                    </div>
+                    <div class="meta-row">
+                        <div class="meta-block">
+                            <div class="meta-label">Personnel requis</div>
+                            <div class="meta-value">Effectif Normal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ CODE JAUNE ═══ -->
+            <div class="alert-card level-jaune">
+                <div class="card-main">
+                    <div class="card-id">
+                        <div class="level-swatch">🟡</div>
+                        <div class="level-name">JAUNE</div>
+                        <div class="level-code">ALT-02 // VIGILANCE</div>
+                        <div class="threat-pill">MENACE : FAIBLE</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-header">
+                            <div class="detail-title">Vigilance Renforcée</div>
+                            <div class="detail-tag">// Anomalie mineure détectée</div>
+                        </div>
+                        <p class="detail-desc">
+                            Une perturbation mineure a été détectée. Impact limité, ne constituant pas de danger
+                            immédiat.
+                            Le personnel est en état de vigilance accrue. Les capteurs de surveillance sont en mode
+                            actif
+                            renforcé.
+                        </p>
+                        <div class="proto-section-label">// Procédures associées</div>
+                        <div class="proto-steps">
+                            <div class="proto-step">
+                                <div class="step-num">1</div>
+                                <span>Augmentation de la fréquence des rondes — passage toutes les 30 min.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">2</div>
+                                <span>Briefing immédiat de l'équipe de garde par le Commandant de Quart.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">3</div>
+                                <span>Identification et surveillance étroite de la source de perturbation.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">4</div>
+                                <span>Rapport toutes les 2 heures transmis au Commandement SDS.</span>
+                            </div>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-block">
+                                <div class="meta-label">Personnel requis</div>
+                                <div class="meta-value">+25% Effectif</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ CODE ORANGE ═══ -->
+            <div class="alert-card level-orange">
+                <div class="card-main">
+                    <div class="card-id">
+                        <div class="level-swatch">🟠</div>
+                        <div class="level-name">ORANGE</div>
+                        <div class="level-code">ALT-03 // ALERTE</div>
+                        <div class="threat-pill">MENACE : MODÉRÉE</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-header">
+                            <div class="detail-title">Alerte Active</div>
+                            <div class="detail-tag">// Impact significatif sur le site</div>
+                        </div>
+                        <p class="detail-desc">
+                            Incident sécuritaire confirmé ayant un impact significatif sur les opérations du site.
+                            Les renforts sont déployés. Le secteur concerné est sous surveillance intensive immédiate.
+                        </p>
+                        <div class="proto-section-label">// Procédures associées</div>
+                        <div class="proto-steps">
+                            <div class="proto-step">
+                                <div class="step-num">1</div>
+                                <span>Verrouillage partiel — portes secteur concerné en mode sécurisé.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">2</div>
+                                <span>Déploiement immédiat de l'Équipe de Réponse Rapide (ERR).</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">3</div>
+                                <span>Éloignement du personnel civil et Classe-D du périmètre concerné.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">4</div>
+                                <span>Contact obligatoire avec le Directeur de Site. Mise en attente ERR
+                                    secondaire.</span>
+                            </div>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-block">
+                                <div class="meta-label">Personnel requis</div>
+                                <div class="meta-value">ERR + Double Garde</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ CODE ROUGE ═══ -->
+            <div class="alert-card level-rouge">
+                <div class="card-main">
+                    <div class="card-id">
+                        <div class="level-swatch">🔴</div>
+                        <div class="level-name">ROUGE</div>
+                        <div class="level-code">ALT-04 // DANGER</div>
+                        <div class="threat-pill">MENACE : GRAVE</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-header">
+                            <div class="detail-title">Danger Immédiat</div>
+                            <div class="detail-tag">// Brèche sécuritaire confirmée</div>
+                        </div>
+                        <p class="detail-desc">
+                            Brèche de confinement ou incident sécuritaire grave confirmé. Danger immédiat pour le
+                            personnel
+                            et
+                            l'intégrité du site. Toutes les ressources disponibles sont mobilisées. Protocole de
+                            confinement
+                            d'urgence activé.
+                        </p>
+                        <div class="proto-section-label">// Procédures associées</div>
+                        <div class="proto-steps">
+                            <div class="proto-step">
+                                <div class="step-num">1</div>
+                                <span>Verrouillage total du site — toutes entrées/sorties bloquées.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">2</div>
+                                <span>Évacuation de tout personnel non-essentiel vers les bunkers désignés.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">3</div>
+                                <span>Déploiement Équipe Delta + armement lourd autorisé sur décision du
+                                    Commandant.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">4</div>
+                                <span>Transmission d'alerte au O5 via canal chiffré prioritaire. Attente
+                                    instructions.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">5</div>
+                                <span>MTF en attente de déploiement aux points d'entrée critiques.</span>
+                            </div>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-block">
+                                <div class="meta-label">Personnel requis</div>
+                                <div class="meta-value">Mobilisation Totale</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ CODE VIOLET ═══ -->
+            <div class="alert-card level-violet">
+                <div class="card-main">
+                    <div class="card-id">
+                        <div class="level-swatch">🟣</div>
+                        <div class="level-name">VIOLET</div>
+                        <div class="level-code">ALT-05 // CRITIQUE</div>
+                        <div class="threat-pill">MENACE : CRITIQUE</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-header">
+                            <div class="detail-title">Situation Critique</div>
+                            <div class="detail-tag">// Répercussions sur la Fondation</div>
+                        </div>
+                        <p class="detail-desc">
+                            Événement d'une gravité exceptionnelle menaçant l'existence même du site et potentiellement
+                            d'autres installations de la Fondation. Protocoles d'urgence maximaux en vigueur.
+                            Intervention directe du Conseil O5 probable.
+                        </p>
+                        <div class="proto-section-label">// Procédures associées</div>
+                        <div class="proto-steps">
+                            <div class="proto-step">
+                                <div class="step-num">1</div>
+                                <span>Activation Protocole Glaive — verrouillage biométrique intégral.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">2</div>
+                                <span>Évacuation immédiate de tout personnel non-combattant, toutes zones
+                                    confondues.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">3</div>
+                                <span>Déclenchement MTF principale + soutien MTF externe de la région.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">4</div>
+                                <span>Destruction des données classifiées selon procédure D-19 si compromission
+                                    imminente.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">5</div>
+                                <span>Contact direct O5 — toutes décisions subordonnées au Conseil.</span>
+                            </div>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-block">
+                                <div class="meta-label">Personnel requis</div>
+                                <div class="meta-value">MTF + O5 Direct</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ CODE NOIR ═══ -->
+            <div class="alert-card level-noir">
+                <div class="card-main">
+                    <div class="card-id">
+                        <div class="level-swatch">⚫</div>
+                        <div class="level-name">NOIR</div>
+                        <div class="level-code">ALT-06 // XK-CLASS</div>
+                        <div class="threat-pill">MENACE : EXISTENTIELLE</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-header">
+                            <div class="detail-title">Scénario XK-Classe</div>
+                            <div class="detail-tag">// Destruction du complexe probable</div>
+                        </div>
+                        <p class="detail-desc">
+                            Scénario de fin du monde en cours ou imminent. Destruction totale du complexe possible ou en
+                            cours.
+                            Aucune procédure standard ne s'applique. Le Protocole Épée est activé. Priorité absolue :
+                            sauvegarder les informations critiques et protéger les civils extérieurs à la Fondation.
+                        </p>
+                        <div class="proto-section-label">// Protocole Épée — Dernière Mesure</div>
+                        <div class="proto-steps">
+                            <div class="proto-step">
+                                <div class="step-num">1</div>
+                                <span>Activation Protocole Épée — autorisation O5 ou RAISA requise.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">2</div>
+                                <span>Auto-destruction des archives et bases de données — procédure B-00.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">3</div>
+                                <span>Évacuation d'urgence totale si viable — sinon confinement en place.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">4</div>
+                                <span>Activation des mesures de confinement terminal sur tous les SCP actifs du
+                                    site.</span>
+                            </div>
+                            <div class="proto-step">
+                                <div class="step-num">5</div>
+                                <span>Aucune communication externe sans autorisation O5. Silence radio total.</span>
+                            </div>
+                        </div>
+                        <div class="meta-row">
+                            <div class="meta-block">
+                                <div class="meta-label">Autorisation</div>
+                                <div class="meta-value">O5 EXCLUSIVEMENT</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /content-area -->
+
+        <!-- ═══════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════ -->
+        <footer>
+            <div class="footer-left">
+                <strong>SCiP-NET</strong> // SITE-80 // DÉPARTEMENT SÉCURITAIRE<br>
+                SDS-ALT-REF v3.1 — USAGE INTERNE — TOUTE REPRODUCTION NON AUTORISÉE EST UN DÉLIT
+            </div>
+            <a href="../secu.html" class="footer-back">◀ RETOUR SDS</a>
+        </footer>
+
+        <script>
+            /* Horloge UTC */
+            function updateClock() {
+                const now = new Date();
+                const h = String(now.getUTCHours()).padStart(2, '0');
+                const m = String(now.getUTCMinutes()).padStart(2, '0');
+                const s = String(now.getUTCSeconds()).padStart(2, '0');
+                const el = document.getElementById('clock');
+                if (el) el.textContent = `${h}:${m}:${s} UTC`;
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+        </script>
 
 </body>
+
 </html>

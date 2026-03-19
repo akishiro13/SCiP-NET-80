@@ -1,194 +1,1331 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>SCP FOUNDATION - INTERNAL DATABASE</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archives SCP — DEPT. SCIENTIFIQUE // SCiP-NET SITE-80</title>
+    <meta name="description"
+        content="Archives et dossiers SCP classifiés du Département Scientifique, SCiP-NET Site-80.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&family=Rajdhani:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <style>
+        /* ══════════════════════════════════════
+           ROOT VARIABLES
+        ══════════════════════════════════════ */
         :root {
-            --scp-red: #991b1b;
-            --scp-glow: rgba(20, 184, 166, 0.5);
+            --bg: #03080f;
+            --bg-panel: rgba(4, 14, 30, 0.97);
+            --bg-card: rgba(6, 18, 36, 0.90);
+            --cyan: #00d4ff;
+            --cyan-dim: #0076a8;
+            --cyan-glow: rgba(0, 212, 255, 0.10);
+            --green: #22c55e;
+            --yellow: #facc15;
+            --orange: #f97316;
+            --red: #ef4444;
+            --red-dk: #991b1b;
+            --purple: #a855f7;
+            --white: #f1f5f9;
+            --text: #94c8d8;
+            --text-muted: #2a5060;
+            --text-bright: #e0f7ff;
+            --border: rgba(0, 212, 255, 0.13);
+            --border-hot: rgba(0, 212, 255, 0.45);
+            --grid: rgba(0, 180, 220, 0.04);
+
+            /* Class colours */
+            --safe-color: #22c55e;
+            --euclid-color: #facc15;
+            --keter-color: #ef4444;
+            --neutralized-color: #6b7280;
+            --pending-color: #00d4ff;
+            --esoteric-color: #a855f7;
         }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: #050505;
-            color: #14b8a6; /* Couleur ambre/cyan rétro */
-            font-family: 'Courier Prime', monospace;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            line-height: 1.65;
+            min-height: 100vh;
             overflow-x: hidden;
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 80, 160, 0.10) 0%, transparent 65%);
+            background-size: 50px 50px, 50px 50px, cover;
         }
 
-        /* Effet de scanline et flickering */
-        body::before {
-            content: " ";
-            display: block;
+        body::after {
+            content: "";
             position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 100;
-            background-size: 100% 2px, 3px 100%;
+            inset: 0;
             pointer-events: none;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px, transparent 3px,
+                    rgba(0, 0, 0, 0.04) 3px, rgba(0, 0, 0, 0.04) 4px);
+            z-index: 9999;
         }
 
-        .crt-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.4) 100%);
-            pointer-events: none;
-            z-index: 101;
+        /* ══════════════════════════════════════
+           TOP BAR
+        ══════════════════════════════════════ */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 30px;
+            background: rgba(0, 0, 0, 0.75);
+            border-bottom: 1px solid var(--border);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+            backdrop-filter: blur(8px);
         }
 
-        .scp-card {
-            border: 2px solid #134e4a;
-            background: rgba(0, 20, 20, 0.8);
-            position: relative;
-            transition: all 0.2s ease;
+        .top-bar a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
-        .scp-card:hover {
-            border-color: #2dd4bf;
-            box-shadow: 0 0 15px var(--scp-glow);
-            transform: translateY(-2px);
+        .top-bar a:hover {
+            color: var(--cyan);
         }
 
-        .header-glitch {
-            text-shadow: 2px 0 #991b1b, -2px 0 #0ea5e9;
+        .top-bar-right {
+            display: flex;
+            gap: 25px;
+            align-items: center;
         }
 
-        .btn-access {
-            background: #134e4a;
-            color: white;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        .pulse-dot {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 6px var(--cyan);
+            margin-right: 5px;
+            animation: blink 1.6s ease-in-out infinite;
         }
 
-        /* Masque pour le texte [REDACTED] */
-        .redacted {
-            background: #14b8a6;
-            color: #14b8a6;
-            padding: 0 4px;
+        .clock {
+            color: var(--cyan);
         }
-    </style>
-</head>
-<body class="p-4 md:p-10">
-    <div class="crt-overlay"></div>
 
-    <header class="max-w-6xl mx-auto mb-10 border-4 border-double border-teal-900 p-6 relative bg-black/50">
-        <div class="absolute -top-4 left-6 bg-black px-4 text-red-600 font-bold tracking-[0.3em]">
-            TOP SECRET / EYES ONLY
-        </div>
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                <h1 class="text-4xl md:text-6xl font-black uppercase header-glitch">Foundation Database</h1>
-                <p class="text-sm opacity-70 mt-2">SÉCURISER. CONTENIR. PROTÉGER. | Terminal v4.0.2</p>
-            </div>
-            <div class="text-right border-l-2 border-teal-900 pl-4 hidden md:block">
-                <p class="text-[10px]">USER: Scientifique</p>
-                <p class="text-[10px]">LOCATION: SITE-80</p>
-                <p class="text-[10px]" id="current-date"></p>
-            </div>
-        </div>
-    </header>
+        @keyframes blink {
 
-    <main id="scp-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        </main>
+            0%,
+            100% {
+                opacity: 1
+            }
 
-    <div id="file-overlay" class="fixed inset-0 bg-black/fb z-[200] hidden overflow-y-auto p-4 md:p-20">
-        <div class="max-w-4xl mx-auto bg-[#0a0a0a] border-2 border-red-900 p-8 shadow-[0_0_50px_rgba(153,27,27,0.3)]">
-            <div class="flex justify-between items-start border-b border-red-900 pb-4 mb-6">
-                <h2 id="file-id" class="text-4xl font-bold text-red-600 tracking-tighter"></h2>
-                <button onclick="closeFile()" class="text-red-900 hover:text-red-500 font-bold">[ FERMER_ACCÈS ]</button>
-            </div>
-            <div id="file-content" class="space-y-6 text-sm md:text-base leading-relaxed">
-                </div>
-        </div>
-    </div>
-
-    <script>
-        // Date en temps réel
-        document.getElementById('current-date').innerText = `DATE: ${new Date().toISOString().slice(0,10)} ${new Date().toLocaleTimeString()}`;
-
-        async function loadFiles() {
-            try {
-                const res = await fetch('scp.json');
-                const data = await res.json();
-                const container = document.getElementById('scp-container');
-                container.innerHTML = '';
-
-                data.forEach(scp => {
-                    const card = document.createElement('div');
-                    card.className = "scp-card p-6 flex flex-col";
-                    
-                    card.innerHTML = `
-                        <div class="flex justify-between items-center mb-4 opacity-50 text-[10px] font-bold">
-                            <span>DOSSIER_NUM: ${scp.id.split('-')[0]}</span>
-                            <span>LVL_${scp.clearance_level}</span>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white mb-1 tracking-tighter">${scp.item_number}</h2>
-                        <h3 class="text-teal-500 text-xs font-bold uppercase mb-4 tracking-widest border-b border-teal-900 pb-2">${scp.title}</h3>
-                        
-                        <div class="relative w-full h-48 bg-black mb-4 overflow-hidden border border-teal-900 group">
-                            <img src="${scp.image_url || 'https://via.placeholder.com/400x300?text=NO_PHOTO'}" 
-                                 class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-700">
-                            <div class="absolute inset-0 pointer-events-none border-2 border-inset border-black/50"></div>
-                        </div>
-
-                        <div class="space-y-2 mb-6">
-                            <p class="text-[10px]"><span class="text-red-800">CLASSE:</span> ${scp.object_class.toUpperCase()}</p>
-                            <p class="text-xs text-teal-200/70 italic line-clamp-3 leading-relaxed">
-                                "${scp.description.substring(0, 150)}..."
-                            </p>
-                        </div>
-
-                        <button onclick='openFile(${JSON.stringify(scp).replace(/'/g, "&apos;")})' 
-                                class="mt-auto py-2 btn-access font-bold text-xs tracking-tighter hover:bg-teal-700 transition">
-                            LIRE LE RAPPORT COMPLET
-                        </button>
-                    `;
-                    container.appendChild(card);
-                });
-            } catch (e) {
-                console.error(e);
+            50% {
+                opacity: .15
             }
         }
 
-        function openFile(scp) {
-            const overlay = document.getElementById('file-overlay');
-            const content = document.getElementById('file-content');
-            document.getElementById('file-id').innerText = scp.item_number;
+        /* ══════════════════════════════════════
+           PAGE HEADER
+        ══════════════════════════════════════ */
+        .page-header {
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            padding: 28px 35px;
+            position: relative;
+            overflow: hidden;
+        }
 
-            content.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-red-900/30 pb-6">
-                    <div>
-                        <p class="text-red-700 font-bold uppercase text-xs mb-1">Titre de l'Objet:</p>
-                        <p class="text-xl mb-4 text-white">${scp.title}</p>
-                        <p class="text-red-700 font-bold uppercase text-xs mb-1">Classe de l'Objet:</p>
-                        <p class="text-xl mb-4 text-white font-black tracking-widest">${scp.object_class}</p>
-                    </div>
-                    <img src="${scp.image_url || ''}" class="w-full border-2 border-red-900 grayscale contrast-125">
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--cyan), transparent);
+        }
+
+        .header-classification {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--red-dk);
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 3px;
+            padding: 5px 18px;
+            text-transform: uppercase;
+        }
+
+        .doc-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            color: var(--cyan-dim);
+            margin-bottom: 10px;
+        }
+
+        .page-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 24px rgba(0, 212, 255, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            padding: 3px 10px;
+            border: 1px solid;
+            text-transform: uppercase;
+        }
+
+        .badge-cyan {
+            border-color: var(--cyan-dim);
+            color: var(--cyan);
+        }
+
+        .badge-green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .badge-red {
+            border-color: var(--red-dk);
+            color: var(--red-dk);
+        }
+
+        /* ══════════════════════════════════════
+           TOOLBAR (search + filters)
+        ══════════════════════════════════════ */
+        .toolbar {
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+            max-width: 380px;
+        }
+
+        .search-wrap::before {
+            content: "⌕";
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--cyan-dim);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 8px 12px 8px 32px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            color: var(--text-bright);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #searchInput:focus {
+            border-color: var(--cyan-dim);
+        }
+
+        #searchInput::placeholder {
+            color: var(--text-muted);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--cyan-dim);
+            color: var(--text-bright);
+        }
+
+        .filter-btn.active {
+            border-color: var(--cyan-dim);
+            color: var(--cyan);
+            background: rgba(0, 212, 255, 0.06);
+        }
+
+        .filter-btn.active-safe {
+            border-color: var(--safe-color);
+            color: var(--safe-color);
+            background: rgba(34, 197, 94, 0.06);
+        }
+
+        .filter-btn.active-euclid {
+            border-color: var(--euclid-color);
+            color: var(--euclid-color);
+            background: rgba(250, 204, 21, 0.06);
+        }
+
+        .filter-btn.active-keter {
+            border-color: var(--keter-color);
+            color: var(--keter-color);
+            background: rgba(239, 68, 68, 0.06);
+        }
+
+        .filter-btn.active-esoteric {
+            border-color: var(--esoteric-color);
+            color: var(--esoteric-color);
+            background: rgba(168, 85, 247, 0.06);
+        }
+
+        .toolbar-count {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .toolbar-count span {
+            color: var(--cyan);
+        }
+
+        /* ══════════════════════════════════════
+           CARD GRID
+        ══════════════════════════════════════ */
+        .cards-area {
+            padding: 24px 30px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        #scp-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        /* ── SCP CARD ── */
+        .scp-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+        }
+
+        .scp-card:hover {
+            border-color: var(--border-hot);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Class colour accent strip */
+        .scp-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+        }
+
+        .scp-card.class-safe::before {
+            background: var(--safe-color);
+        }
+
+        .scp-card.class-euclid::before {
+            background: var(--euclid-color);
+        }
+
+        .scp-card.class-keter::before {
+            background: var(--keter-color);
+        }
+
+        .scp-card.class-esoteric::before {
+            background: var(--esoteric-color);
+        }
+
+        .scp-card.class-neutralized::before {
+            background: var(--neutralized-color);
+        }
+
+        .scp-card.class-pending::before {
+            background: var(--pending-color);
+        }
+
+        /* Image zone */
+        .card-img-wrap {
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.55;
+            transition: opacity 0.4s, transform 0.6s;
+            filter: grayscale(40%);
+        }
+
+        .scp-card:hover .card-img-wrap img {
+            opacity: 0.85;
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+
+        .card-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 40%, rgba(6, 18, 36, 1) 100%);
+        }
+
+        .card-no-img {
+            width: 100%;
+            height: 160px;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+        }
+
+        /* Card body */
+        .card-body {
+            padding: 14px 16px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-clearance {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        .card-class-badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 2px;
+            padding: 2px 8px;
+            border: 1px solid;
+            text-transform: uppercase;
+        }
+
+        .class-badge-safe {
+            border-color: var(--safe-color);
+            color: var(--safe-color);
+        }
+
+        .class-badge-euclid {
+            border-color: var(--euclid-color);
+            color: var(--euclid-color);
+        }
+
+        .class-badge-keter {
+            border-color: var(--keter-color);
+            color: var(--keter-color);
+        }
+
+        .class-badge-esoteric {
+            border-color: var(--esoteric-color);
+            color: var(--esoteric-color);
+        }
+
+        .class-badge-neutralized {
+            border-color: var(--neutralized-color);
+            color: var(--neutralized-color);
+        }
+
+        .class-badge-pending {
+            border-color: var(--pending-color);
+            color: var(--pending-color);
+        }
+
+        .card-number {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 2px;
+        }
+
+        .card-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--cyan);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .card-excerpt {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.5;
+            flex: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        .card-protocol {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            max-width: 65%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .card-read-btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--cyan-dim);
+            padding: 4px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card-read-btn:hover {
+            border-color: var(--cyan-dim);
+            color: var(--cyan);
+            background: rgba(0, 212, 255, 0.06);
+        }
+
+        /* No results */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        .no-results span {
+            color: var(--red);
+        }
+
+        /* ══════════════════════════════════════
+           DETAIL OVERLAY (Modal)
+        ══════════════════════════════════════ */
+        #file-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 1000;
+            display: none;
+            overflow-y: auto;
+            padding: 40px 20px;
+            backdrop-filter: blur(6px);
+        }
+
+        #file-overlay.open {
+            display: block;
+        }
+
+        .file-modal {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        /* Modal accent strip from class colour */
+        .file-modal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .file-modal.class-safe::before {
+            background: var(--safe-color);
+        }
+
+        .file-modal.class-euclid::before {
+            background: var(--euclid-color);
+        }
+
+        .file-modal.class-keter::before {
+            background: var(--keter-color);
+        }
+
+        .file-modal.class-esoteric::before {
+            background: var(--esoteric-color);
+        }
+
+        .file-modal.class-neutralized::before {
+            background: var(--neutralized-color);
+        }
+
+        .file-modal.class-pending::before {
+            background: var(--pending-color);
+        }
+
+        .modal-header {
+            padding: 22px 28px;
+            background: rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .modal-header-left {}
+
+        .modal-doc-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 4px;
+            color: var(--red-dk);
+            margin-bottom: 6px;
+        }
+
+        .modal-number {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 4px;
+        }
+
+        .modal-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: var(--cyan);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            padding: 6px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* Info grid */
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-info-cell {
+            padding: 14px 28px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-info-cell:nth-child(even) {
+            border-right: none;
+        }
+
+        .modal-info-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .modal-info-value {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-bright);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-info-value.val-safe {
+            color: var(--safe-color);
+        }
+
+        .modal-info-value.val-euclid {
+            color: var(--euclid-color);
+        }
+
+        .modal-info-value.val-keter {
+            color: var(--keter-color);
+        }
+
+        .modal-info-value.val-esoteric {
+            color: var(--esoteric-color);
+        }
+
+        /* Image in modal */
+        .modal-img-wrap {
+            width: 100%;
+            max-height: 280px;
+            overflow: hidden;
+            background: #000;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .modal-img-wrap img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            opacity: 0.75;
+            filter: grayscale(20%);
+        }
+
+        .modal-img-wrap::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, var(--bg-panel) 100%);
+        }
+
+        .modal-no-img {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal body sections */
+        .modal-body {
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-section {}
+
+        .modal-section-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cyan-dim);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .modal-section-body {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.75;
+        }
+
+        .modal-section-body.containment {
+            background: rgba(239, 68, 68, 0.04);
+            border-left: 3px solid rgba(239, 68, 68, 0.4);
+            padding: 14px 16px;
+        }
+
+        .modal-section-body.addendum {
+            background: rgba(0, 212, 255, 0.03);
+            border-left: 3px solid var(--border);
+            padding: 14px 16px;
+            font-size: 0.85rem;
+        }
+
+        /* Modal footer */
+        .modal-footer {
+            padding: 14px 28px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 2px;
+        }
+
+        .modal-footer-left {
+            color: var(--text-muted);
+            line-height: 1.9;
+        }
+
+        .modal-footer-left strong {
+            color: var(--cyan-dim);
+        }
+
+        .redacted {
+            background: var(--text-muted);
+            color: var(--text-muted);
+            padding: 0 3px;
+            user-select: none;
+        }
+
+        /* ══════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════ */
+        footer {
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-left {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            line-height: 1.9;
+        }
+
+        .footer-left strong {
+            color: var(--cyan-dim);
+        }
+
+        .footer-back {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--cyan-dim);
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 5px 14px;
+            transition: 0.2s;
+        }
+
+        .footer-back:hover {
+            color: var(--cyan);
+            border-color: var(--cyan-dim);
+            background: rgba(0, 212, 255, 0.04);
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @media (max-width: 700px) {
+            .modal-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-info-cell {
+                border-right: none;
+            }
+
+            #scp-container {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-wrap {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div>
+            <a href="../../main.html">◀ SCiP-NET</a>
+            &nbsp;/&nbsp; <a href="../Untitled-1.html">DEPT. SCIENTIFIQUE</a>
+            &nbsp;/&nbsp; ARCHIVES SCP
+        </div>
+        <div class="top-bar-right">
+            <span><span class="pulse-dot"></span>RÉSEAU: ACTIF</span>
+            <span>DB: SCP-LOCAL-v2</span>
+            <span class="clock" id="clock">00:00:00 UTC</span>
+        </div>
+    </div>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="header-classification">TOP SECRET / YEUX SEULEMENT</div>
+        <div class="doc-meta">SCiP-NET // SITE-80 // DEPT. SCIENTIFIQUE // BASE DE DONNÉES LOCALE</div>
+        <div class="page-title">Archives SCP</div>
+        <div class="page-subtitle">DOSSIERS CLASSIFIÉS — FOUNDATION DATABASE // SITE-80 LOCAL ACCESS</div>
+        <div class="header-badges">
+            <span class="badge badge-cyan">DB-LOCAL v2.0</span>
+            <span class="badge badge-green" id="badge-count">CHARGEMENT...</span>
+            <span class="badge badge-red">CLEARANCE NV. 2+</span>
+        </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+        <div class="search-wrap">
+            <input type="text" id="searchInput" placeholder="RECHERCHE PAR NUMÉRO, TITRE...">
+        </div>
+        <div class="filter-group" id="filterGroup">
+            <button class="filter-btn active" data-filter="all">TOUS</button>
+            <button class="filter-btn" data-filter="safe">SAFE</button>
+            <button class="filter-btn" data-filter="euclid">EUCLID</button>
+            <button class="filter-btn" data-filter="keter">KETER</button>
+            <button class="filter-btn" data-filter="esoteric">ESOTERIQUE</button>
+        </div>
+        <div class="toolbar-count" id="toolbarCount">Entrées: <span>—</span></div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards-area">
+        <div id="scp-container">
+            <!-- Cards injected by JS -->
+        </div>
+    </div>
+
+    <!-- DETAIL OVERLAY -->
+    <div id="file-overlay" role="dialog" aria-modal="true">
+        <div class="file-modal" id="file-modal">
+
+            <div class="modal-header">
+                <div class="modal-header-left">
+                    <div class="modal-doc-label">DOSSIER CLASSIFIÉ // SCiP-NET SITE-80</div>
+                    <div class="modal-number" id="modal-number">SCP-000</div>
+                    <div class="modal-title" id="modal-title">—</div>
                 </div>
-                <div>
-                    <h4 class="text-red-700 font-bold uppercase text-xs mb-2 underline">Procédures de Confinement Spéciales:</h4>
-                    <p class="text-gray-300 bg-red-950/10 p-4 border-l-2 border-red-700">${scp.containment_procedures}</p>
+                <button class="modal-close" onclick="closeFile()">[ FERMER ]</button>
+            </div>
+
+            <!-- Image -->
+            <div id="modal-img-area"></div>
+
+            <!-- Info grid -->
+            <div class="modal-info-grid">
+                <div class="modal-info-cell">
+                    <div class="modal-info-label">Classe de l'Objet</div>
+                    <div class="modal-info-value" id="modal-class">—</div>
                 </div>
-                <div>
-                    <h4 class="text-red-700 font-bold uppercase text-xs mb-2 underline">Description:</h4>
-                    <p class="text-gray-300 leading-relaxed">${scp.description}</p>
+                <div class="modal-info-cell">
+                    <div class="modal-info-label">Niveau Clearance</div>
+                    <div class="modal-info-value" id="modal-clearance">—</div>
                 </div>
-                <div class="pt-10 opacity-20 text-[10px]">
-                    SIGNATURE: <span class="redacted">O5-COUNCIL-REDACTED</span><br>
-                    ID_SESSION: ${Math.random().toString(36).substring(2, 15)}
+                <div class="modal-info-cell">
+                    <div class="modal-info-label">Protocole Assigné</div>
+                    <div class="modal-info-value" id="modal-protocol" style="font-size:0.75rem;">—</div>
                 </div>
-            `;
-            overlay.classList.remove('hidden');
+                <div class="modal-info-cell">
+                    <div class="modal-info-label">ID Session</div>
+                    <div class="modal-info-value" id="modal-session" style="font-size:0.6rem; letter-spacing:0;">—</div>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="modal-section">
+                    <div class="modal-section-title">// Procédures de Confinement Spéciales</div>
+                    <div class="modal-section-body containment" id="modal-containment">—</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">// Description</div>
+                    <div class="modal-section-body" id="modal-description">—</div>
+                </div>
+                <div class="modal-section" id="modal-addendum-section" style="display:none;">
+                    <div class="modal-section-title">// Addenda</div>
+                    <div class="modal-section-body addendum" id="modal-addendum">—</div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <div class="modal-footer-left">
+                    <strong>SCiP-NET</strong> // SITE-80 // DEPT. SCIENTIFIQUE<br>
+                    SIGNATURE: <span class="redacted">O5-COUNCIL-REDACTED-AUTHORIZATION</span>
+                </div>
+                <div style="color:var(--text-muted);">ACCÈS JOURNALISÉ</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-left">
+            <strong>SCiP-NET</strong> // SITE-80 // DEPT. SCIENTIFIQUE<br>
+            ARCHIVES SCP — DB LOCALE v2.0 — USAGE INTERNE UNIQUEMENT
+        </div>
+        <a href="../Untitled-1.html" class="footer-back">◀ RETOUR AU DEPT.</a>
+    </footer>
+
+    <script>
+        /* ════════════════════════════════════
+           UTILITAIRES
+        ════════════════════════════════════ */
+
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getUTCHours()).padStart(2, '0');
+            const m = String(now.getUTCMinutes()).padStart(2, '0');
+            const s = String(now.getUTCSeconds()).padStart(2, '0');
+            const el = document.getElementById('clock');
+            if (el) el.textContent = `${h}:${m}:${s} UTC`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        /** Normalise la classe en minuscules pour les classes CSS */
+        function normalizeClass(cls) {
+            if (!cls) return 'pending';
+            const c = cls.toLowerCase().trim();
+            if (c === 'safe') return 'safe';
+            if (c === 'euclid') return 'euclid';
+            if (c === 'keter') return 'keter';
+            if (c === 'neutralized' || c === 'neutralisé') return 'neutralized';
+            if (c === 'esoteric' || c === 'esoterique') return 'esoteric';
+            return 'pending';
+        }
+
+        /* ════════════════════════════════════
+           ÉTAT
+        ════════════════════════════════════ */
+        let allData = [];
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        /* ════════════════════════════════════
+           CHARGEMENT JSON
+        ════════════════════════════════════ */
+        async function loadFiles() {
+            try {
+                // Tentative de fetch (serveur local)
+                const res = await fetch('scp.json');
+                if (!res.ok) throw new Error('fetch failed');
+                allData = await res.json();
+            } catch (e) {
+                // Fallback : message d'erreur propre
+                document.getElementById('scp-container').innerHTML = `
+                    <div class="no-results">
+                        <span>⚠ ERREUR D'ACCÈS</span><br><br>
+                        Impossible de charger scp.json.<br>
+                        Ce fichier nécessite un serveur local (ex: Live Server, http-server).<br>
+                        <br>
+                        <code style="color:var(--cyan-dim);font-size:0.6rem;">
+                            JSON: fetch() bloqué par CORS / protocole file://
+                        </code>
+                    </div>`;
+                document.getElementById('badge-count').textContent = 'ERREUR DB';
+                return;
+            }
+
+            document.getElementById('badge-count').textContent = `${allData.length} ENTRÉES`;
+            renderCards();
+        }
+
+        /* ════════════════════════════════════
+           RENDU DES CARDS
+        ════════════════════════════════════ */
+        function renderCards() {
+            const container = document.getElementById('scp-container');
+            const search = currentSearch.toLowerCase();
+
+            const filtered = allData.filter(scp => {
+                const cls = normalizeClass(scp.object_class);
+                const matchFilter = currentFilter === 'all' || cls === currentFilter;
+                const matchSearch = !search
+                    || scp.item_number.toLowerCase().includes(search)
+                    || (scp.title || '').toLowerCase().includes(search)
+                    || (scp.description || '').toLowerCase().includes(search);
+                return matchFilter && matchSearch;
+            });
+
+            document.getElementById('toolbarCount').innerHTML =
+                `Entrées: <span>${filtered.length}</span>`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="no-results"><span>AUCUN RÉSULTAT</span><br>Aucun dossier ne correspond à votre requête.</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            filtered.forEach(scp => {
+                const cls = normalizeClass(scp.object_class);
+                const card = document.createElement('div');
+                card.className = `scp-card class-${cls}`;
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-label', `Ouvrir dossier ${scp.item_number}`);
+
+                const hasImg = scp.image_url && scp.image_url.trim() !== '';
+                const imgHtml = hasImg
+                    ? `<div class="card-img-wrap">
+                           <img src="${escapeHtml(scp.image_url)}" alt="${escapeHtml(scp.item_number)}" loading="lazy"
+                                onerror="this.parentElement.innerHTML='<div class=\\'card-no-img\\'>NO VISUAL DATA</div>'">
+                           <div class="card-img-overlay"></div>
+                       </div>`
+                    : `<div class="card-no-img">// NO VISUAL DATA AVAILABLE</div>`;
+
+                const excerpt = (scp.description || '').substring(0, 180).trimEnd();
+                const protocol = (scp.protocol && scp.protocol !== 'none') ? scp.protocol : '';
+
+                card.innerHTML = `
+                    ${imgHtml}
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span class="card-clearance">NV. ${scp.clearance_level ?? '?'} // ${new Date(scp.created_at).getFullYear()}</span>
+                            <span class="card-class-badge class-badge-${cls}">${escapeHtml(scp.object_class)}</span>
+                        </div>
+                        <div class="card-number">${escapeHtml(scp.item_number)}</div>
+                        <div class="card-title">${escapeHtml(scp.title || '—')}</div>
+                        <div class="card-excerpt">${escapeHtml(excerpt)}${excerpt.length >= 180 ? '…' : ''}</div>
+                        <div class="card-footer">
+                            <div class="card-protocol">${protocol ? escapeHtml(protocol) : ''}</div>
+                            <button class="card-read-btn">LIRE →</button>
+                        </div>
+                    </div>`;
+
+                card.addEventListener('click', () => openFile(scp));
+                card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openFile(scp); });
+                container.appendChild(card);
+            });
+        }
+
+        /* ════════════════════════════════════
+           MODAL
+        ════════════════════════════════════ */
+        function openFile(scp) {
+            const cls = normalizeClass(scp.object_class);
+            const modal = document.getElementById('file-modal');
+
+            // Reset class
+            modal.className = `file-modal class-${cls}`;
+
+            document.getElementById('modal-number').textContent = scp.item_number;
+            document.getElementById('modal-title').textContent = (scp.title || '—').toUpperCase();
+
+            // Class value with colour
+            const clsEl = document.getElementById('modal-class');
+            clsEl.textContent = (scp.object_class || '?').toUpperCase();
+            clsEl.className = `modal-info-value val-${cls}`;
+
+            document.getElementById('modal-clearance').textContent = `NIVEAU ${scp.clearance_level ?? '?'}`;
+            document.getElementById('modal-session').textContent = Math.random().toString(36).substring(2, 18).toUpperCase();
+
+            const proto = (scp.protocol && scp.protocol !== 'none') ? scp.protocol : 'NON ASSIGNÉ';
+            document.getElementById('modal-protocol').textContent = proto.toUpperCase();
+
+            // Image
+            const imgArea = document.getElementById('modal-img-area');
+            const hasImg = scp.image_url && scp.image_url.trim() !== '';
+            if (hasImg) {
+                imgArea.innerHTML = `
+                    <div class="modal-img-wrap">
+                        <img src="${escapeHtml(scp.image_url)}" alt="${escapeHtml(scp.item_number)}"
+                             onerror="this.parentElement.outerHTML='<div class=\\'modal-no-img\\'>//  NO VISUAL DATA AVAILABLE  //</div>'">
+                    </div>`;
+            } else {
+                imgArea.innerHTML = `<div class="modal-no-img">//  NO VISUAL DATA AVAILABLE  //</div>`;
+            }
+
+            // Text
+            document.getElementById('modal-containment').textContent = scp.containment_procedures || '— DONNÉES MANQUANTES —';
+            document.getElementById('modal-description').textContent = scp.description || '— DONNÉES MANQUANTES —';
+
+            // Addendum
+            const addendumSection = document.getElementById('modal-addendum-section');
+            const addEndumVal = scp.addendum && scp.addendum !== 'none' && scp.addendum !== 'nonr';
+            if (addEndumVal) {
+                addendumSection.style.display = 'block';
+                document.getElementById('modal-addendum').textContent = scp.addendum;
+            } else {
+                addendumSection.style.display = 'none';
+            }
+
+            // Open
+            const overlay = document.getElementById('file-overlay');
+            overlay.classList.add('open');
             document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
         }
 
         function closeFile() {
-            document.getElementById('file-overlay').classList.add('hidden');
-            document.body.style.overflow = 'auto';
+            document.getElementById('file-overlay').classList.remove('open');
+            document.body.style.overflow = '';
         }
 
-        window.onload = loadFiles;
+        // Close on overlay click (outside modal)
+        document.getElementById('file-overlay').addEventListener('click', function (e) {
+            if (e.target === this) closeFile();
+        });
+        // Close on Escape
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFile(); });
+
+        /* ════════════════════════════════════
+           FILTRES & RECHERCHE
+        ════════════════════════════════════ */
+        document.getElementById('filterGroup').addEventListener('click', function (e) {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+            currentFilter = btn.dataset.filter;
+
+            // Reset all
+            this.querySelectorAll('.filter-btn').forEach(b => {
+                b.className = 'filter-btn';
+            });
+
+            if (currentFilter === 'all') btn.classList.add('active');
+            else btn.classList.add(`active-${currentFilter}`);
+
+            renderCards();
+        });
+
+        document.getElementById('searchInput').addEventListener('input', function () {
+            currentSearch = this.value.trim();
+            renderCards();
+        });
+
+        /* ════════════════════════════════════
+           ESCAPE HTML
+        ════════════════════════════════════ */
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        /* ════════════════════════════════════
+           INIT
+        ════════════════════════════════════ */
+        window.addEventListener('load', loadFiles);
     </script>
 </body>
+
 </html>

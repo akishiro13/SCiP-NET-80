@@ -1,6 +1,9 @@
 <!DOCTYPE html>
+<html lang="fr">
+
 <head>
-    <title>ACS Generator SITE 80</title>
+    <title>ACS Generator — SCiP-NET SITE-80</title>
+    <meta name="description" content="Générateur de barre ACS (Anomaly Classification System) pour SCiP-NET Site-80.">
     <link rel="icon" type="image/x-png" href="images/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
@@ -10,28 +13,1207 @@
     <script defer rel="javascript" type="text/javascript" src="js/javascript.js"></script>
     <script defer rel="javascript" type="text/javascript" src="js/resizeAcsBar.js"></script>
     <script defer rel="javascript" type="text/javascript" src="js/download.js"></script>
-    
-    <script defer rel="javascript" type="text/javascript" src="libs\node_modules/modern-screenshot/dist/index.js"></script>
+
+    <script defer rel="javascript" type="text/javascript"
+        src="libs\node_modules/modern-screenshot/dist/index.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&family=Rajdhani:wght@400;500;600&family=Inter&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        /* ══════════════════════════════════════
+           ROOT VARIABLES (UI Shell)
+        ══════════════════════════════════════ */
+        :root {
+            --ui-bg: #03080f;
+            --ui-panel: rgba(4, 14, 30, 0.97);
+            --ui-card: rgba(6, 18, 36, 0.9);
+            --ui-border: rgba(0, 212, 255, 0.13);
+            --ui-border-hot: rgba(0, 212, 255, 0.45);
+            --ui-accent: #901010;
+            --cyan: #00d4ff;
+            --cyan-dim: #0076a8;
+            --cyan-glow: rgba(0, 212, 255, 0.10);
+            --grid-line: rgba(0, 180, 220, 0.04);
+            --text: #94c8d8;
+            --text-muted: #2a5060;
+            --text-bright: #e0f7ff;
+            --green: #22c55e;
+            --yellow: #facc15;
+            --red: #ef4444;
+
+            /* ACS Bar Internal Variables — NE PAS MODIFIER */
+            --acs-green: #59a06d;
+            --acs-lightgreen: rgba(89, 160, 109, 0.25);
+            --acs-blue: #5282b9;
+            --acs-lightblue: rgba(82, 130, 185, 0.25);
+            --acs-yellow: #f0d93e;
+            --acs-lightyellow: rgba(240, 217, 62, 0.25);
+            --acs-orange: #de752c;
+            --acs-lightorange: rgba(222, 117, 44, 0.25);
+            --acs-red: #a61739;
+            --acs-lightred: rgba(166, 23, 57, 0.25);
+            --green: #59a06d;
+            --lightgreen: rgba(89, 160, 109, 0.25);
+            --blue: #5282b9;
+            --lightblue: rgba(82, 130, 185, 0.25);
+            --yellow: #f0d93e;
+            --lightyellow: rgba(240, 217, 62, 0.25);
+            --orange: #de752c;
+            --lightorange: rgba(222, 117, 44, 0.25);
+            --red: #a61739;
+            --lightred: rgba(166, 23, 57, 0.25);
+            --black: #000;
+            --ringblack: #000;
+            --borderblack: #000;
+            --lightblack: rgba(0, 0, 0, 0.15);
+            --cosmicred: #ff0000;
+            --white: white;
+            --textWhite: white;
+            --swatch-primary: 133, 0, 5;
+            --swatch-primary-darkest: 108, 2, 12;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--ui-bg);
+            color: var(--text);
+            font-family: 'Rajdhani', 'Inter', sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 80, 160, 0.1) 0%, transparent 65%);
+            background-size: 50px 50px, 50px 50px, cover;
+        }
+
+        /* Scanlines subtiles */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px, transparent 3px,
+                    rgba(0, 0, 0, 0.04) 3px, rgba(0, 0, 0, 0.04) 4px);
+            z-index: 9999;
+        }
+
+        /* ══════════════════════════════════════
+           TOP BAR
+        ══════════════════════════════════════ */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 30px;
+            background: rgba(0, 0, 0, 0.75);
+            border-bottom: 1px solid var(--ui-border);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            backdrop-filter: blur(8px);
+        }
+
+        .top-bar a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .top-bar a:hover {
+            color: var(--cyan);
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .pulse-dot {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 6px var(--cyan);
+            margin-right: 5px;
+            animation: blink 1.6s ease-in-out infinite;
+        }
+
+        .clock {
+            color: var(--cyan);
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .15
+            }
+        }
+
+        /* ══════════════════════════════════════
+           PAGE HEADER
+        ══════════════════════════════════════ */
+        .page-header {
+            background: var(--ui-panel);
+            border-bottom: 1px solid var(--ui-border);
+            padding: 28px 35px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--cyan), transparent);
+        }
+
+        .page-header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 180px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(0, 212, 255, 0.03), transparent);
+            pointer-events: none;
+        }
+
+        .doc-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            color: var(--cyan-dim);
+            margin-bottom: 10px;
+        }
+
+        .page-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            padding: 3px 10px;
+            border: 1px solid;
+            text-transform: uppercase;
+        }
+
+        .badge-cyan {
+            border-color: var(--cyan-dim);
+            color: var(--cyan);
+        }
+
+        .badge-green {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        .badge-red {
+            border-color: var(--ui-accent);
+            color: var(--ui-accent);
+        }
+
+        /* ══════════════════════════════════════
+           INTRO BANNER
+        ══════════════════════════════════════ */
+        .intro-section {
+            background: rgba(0, 212, 255, 0.04);
+            border-left: 3px solid var(--cyan-dim);
+            border-bottom: 1px solid var(--ui-border);
+            padding: 14px 35px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .intro-section span {
+            color: var(--cyan);
+        }
+
+        /* ══════════════════════════════════════
+           GENERATOR LAYOUT
+        ══════════════════════════════════════ */
+        #generator {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
+            padding: 20px 30px 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        /* ══════════════════════════════════════
+           LEFT PANEL — CONTROLS
+        ══════════════════════════════════════ */
+        #inputUISection {
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border);
+            max-height: 85vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--cyan-dim) transparent;
+        }
+
+        #inputUISection::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        #inputUISection::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #inputUISection::-webkit-scrollbar-thumb {
+            background: var(--cyan-dim);
+        }
+
+        .UIsectionDiv {
+            padding: 20px;
+            border-bottom: 1px solid var(--ui-border);
+        }
+
+        .UIsectionDivWrapper {
+            /* wrapper for classification + extra options */
+        }
+
+        .UIsectionDiv h2 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--ui-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .UIsectionDiv h2::before {
+            content: "//";
+            color: var(--cyan-dim);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        .settingDiv {
+            background: rgba(0, 212, 255, 0.02);
+            border: 1px solid var(--ui-border);
+            border-left: 3px solid var(--ui-accent);
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .settingDiv:last-child {
+            margin-bottom: 0;
+        }
+
+        .settingDiv h3 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-bright);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .settingDiv h4 {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--cyan-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 10px 0 4px;
+        }
+
+        .settingDiv p {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-style: normal;
+        }
+
+        .settingDiv p i {
+            font-style: italic;
+            color: #1e4a5e;
+        }
+
+        .comment {
+            color: var(--text-muted) !important;
+            font-size: 0.6rem;
+        }
+
+        .comment.warning {
+            color: #f97316 !important;
+        }
+
+        /* Inputs */
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 7px 10px;
+            margin-bottom: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            color: var(--text-bright);
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--cyan-dim);
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.1);
+        }
+
+        select option {
+            background: #0a1520;
+        }
+
+        input[type="color"] {
+            width: 40px;
+            height: 28px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            background: transparent;
+            cursor: pointer;
+            border-radius: 2px;
+            padding: 2px;
+        }
+
+        input[type="checkbox"] {
+            accent-color: var(--cyan-dim);
+            margin-right: 5px;
+        }
+
+        input[type="file"] {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            padding: 4px;
+        }
+
+        label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .textdeconone {
+            text-decoration: none;
+            color: var(--cyan-dim);
+            transition: color 0.2s;
+        }
+
+        .textdeconone:hover {
+            color: var(--cyan);
+        }
+
+        /* Disabled sections */
+        #accessLevelCustom.disabled,
+        #inputPrimaryObjectClassCustomCont.disabled,
+        #inputSecondaryObjectClassCustomCont.disabled,
+        #inputDisruptionClassCustomCont.disabled,
+        #inputRiskClassCustomCont.disabled {
+            display: none;
+        }
+
+        /* ══════════════════════════════════════
+           RIGHT PANEL — PREVIEW
+        ══════════════════════════════════════ */
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .preview-header {
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .preview-header-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .preview-header-title::before {
+            content: "// ";
+            color: var(--cyan-dim);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .preview-status {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--green);
+            letter-spacing: 2px;
+        }
+
+        .preview-status::before {
+            content: "● ";
+            color: var(--green);
+        }
+
+        /* ACS Bar container */
+        .acs-preview-area {
+            background: #2a2d32;
+            border: 1px dashed rgba(0, 212, 255, 0.2);
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .acs-preview-area::before {
+            content: "APERÇU EN DIRECT";
+            position: absolute;
+            top: 8px;
+            left: 14px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.45rem;
+            letter-spacing: 3px;
+            color: rgba(0, 212, 255, 0.2);
+        }
+
+        /* Export controls */
+        .export-section {
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border);
+            padding: 18px 20px;
+        }
+
+        .export-section-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            color: var(--cyan-dim);
+            text-transform: uppercase;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--ui-border);
+        }
+
+        .export-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .generateBtn {
+            background: transparent;
+            color: var(--cyan);
+            border: 1px solid var(--cyan-dim);
+            padding: 9px 18px;
+            cursor: pointer;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .generateBtn:hover {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: var(--cyan);
+            color: var(--text-bright);
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+        }
+
+        .generateBtn+label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            align-self: center;
+        }
+
+        .codeBlock {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--ui-border);
+            color: #00d4a0;
+            padding: 14px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            overflow-x: auto;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        #outputSyntaxText {
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+
+        .codeBlockCopy {
+            background: transparent;
+            color: var(--cyan-dim);
+            border: 1px solid var(--ui-border);
+            padding: 5px 14px;
+            cursor: pointer;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .codeBlockCopy:hover {
+            border-color: var(--cyan-dim);
+            color: var(--cyan);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* ══════════════════════════════════════
+           INFO BOX (popup resize info)
+        ══════════════════════════════════════ */
+        .infoBox {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border);
+            color: var(--text);
+            padding: 10px 14px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            z-index: 50;
+        }
+
+        .infoBoxClose {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border);
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--cyan);
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ══════════════════════════════════════
+           TOGGLE SWITCH
+        ══════════════════════════════════════ */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 32px;
+            height: 18px;
+            vertical-align: middle;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #333;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 10px;
+            width: 10px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background: var(--cyan-dim);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(14px);
+        }
+
+        .slider.round {
+            border-radius: 18px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        /* ══════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════ */
+        footer {
+            margin-top: 0;
+            border-top: 1px solid var(--ui-border);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-left {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            line-height: 1.9;
+        }
+
+        .footer-left strong {
+            color: var(--cyan-dim);
+        }
+
+        .footer-back {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--cyan-dim);
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 1px solid var(--ui-border);
+            padding: 5px 14px;
+            transition: 0.2s;
+        }
+
+        .footer-back:hover {
+            color: var(--cyan);
+            border-color: var(--cyan-dim);
+            background: rgba(0, 212, 255, 0.04);
+        }
+
+        /* ══════════════════════════════════════
+           ACS BAR — CODE ORIGINAL INTÉGRAL
+           (préservé avec content-box)
+        ══════════════════════════════════════ */
+        #acsbar,
+        #acsbar * {
+            box-sizing: content-box;
+        }
+
+        #acsbar {
+            background-color: white !important;
+            color: black !important;
+            padding: 10px;
+            width: 80%;
+            border: 1px solid var(--black);
+            font-family: 'Inter', sans-serif !important;
+            position: relative;
+            line-height: normal;
+        }
+
+        #resizeHandle {
+            position: absolute;
+            width: 10px;
+            height: calc(100% - 10px);
+            right: -4px;
+            border-right: 1px solid var(--black);
+            cursor: e-resize;
+        }
+
+        .textdeconone {
+            text-decoration: none;
+        }
+
+        .min715 {
+            min-width: 715px;
+        }
+
+        .min560 {
+            min-width: 560px;
+        }
+
+        .width100 {
+            width: 100%;
+        }
+
+        .disabled {
+            display: none;
+        }
+
+        .inblock {
+            display: inline-block;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .fleft {
+            float: left;
+        }
+
+        .fright {
+            float: right;
+        }
+
+        .fw600 {
+            font-weight: 600;
+        }
+
+        .em35 {
+            font-size: 3.5em;
+        }
+
+        .em2 {
+            font-size: 2em;
+        }
+
+        .em25 {
+            font-size: 2.5em;
+        }
+
+        .em15 {
+            font-size: 1.5em;
+        }
+
+        .em125 {
+            font-size: 1.25em;
+        }
+
+        .em075 {
+            font-size: .75em;
+        }
+
+        #acsTop {
+            grid-template-columns: max-content auto max-content;
+        }
+
+        #acsLevelBars {
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .acsLevelBar {
+            height: 8px;
+            width: calc(100% - 10px);
+            margin: 5px;
+            background: #ccc;
+        }
+
+        #acsMiddle {
+            height: 8px;
+            margin-bottom: 5px;
+            background-color: var(--borderblack);
+        }
+
+        #acsBottom {
+            grid-template-columns: auto max-content;
+            gap: 5px;
+        }
+
+        #acsObjDisRisk {
+            gap: 5px;
+        }
+
+        #acsObject {
+            border-left: 16px solid;
+            background-color: var(--lightblack);
+            padding: 10px 10px 10px 15px;
+            display: grid;
+            grid-template-columns: auto max-content;
+        }
+
+        #acsObjectImageCont {
+            justify-self: center;
+            align-self: center;
+        }
+
+        #acsObjectTextCont {
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .acsImageCont {
+            float: right;
+        }
+
+        .acsImageWrapper {
+            border: 5px solid var(--ringblack);
+        }
+
+        .fullcircle {
+            border-radius: 50%;
+        }
+
+        .bgblack {
+            background-color: var(--ringblack);
+        }
+
+        .acsImg {
+            height: 100%;
+        }
+
+        .acsImageBGWrapper {
+            border-top-right-radius: 50%;
+            border-bottom-right-radius: 50%;
+            position: relative;
+        }
+
+        .acsSecondImgWrapper {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: -50%;
+            overflow: hidden;
+        }
+
+        .leftBorderRadius {
+            border-bottom-left-radius: 50%;
+            border-top-left-radius: 50%;
+        }
+
+        .acsSecondImgBG {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .acsSecondImg {
+            position: absolute;
+        }
+
+        #acsSecondaryObjectImg {
+            width: 100%;
+            left: 3px;
+        }
+
+        #acsObjectImageWrapper {
+            width: 85px;
+            height: 85px;
+        }
+
+        .borderright {
+            border-right: 8px solid var(--borderblack);
+        }
+
+        #acsDisRisk {
+            gap: 5px;
+        }
+
+        .acsDisRisks {
+            padding: 0 10px 0 10px;
+            border-left: 7px solid;
+        }
+
+        .acsDisRisksTextCont {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        #acsDis {
+            border-color: var(--black);
+            background-color: var(--lightblack);
+        }
+
+        .acsDisRiskImageWrapper {
+            width: 45px;
+            height: 45px;
+        }
+
+        .acsSecondImgText {
+            margin-left: 50%;
+            color: var(--textWhite);
+        }
+
+        #acsDisImageWrapper {
+            background-color: green;
+        }
+
+        #acsRisk {
+            border-color: var(--black);
+            background-color: var(--lightblack);
+        }
+
+        .quadrents {
+            position: absolute;
+            width: 96%;
+            height: 96%;
+            top: 0;
+            left: 0;
+        }
+
+        .quad {
+            width: 67.5%;
+            padding-bottom: 50%;
+            position: absolute;
+            top: 2.25%;
+            left: 18.5%;
+            clip-path: polygon(22% 0, 77% 0, 100% 31%, 50% 100%, 0 31%);
+            transform-origin: bottom center;
+            display: flex;
+            align-items: center;
+        }
+
+        #right-quad {
+            transform: rotate(90deg);
+        }
+
+        #bottom-quad {
+            transform: rotate(180deg);
+        }
+
+        #left-quad {
+            transform: rotate(270deg);
+        }
+
+        #acsDiamond {
+            display: flex;
+            position: relative;
+            line-height: 0 !important;
+            font-size: 0 !important;
+        }
+
+        #acsDiamondImg {
+            display: block;
+            height: 100%;
+            width: 115px;
+        }
+
+        .acsSmallImageCont {
+            position: absolute;
+            width: 33%;
+            z-index: 2;
+            line-height: normal;
+        }
+
+        .acsSmallImageBGWrapper {
+            border-top-right-radius: 50%;
+            border-bottom-right-radius: 50%;
+        }
+
+        .acsSmallImageWrapper {
+            display: flex;
+        }
+
+        .thinborder {
+            border: 0.1875rem solid var(--ringblack);
+        }
+
+        .thickborder {
+            border: 6px solid var(--ringblack);
+        }
+
+        .acsSmallImg {
+            width: 100%;
+        }
+
+        #acsSmallObjectImageCont {
+            left: 33.5%;
+            top: 4.5%;
+        }
+
+        #acsSmallRiskImageCont {
+            left: 62.5%;
+            top: 33.5%;
+        }
+
+        #acsSmallDisImageCont {
+            left: 4.5%;
+            top: 33.5%;
+        }
+
+        #acsSmallObjectSecondaryImageCont {
+            top: 62.5%;
+            left: 33.5%;
+        }
+
+        #acsSmallObjectSecondaryImageWrapper {
+            background-color: white;
+        }
+
+        #acsBigObjectImageCont {
+            width: 82.6%;
+            top: 8.7%;
+            left: 8.7%;
+        }
+
+        .circleMask {
+            clip-path: circle(50% at center);
+        }
+
+        /* Width input button */
+        #acsBarWidthSubmit {
+            background: transparent;
+            color: var(--cyan-dim);
+            border: 1px solid var(--ui-border);
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        #acsBarWidthSubmit:hover {
+            border-color: var(--cyan-dim);
+            color: var(--cyan);
+        }
+
+        #acsBarWidthInput {
+            width: auto !important;
+            display: inline !important;
+            padding: 5px 8px !important;
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @media (max-width: 950px) {
+            #generator {
+                grid-template-columns: 1fr;
+            }
+
+            #inputUISection {
+                max-height: none;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <div id="titleAreaPattern">
-            <div id="tileArea">
-                <h1>SCP Anomaly Classification System Bar Generator</h1>
-                <h3>[SCP] ACS Bar Generator v0.2.0</h3>
-            </div>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div>
+            <a href="../../main.html">◀ SCiP-NET</a>
+            &nbsp;/&nbsp; <a href="../Untitled-1.html">DEPT. SCIENTIFIQUE</a>
+            &nbsp;/&nbsp; ACS GENERATOR
         </div>
-        <nav class="fw600">
-            <a href="../Untitled-1.html">Back to Home</a>
-        </nav>
-    </header>
-    
+        <div class="top-bar-right">
+            <span><span class="pulse-dot"></span>RÉSEAU: ACTIF</span>
+            <span>OUTIL: ACS-GEN v0.2.0</span>
+            <span class="clock" id="clock">00:00:00 UTC</span>
+        </div>
+    </div>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="doc-meta">SCiP-NET // SITE-80 // DEPT. SCIENTIFIQUE // OUTIL INTERNE</div>
+        <div class="page-title">ACS Bar Generator</div>
+        <div class="page-subtitle">ANOMALY CLASSIFICATION SYSTEM — GÉNÉRATEUR DE BARRES</div>
+        <div class="header-badges">
+            <span class="badge badge-cyan">v0.2.0</span>
+            <span class="badge badge-green">OPÉRATIONNEL</span>
+            <span class="badge badge-red">ACCÈS RESTREINT</span>
+        </div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="intro-section">
+        Personnalisez et prévisualisez votre barre ACS en temps réel. &nbsp;|&nbsp;
+        <span>Exportez en image PNG</span> pour usage hors-wiki ou
+        <span>générez la syntaxe wiki</span> pour intégration directe.
+    </div>
+
+    <!-- INFO BOX (resize) -->
     <div class="infoBox" id="resizeInfoBox">
         <button class="infoBoxClose" onclick="removeInfoBox('resizeInfoBox')">&times;</button>
         <div class="infoBoxTextCont">
@@ -39,30 +1221,34 @@
         </div>
     </div>
 
-    <div class="sectionDiv" id="introTextSection">
-        <p>Customise and preview your own ACS bar.<br>
-           Export it as an image for off-site use or
-            convert it to wiki syntax.
-        </p>
-    </div>
-
+    <!-- GENERATOR (2 colonnes : paramètres | aperçu) -->
     <div id="generator">
+
+        <!-- ═══════════════════════════════
+             COLONNE GAUCHE — PARAMÈTRES
+        ═══════════════════════════════ -->
         <div class="sectionDiv" id="inputUISection">
+
+            <!-- ITEM TITLE -->
             <div class="UIsectionDiv" id="titleUIsectionDiv">
                 <h2>Item Title</h2>
 
                 <div class="settingDiv">
-                    <h3>Title</h3>
-                    <p><i>Example: 173-J</i></p>
+                    <h3>Titre de l'item</h3>
+                    <h4>Title</h4>
+                    <p><i>Exemple: 173-J</i></p>
                     <input type="text" placeholder="0000" value="0000" id="inputItemTitle">
 
-                    <h3>Subtitle</h3>
-                    <p><i>Example: ITEM#:</i></p>
+                    <h4>Subtitle</h4>
+                    <p><i>Exemple: ITEM#:</i></p>
                     <input type="text" placeholder="ITEM#:" value="ITEM#:" id="inputItemSubtitle">
                 </div>
 
                 <div class="settingDiv">
-                    <h3>Clearance Level <a href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#clearance-lvl" title="Clearance Level Explanation" target="_blank" class="textdeconone"><i class="fa fa-question-circle-o"></i></a></h3>
+                    <h3>Clearance Level <a
+                            href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#clearance-lvl"
+                            title="Clearance Level Explanation" target="_blank" class="textdeconone"><i
+                                class="fa fa-question-circle-o"></i></a></h3>
                     <select id="inputAccessLevel">
                         <option value="1">1 - Unrestricted</option>
                         <option value="2">2 - Restricted</option>
@@ -75,17 +1261,17 @@
                     </select>
                     <div id="accessLevelCustom" class="disabled">
                         <h4>Title</h4>
-                        <p><i>Example: LEVEL4</i></p>
+                        <p><i>Exemple: LEVEL4</i></p>
                         <input type="text" placeholder="LEVEL4" id="inputAccessLevelTitle">
 
                         <h4>Subtitle</h4>
-                        <p><i>Example: SECRET</i></p>
+                        <p><i>Exemple: SECRET</i></p>
                         <input type="text" placeholder="SECRET" id="inputAccessLevelSubtitle">
 
                         <h4>Number of Lines</h4>
-                        <p><i>Example: 4</i></p>
+                        <p><i>Exemple: 4</i></p>
                         <input type="number" placeholder="4" id="inputAccessLevelLines">
-                        
+
                         <h4>Appearance of Lines</h4>
                         <select id="inputAccessLevelLineAppearance">
                             <option value="color">Colour</option>
@@ -102,7 +1288,8 @@
                     </div>
                 </div>
             </div>
-            
+
+            <!-- ITEM CLASSIFICATION -->
             <div class="UIsectionDivWrapper">
                 <div class="UIsectionDiv">
                     <h2>Item Classification</h2>
@@ -111,7 +1298,8 @@
                         <h3>Object Class</h3>
                         <h4>Primary</h4>
                         <p><i>Title</i></p>
-                        <input type="text" placeholder="CONTAINMENT CLASS:" value="CONTAINMENT CLASS:" id="inputPrimaryObjectClassTitle">
+                        <input type="text" placeholder="CONTAINMENT CLASS:" value="CONTAINMENT CLASS:"
+                            id="inputPrimaryObjectClassTitle">
                         <p><i>Theme</i></p>
                         <select id="inputPrimaryObjectClass">
                             <option value="1">Safe</option>
@@ -129,12 +1317,17 @@
                             <p><i>Color</i></p>
                             <input type="color" value="#59a06d" id="inputPrimaryObjectClassColor">
                             <p><i>Images only (jpg, svg, or png)</i></p>
-                            <input type="file" onchange="updateCustomImages(true)" accept="image/png, image/jpeg, image/svg" id="inputPrimaryObjectClassImage">
+                            <input type="file" onchange="updateCustomImages(true)"
+                                accept="image/png, image/jpeg, image/svg" id="inputPrimaryObjectClassImage">
                         </div>
 
-                        <h4>Secondary <a href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#secondary-class" title="Secondary Classes" target="_blank" class="textdeconone"><i class="fa fa-question-circle-o"></i></a></h4>
-                        <p><i>Theme</i></p>
-                        <input type="text" placeholder="SECONDARY CLASS:" value="SECONDARY CLASS:" id="inputSecondaryObjectClassTitle">
+                        <h4>Secondary <a
+                                href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#secondary-class"
+                                title="Secondary Classes" target="_blank" class="textdeconone"><i
+                                    class="fa fa-question-circle-o"></i></a></h4>
+                        <p><i>Title</i></p>
+                        <input type="text" placeholder="SECONDARY CLASS:" value="SECONDARY CLASS:"
+                            id="inputSecondaryObjectClassTitle">
                         <p><i>Theme</i></p>
                         <select id="inputSecondaryObjectClass">
                             <option value="0">None</option>
@@ -153,16 +1346,22 @@
 
                         <div id="inputSecondaryObjectClassCustomCont" class="disabled">
                             <p><i>Images only (jpeg, svg, or png)</i></p>
-                            <input type="file" onchange="updateCustomImages(true)" accept="image/png, image/jpeg, image/svg" id="inputSecondaryObjectClassImage">
+                            <input type="file" onchange="updateCustomImages(true)"
+                                accept="image/png, image/jpeg, image/svg" id="inputSecondaryObjectClassImage">
                             <p><i>Image URL</i><br><i class="comment warning">Unsupported by Image Download</i></p>
-                            <input type="text" placeholder="https://image.url" onchange="updateCustomImages(false)" id="inputSecondaryObjectClassImageURL">
+                            <input type="text" placeholder="https://image.url" onchange="updateCustomImages(false)"
+                                id="inputSecondaryObjectClassImageURL">
                         </div>
                     </div>
 
                     <div class="settingDiv">
-                        <h3>Disruption Class <a href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#disruption-class" title="Disruption Class Explanation" target="_blank" class="textdeconone"><i class="fa fa-question-circle-o"></i></a></h3>
+                        <h3>Disruption Class <a
+                                href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#disruption-class"
+                                title="Disruption Class Explanation" target="_blank" class="textdeconone"><i
+                                    class="fa fa-question-circle-o"></i></a></h3>
                         <p><i>Title</i></p>
-                        <input type="text" placeholder="DISRUPTION CLASS:" value="DISRUPTION CLASS:" id="inputDisruptionClassTitle">
+                        <input type="text" placeholder="DISRUPTION CLASS:" value="DISRUPTION CLASS:"
+                            id="inputDisruptionClassTitle">
                         <p><i>Theme</i></p>
                         <select id="inputDisruptionClass">
                             <option value="1">Dark</option>
@@ -179,14 +1378,18 @@
                             <p><i>Color</i></p>
                             <input type="color" value="#59a06d" id="inputDisruptionClassColor">
                             <p><i>Images only (jpg, svg, or png)</i></p>
-                            <input type="file" onchange="updateCustomImages(true)" accept="image/png, image/jpeg, image/svg" id="inputDisruptionClassImage">
+                            <input type="file" onchange="updateCustomImages(true)"
+                                accept="image/png, image/jpeg, image/svg" id="inputDisruptionClassImage">
                             <p><i>Level</i></p>
                             <input type="text" placeholder="1" value="1" id="inputDisruptionClassLevel">
                         </div>
 
-                        <h3>Risk Class <a href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#risk-class" title="Risk Class Explanation" target="_blank" class="textdeconone"><i class="fa fa-question-circle-o"></i></a></h3>
+                        <h3 style="margin-top:14px;">Risk Class <a
+                                href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#risk-class"
+                                title="Risk Class Explanation" target="_blank" class="textdeconone"><i
+                                    class="fa fa-question-circle-o"></i></a></h3>
                         <p><i>Title</i></p>
-                        <input type="text" placeholder="RISK CLASS:" value="RISK CLASS:" id="inputRiskClassTitle">
+                        <input type="text" placeholder="RISK CLASS:" value="RISK CLASS:" id="inputRiskClassTitle">
                         <p><i>Theme</i></p>
                         <select id="inputRiskClass">
                             <option value="1">Notice</option>
@@ -203,178 +1406,271 @@
                             <p><i>Color</i></p>
                             <input type="color" value="#59a06d" id="inputRiskClassColor">
                             <p><i>Images only (jpg, svg, or png)</i></p>
-                            <input type="file" onchange="updateCustomImages(true)" accept="image/png, image/jpeg, image/svg" id="inputRiskClassImage">
+                            <input type="file" onchange="updateCustomImages(true)"
+                                accept="image/png, image/jpeg, image/svg" id="inputRiskClassImage">
                             <p><i>Level</i></p>
                             <input type="text" placeholder="1" value="1" id="inputRiskClassLevel">
                         </div>
                     </div>
+
                     <div class="settingDiv">
                         <h3>Extra Options</h3>
-                        <p><input type="checkbox" id="gridCheckbox" value="grid" checked="true"><label for="gridCheckbox">Grid Style</label><br><i class="comment">Disable to get a smaller<br>width</i></p>
-                        <p><label>Width of bar (pixels):</label><br><input type="number" id="acsBarWidthInput" name="width" min="0" max="5000" value=""><button id="acsBarWidthSubmit" onclick="setWidth(-1)">Set</button></p>
-                        <p><input type="checkbox" id="invertCheckbox" value="invert" checked="true"><label for="invertCheckbox">Invert Obj Image</label><br><i class="comment">Visible when you have a<br>2nd Obj Class</i></p>
+                        <p>
+                            <input type="checkbox" id="gridCheckbox" value="grid" checked="true">
+                            <label for="gridCheckbox">Grid Style</label><br>
+                            <i class="comment">Désactiver pour une largeur réduite</i>
+                        </p>
+                        <p>
+                            <label>Largeur de la barre (pixels):</label><br>
+                            <input type="number" id="acsBarWidthInput" name="width" min="0" max="5000" value="">
+                            <button id="acsBarWidthSubmit" onclick="setWidth(-1)">Set</button>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="invertCheckbox" value="invert" checked="true">
+                            <label for="invertCheckbox">Invert Obj Image</label><br>
+                            <i class="comment">Visible when you have a 2nd Obj Class</i>
+                        </p>
                         <p>
                             <label class="switch">
                                 <input id="themeToggle" type="checkbox" onclick="toggleTheme()">
                                 <span class="slider round"></span>
-                            </label> Dark theme<br>
-                            <input type="checkbox" id="invertDiamondCheckbox" value="invert" checked="true"><label for="invertDiamondCheckbox" class="comment">Affect Diamond</label><br>
-                            <input type="checkbox" id="invertRingsCheckbox" value="invert" checked="true"><label for="invertRingsCheckbox" class="comment">Affect Rings</label><br>
-                            <input type="checkbox" id="invertBordersCheckbox" value="invert" checked="true"><label for="invertBordersCheckbox" class="comment">Affect Dividers</label><br>
+                            </label>&nbsp;<label>Dark theme</label><br>
+                            <input type="checkbox" id="invertDiamondCheckbox" value="invert" checked="true">
+                            <label for="invertDiamondCheckbox" class="comment">Affect Diamond</label><br>
+                            <input type="checkbox" id="invertRingsCheckbox" value="invert" checked="true">
+                            <label for="invertRingsCheckbox" class="comment">Affect Rings</label><br>
+                            <input type="checkbox" id="invertBordersCheckbox" value="invert" checked="true">
+                            <label for="invertBordersCheckbox" class="comment">Affect Dividers</label>
                         </p>
                     </div>
+
                 </div>
             </div>
         </div>
 
-        <div class="sectionDiv">
-            <h2>ACS Bar</h2>
-            <div id="acsbar">
-                <div id="resizeHandle"></div>
-                <div id="acsTop" class="width100 grid fw600">
-                    <div id="acsItem" class="">
-                        <div id="acsItemSubtitle" class="inblock em15">
-                            <p id="acsItemSubtitleText">ITEM#:</p>
-                        </div>
-                        <div id="acsItemTitle" class="inblock em35">
-                            <p id="acsItemTitleText">0000</p>
-                        </div>
-                    </div>
-                    <div id="acsLevelBars" class="fleft flex">
-                        <div id="acsLevelBarsCont">
-                            <div class="acsLevelBar"></div>
-                            <div class="acsLevelBar"></div>
-                            <div class="acsLevelBar"></div>
-                            <div class="acsLevelBar"></div>
-                        </div>
-                    </div>
-                    <div id="acsLevel" class="">
-                        <div id="acsLevelTitle" class="em25">
-                            <p id="acsLevelTitleText" >LEVEL1</p>
-                        </div>
-                        <div id="acsLevelSubtitle">
-                            <p id="acsLevelSubtitleText">UNRESTRICTED</p>
-                        </div>
-                    </div>
-                </div>
+        <!-- ═══════════════════════════════
+             COLONNE DROITE — APERÇU + EXPORT
+        ═══════════════════════════════ -->
+        <div class="preview-panel">
 
-                <div id="acsMiddle" class="width100"></div>
+            <!-- Header de la zone de préview -->
+            <div class="preview-header">
+                <div class="preview-header-title">Aperçu ACS Bar</div>
+                <div class="preview-status">LIVE PREVIEW</div>
+            </div>
 
-                <div id="acsBottom" class="width100 grid">
-                    <div id="acsObjDisRisk" class="grid borderright">
-                        <div id="acsObject" class="">
-                            <div id="acsObjectTextCont" class="flex fleft">
-                                <p id="acsObjectPrimaryText"><span id="acsObjectPrimaryTextSubtitle" class="">CONAINMENT CLASS:</span>
-                                    <br><span id="acsObjectPrimaryTextTitle" class="fw600 em2">SAFE</span></p>
-                                <p id="acsObjectSecondaryText" class="disabled"><span  id="acsObjectSecondaryTextSubtitle" >SECONDARY CLASS:</span>
-                                    <br><span id="acsObjectSecondaryTextTitle" class="fw600">NONE</span></p>
+            <!-- Zone de prévisualisation -->
+            <div class="acs-preview-area">
+                <div id="acsbar">
+                    <div id="resizeHandle"></div>
+                    <div id="acsTop" class="width100 grid fw600">
+                        <div id="acsItem" class="">
+                            <div id="acsItemSubtitle" class="inblock em15">
+                                <p id="acsItemSubtitleText">ITEM#:</p>
                             </div>
-                            <div id="acsObjectImageCont" class="acsImageCont">
-                                <div id="acsObjectImageBGWrapper" class="acsImageBGWrapper">
-                                    <div id="acsObjectImageWrapper" class="acsImageWrapper fullcircle">
-                                        <img id="acsObjectImg" class="acsImg circleMask" src="images/containment-classes/safe-icon.svg">
-                                    </div>
-                                    
-                                    <div id="acsSecondaryObjectImageWrapper" class="acsSecondImgWrapper disabled leftBorderRadius">
-                                        <div id="acsSecondaryObjectImageBG" class="bgblack acsSecondImgBG">
-                                            <img id="acsSecondaryObjectImg" class="acsSecondImg circleMask" src="images/containment-classes/safe-icon.svg">
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="acsItemTitle" class="inblock em35">
+                                <p id="acsItemTitleText">0000</p>
                             </div>
                         </div>
-                        <div id="acsDisRisk" class="grid">
-                            <div id="acsDis" class="acsDisRisks">
-                                <div id="acsDisTextCont" class="acsDisRisksTextCont fleft">
-                                    <p id="acsDisText"><span class="em075" id="acsDisruptionTextTitleTitle">DISRUPTION CLASS:</span><br><span id="acsDisrupionTextTitle" class="fw600">DARK</span></p>
+                        <div id="acsLevelBars" class="fleft flex">
+                            <div id="acsLevelBarsCont">
+                                <div class="acsLevelBar"></div>
+                                <div class="acsLevelBar"></div>
+                                <div class="acsLevelBar"></div>
+                                <div class="acsLevelBar"></div>
+                            </div>
+                        </div>
+                        <div id="acsLevel" class="">
+                            <div id="acsLevelTitle" class="em25">
+                                <p id="acsLevelTitleText">LEVEL1</p>
+                            </div>
+                            <div id="acsLevelSubtitle">
+                                <p id="acsLevelSubtitleText">UNRESTRICTED</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="acsMiddle" class="width100"></div>
+
+                    <div id="acsBottom" class="width100 grid">
+                        <div id="acsObjDisRisk" class="grid borderright">
+                            <div id="acsObject" class="">
+                                <div id="acsObjectTextCont" class="flex fleft">
+                                    <p id="acsObjectPrimaryText"><span id="acsObjectPrimaryTextSubtitle"
+                                            class="">CONAINMENT CLASS:</span>
+                                        <br><span id="acsObjectPrimaryTextTitle" class="fw600 em2">SAFE</span>
+                                    </p>
+                                    <p id="acsObjectSecondaryText" class="disabled"><span
+                                            id="acsObjectSecondaryTextSubtitle">SECONDARY CLASS:</span>
+                                        <br><span id="acsObjectSecondaryTextTitle" class="fw600">NONE</span>
+                                    </p>
                                 </div>
-                                <div id="acsDisImageCont" class="acsImageCont">
-                                    <div id="acsDisImageBGWrapper" class="acsImageBGWrapper bgblack">
-                                        <div id="acsDisImageWrapper" class="acsImageWrapper fullcircle acsDisRiskImageWrapper">
-                                            <img id="acsDisImg" class="acsImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                <div id="acsObjectImageCont" class="acsImageCont">
+                                    <div id="acsObjectImageBGWrapper" class="acsImageBGWrapper">
+                                        <div id="acsObjectImageWrapper" class="acsImageWrapper fullcircle">
+                                            <img id="acsObjectImg" class="acsImg circleMask"
+                                                src="images/containment-classes/safe-icon.svg">
                                         </div>
-                                        
-                                        <div id="acsSecondaryDisImageWrapper" class="acsSecondImgWrapper leftBorderRadius">
-                                            <div id="acsSecondaryDisImageBG" class="bgblack acsSecondImgBG">
-                                                <p id="acsDisPText" class="acsSecondImgText fw600">1</p>
+
+                                        <div id="acsSecondaryObjectImageWrapper"
+                                            class="acsSecondImgWrapper disabled leftBorderRadius">
+                                            <div id="acsSecondaryObjectImageBG" class="bgblack acsSecondImgBG">
+                                                <img id="acsSecondaryObjectImg" class="acsSecondImg circleMask"
+                                                    src="images/containment-classes/safe-icon.svg">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="acsRisk" class="acsDisRisks">
-                                <div id="acsRiskTextCont" class="acsDisRisksTextCont fleft">
-                                    <p id="acsRiskText" style="display: inline;"><span class="em075" id="acsRiskTextTitleTitle">RISK CLASS:</span><br><span id="acsRiskTextTitle" class="fw600">NOTICE</span></p>
-                                </div>
-                                <div id="acsRiskImageCont" class="acsImageCont">
-                                    <div id="acsRiskImageBGWrapper" class="acsImageBGWrapper bgblack">
-                                        <div id="acsRiskImageWrapper" class="acsImageWrapper fullcircle acsDisRiskImageWrapper">
-                                            <img id="acsRiskImg" class="acsImg circleMask" src="images/containment-classes/safe-icon.svg">
+                            <div id="acsDisRisk" class="grid">
+                                <div id="acsDis" class="acsDisRisks">
+                                    <div id="acsDisTextCont" class="acsDisRisksTextCont fleft">
+                                        <p id="acsDisText"><span class="em075"
+                                                id="acsDisruptionTextTitleTitle">DISRUPTION CLASS:</span><br><span
+                                                id="acsDisrupionTextTitle" class="fw600">DARK</span></p>
+                                    </div>
+                                    <div id="acsDisImageCont" class="acsImageCont">
+                                        <div id="acsDisImageBGWrapper" class="acsImageBGWrapper bgblack">
+                                            <div id="acsDisImageWrapper"
+                                                class="acsImageWrapper fullcircle acsDisRiskImageWrapper">
+                                                <img id="acsDisImg" class="acsImg circleMask"
+                                                    src="images/containment-classes/safe-icon.svg">
+                                            </div>
+
+                                            <div id="acsSecondaryDisImageWrapper"
+                                                class="acsSecondImgWrapper leftBorderRadius">
+                                                <div id="acsSecondaryDisImageBG" class="bgblack acsSecondImgBG">
+                                                    <p id="acsDisPText" class="acsSecondImgText fw600">1</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        
-                                        <div id="acsSecondaryRiskImageWrapper" class="acsSecondImgWrapper leftBorderRadius">
-                                            <div id="acsSecondaryRiskImageBG" class="bgblack acsSecondImgBG">
-                                                <p id="acsRiskPText" class="fw600 acsSecondImgText ">1</p>
+                                    </div>
+                                </div>
+                                <div id="acsRisk" class="acsDisRisks">
+                                    <div id="acsRiskTextCont" class="acsDisRisksTextCont fleft">
+                                        <p id="acsRiskText" style="display: inline;"><span class="em075"
+                                                id="acsRiskTextTitleTitle">RISK CLASS:</span><br><span
+                                                id="acsRiskTextTitle" class="fw600">NOTICE</span></p>
+                                    </div>
+                                    <div id="acsRiskImageCont" class="acsImageCont">
+                                        <div id="acsRiskImageBGWrapper" class="acsImageBGWrapper bgblack">
+                                            <div id="acsRiskImageWrapper"
+                                                class="acsImageWrapper fullcircle acsDisRiskImageWrapper">
+                                                <img id="acsRiskImg" class="acsImg circleMask"
+                                                    src="images/containment-classes/safe-icon.svg">
+                                            </div>
+
+                                            <div id="acsSecondaryRiskImageWrapper"
+                                                class="acsSecondImgWrapper leftBorderRadius">
+                                                <div id="acsSecondaryRiskImageBG" class="bgblack acsSecondImgBG">
+                                                    <p id="acsRiskPText" class="fw600 acsSecondImgText">1</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="acsDiamond">
-                        <img id="acsDiamondImg" src="images/diamond.svg">
-                        <div class="quadrents">
-                            <div id="top-quad" class="quad"></div>
-                            <div id="right-quad" class="quad"></div>
-                            <div id="bottom-quad" class="quad"></div>
-                            <div id="left-quad" class="quad"></div>
-                        </div>
-                        <div id="acsSmallObjectImageCont" class="acsSmallImageCont">
-                            <div id="acsSmallObjectImageBGWrapper" class="acsSmallImageBGWrapper">
-                                <div id="acsSmallObjectImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
-                                    <img id="acsSmallObjectImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                        <div id="acsDiamond">
+                            <img id="acsDiamondImg" src="images/diamond.svg">
+                            <div class="quadrents">
+                                <div id="top-quad" class="quad"></div>
+                                <div id="right-quad" class="quad"></div>
+                                <div id="bottom-quad" class="quad"></div>
+                                <div id="left-quad" class="quad"></div>
+                            </div>
+                            <div id="acsSmallObjectImageCont" class="acsSmallImageCont">
+                                <div id="acsSmallObjectImageBGWrapper" class="acsSmallImageBGWrapper">
+                                    <div id="acsSmallObjectImageWrapper"
+                                        class="acsSmallImageWrapper fullcircle thinborder">
+                                        <img id="acsSmallObjectImg" class="acsSmallImg circleMask"
+                                            src="images/containment-classes/safe-icon.svg">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="acsSmallRiskImageCont" class="acsSmallImageCont">
-                            <div id="acsSmallRiskImageBGWrapper" class="acsSmallImageBGWrapper">
-                                <div id="acsSmallRiskImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
-                                    <img id="acsSmallRiskImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                            <div id="acsSmallRiskImageCont" class="acsSmallImageCont">
+                                <div id="acsSmallRiskImageBGWrapper" class="acsSmallImageBGWrapper">
+                                    <div id="acsSmallRiskImageWrapper"
+                                        class="acsSmallImageWrapper fullcircle thinborder">
+                                        <img id="acsSmallRiskImg" class="acsSmallImg circleMask"
+                                            src="images/containment-classes/safe-icon.svg">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="acsSmallDisImageCont" class="acsSmallImageCont">
-                            <div id="acsSmallDisImageBGWrapper" class="acsSmallImageBGWrapper">
-                                <div id="acsSmallDisImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
-                                    <img id="acsSmallDisImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                            <div id="acsSmallDisImageCont" class="acsSmallImageCont">
+                                <div id="acsSmallDisImageBGWrapper" class="acsSmallImageBGWrapper">
+                                    <div id="acsSmallDisImageWrapper"
+                                        class="acsSmallImageWrapper fullcircle thinborder">
+                                        <img id="acsSmallDisImg" class="acsSmallImg circleMask"
+                                            src="images/containment-classes/safe-icon.svg">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="acsSmallObjectSecondaryImageCont" class="acsSmallImageCont">
-                            <div id="acsSmallObjectSecondaryImageBGWrapper" class="acsSmallImageBGWrapper">
-                                <div id="acsSmallObjectSecondaryImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
-                                    <img id="acsSmallObjectSecondaryImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                            <div id="acsSmallObjectSecondaryImageCont" class="acsSmallImageCont">
+                                <div id="acsSmallObjectSecondaryImageBGWrapper" class="acsSmallImageBGWrapper">
+                                    <div id="acsSmallObjectSecondaryImageWrapper"
+                                        class="acsSmallImageWrapper fullcircle thinborder">
+                                        <img id="acsSmallObjectSecondaryImg" class="acsSmallImg circleMask"
+                                            src="images/containment-classes/safe-icon.svg">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="acsBigObjectImageCont" class="acsSmallImageCont disabled">
-                            <div id="acsBigObjectImageBGWrapper" class="acsSmallImageBGWrapper">
-                                <div id="acsBigObjectImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
-                                    <img id="acsBigObjectImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                            <div id="acsBigObjectImageCont" class="acsSmallImageCont disabled">
+                                <div id="acsBigObjectImageBGWrapper" class="acsSmallImageBGWrapper">
+                                    <div id="acsBigObjectImageWrapper"
+                                        class="acsSmallImageWrapper fullcircle thinborder">
+                                        <img id="acsBigObjectImg" class="acsSmallImg circleMask"
+                                            src="images/containment-classes/safe-icon.svg">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="generateBtn" id="convertToPngBtn" onclick="convertHtmlToPng()">Download Image</button><label>as PNG [WIP]</label><br>
-            <button class="generateBtn" id="convertToWikiSyntaxBtn" onclick="generateWikiSyntax()">Generate</button><label>as Wiki Syntax</label>
-            <div class="codeBlock">
-                <p id="outputSyntaxText">^ Generate above</p><br>
-                <button class="codeBlockCopy" onclick="copyText('outputSyntaxText')">Copy</button>
+
+            <!-- EXPORT SECTION -->
+            <div class="export-section">
+                <div class="export-section-title">// Export & Génération</div>
+                <div class="export-btns">
+                    <button class="generateBtn" id="convertToPngBtn" onclick="convertHtmlToPng()">↓ Download
+                        PNG</button>
+                    <label>[WIP]</label>
+                    <button class="generateBtn" id="convertToWikiSyntaxBtn" onclick="generateWikiSyntax()">⚙ Generate
+                        Wiki Syntax</button>
+                </div>
+                <div class="codeBlock">
+                    <p id="outputSyntaxText">^ Générez la syntaxe wiki ci-dessus</p>
+                    <button class="codeBlockCopy" onclick="copyText('outputSyntaxText')">⎘ Copier</button>
+                </div>
             </div>
+
+        </div><!-- /preview-panel -->
+
+    </div><!-- /generator -->
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-left">
+            <strong>SCiP-NET</strong> // SITE-80 // DEPT. SCIENTIFIQUE<br>
+            ACS GENERATOR v0.2.0 — USAGE INTERNE UNIQUEMENT
         </div>
-        
-    </div>
+        <a href="../Untitled-1.html" class="footer-back">◀ RETOUR AU DEPT.</a>
+    </footer>
+
+    <script>
+        // Horloge temps réel
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getUTCHours()).padStart(2, '0');
+            const m = String(now.getUTCMinutes()).padStart(2, '0');
+            const s = String(now.getUTCSeconds()).padStart(2, '0');
+            const el = document.getElementById('clock');
+            if (el) el.textContent = `${h}:${m}:${s} UTC`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
+
+</html>

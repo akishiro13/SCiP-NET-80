@@ -1,66 +1,1121 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Département Scientifique - Site-80</title>
-<script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-body {
-  background:#050505;
-  color:#d1d1d1;
-  font-family:'Share Tech Mono', monospace;
-  margin:0;
-}
-button {
-  background:#0f172a;
-  color:#38bdf8;
-  border:2px solid #0284c7;
-  padding:20px 40px;
-  font-weight:bold;
-  text-transform:uppercase;
-}
-button:hover {
-  background:#38bdf8;
-  color:#020617;
-}
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Département Scientifique // SCI-80 // SCiP-NET</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&family=Rajdhani:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #03080f;
+      --bg-panel: rgba(4, 14, 30, 0.96);
+      --cyan: #00d4ff;
+      --cyan-dim: #0076a8;
+      --cyan-glow: rgba(0, 212, 255, 0.15);
+      --blue: #0af;
+      --blue-dark: #004466;
+      --violet: #7c3aed;
+      --green-data: #00ff9f;
+      --green-dim: #006644;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --text: #a0c8d8;
+      --text-dim: #2a5060;
+      --border: rgba(0, 212, 255, 0.15);
+      --border-hot: rgba(0, 212, 255, 0.5);
+      --grid-color: rgba(0, 180, 220, 0.04);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+        radial-gradient(ellipse at 50% 0%, rgba(0, 100, 180, 0.12) 0%, transparent 65%),
+        radial-gradient(ellipse at 80% 80%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+      background-size: 50px 50px, 50px 50px, cover, cover;
+    }
+
+    /* ── SCANLINES ── */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(to bottom,
+          transparent 0px, transparent 3px,
+          rgba(0, 0, 0, 0.06) 3px, rgba(0, 0, 0, 0.06) 4px);
+      z-index: 9999;
+    }
+
+    /* ── TOP SYSTEM BAR ── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 28px;
+      background: rgba(0, 0, 0, 0.7);
+      border-bottom: 1px solid var(--border);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+    }
+
+    .top-bar a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .top-bar a:hover {
+      color: var(--cyan);
+    }
+
+    .top-bar-right {
+      display: flex;
+      gap: 25px;
+    }
+
+    .pulse-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 6px var(--cyan);
+      margin-right: 5px;
+      animation: blink 1.6s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.15
+      }
+    }
+
+    .clock {
+      color: var(--cyan);
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 45px 40px 35px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated corner decorations */
+    .header-corners {
+      position: absolute;
+      inset: 20px;
+      pointer-events: none;
+    }
+
+    .corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--cyan-dim);
+      border-style: solid;
+      border-width: 0;
+    }
+
+    .corner.tl {
+      top: 0;
+      left: 0;
+      border-top-width: 1px;
+      border-left-width: 1px;
+    }
+
+    .corner.tr {
+      top: 0;
+      right: 0;
+      border-top-width: 1px;
+      border-right-width: 1px;
+    }
+
+    .corner.bl {
+      bottom: 0;
+      left: 0;
+      border-bottom-width: 1px;
+      border-left-width: 1px;
+    }
+
+    .corner.br {
+      bottom: 0;
+      right: 0;
+      border-bottom-width: 1px;
+      border-right-width: 1px;
+    }
+
+    .header-top-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 5px;
+      color: var(--cyan-dim);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .header-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dept-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 4px;
+      color: rgba(0, 212, 255, 0.5);
+      background: rgba(0, 212, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      padding: 3px 14px;
+    }
+
+    .logo-text {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: #e0f7ff;
+      text-shadow: 0 0 20px rgba(0, 212, 255, 0.5),
+        0 0 60px rgba(0, 212, 255, 0.15);
+      line-height: 1;
+    }
+
+    .logo-text em {
+      font-style: normal;
+      color: var(--cyan);
+    }
+
+    .logo-sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 6px;
+      color: var(--cyan-dim);
+      text-transform: uppercase;
+    }
+
+    /* Animated horizontal rule */
+    .header-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 18px auto 0;
+      max-width: 560px;
+      width: 100%;
+    }
+
+    .header-rule::before,
+    .header-rule::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--cyan-dim));
+    }
+
+    .header-rule::after {
+      background: linear-gradient(to left, transparent, var(--cyan-dim));
+    }
+
+    .header-rule span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      letter-spacing: 4px;
+      white-space: nowrap;
+    }
+
+    /* ── DATA STRIP ── */
+    .data-strip {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.35);
+      flex-wrap: wrap;
+    }
+
+    .data-cell {
+      padding: 10px 28px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .data-cell:last-child {
+      border-right: none;
+    }
+
+    .data-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .data-value {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+    }
+
+    .data-value.ok {
+      color: var(--green-data);
+    }
+
+    .data-value.info {
+      color: var(--cyan);
+    }
+
+    .data-value.warn {
+      color: var(--amber);
+      animation: flicker 3s infinite;
+    }
+
+    .data-value.crit {
+      color: var(--red);
+      animation: flicker 1.5s infinite;
+    }
+
+    @keyframes flicker {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      92% {
+        opacity: 1
+      }
+
+      93% {
+        opacity: .3
+      }
+
+      95% {
+        opacity: 1
+      }
+
+      98% {
+        opacity: .6
+      }
+
+      99% {
+        opacity: 1
+      }
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrapper {
+      display: flex;
+      flex: 1;
+      gap: 0;
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 30px 30px 40px;
+      gap: 30px;
+    }
+
+    /* ── LEFT PANEL : ASCII SPECTRUM ── */
+    .side-panel {
+      width: 220px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .panel-box {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      padding: 14px;
+    }
+
+    .panel-box-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 3px;
+      color: var(--cyan-dim);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .spectrum-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .spec-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.5rem;
+    }
+
+    .spec-label {
+      color: var(--text-dim);
+      width: 30px;
+      flex-shrink: 0;
+    }
+
+    .spec-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(0, 212, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .spec-fill {
+      height: 100%;
+      background: var(--cyan);
+      box-shadow: 0 0 6px var(--cyan);
+      animation: spec-pulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes spec-pulse {
+      0% {
+        opacity: .5
+      }
+
+      100% {
+        opacity: 1
+      }
+    }
+
+    .spec-val {
+      color: var(--cyan);
+      width: 28px;
+      text-align: right;
+    }
+
+    /* Mini log box */
+    .log-feed {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.5rem;
+      line-height: 1.9;
+      color: var(--text-dim);
+    }
+
+    .log-feed .log-line {
+      display: flex;
+      gap: 8px;
+    }
+
+    .log-feed .log-time {
+      color: rgba(0, 212, 255, 0.3);
+      flex-shrink: 0;
+    }
+
+    .log-feed .log-ok {
+      color: var(--green-data);
+    }
+
+    .log-feed .log-warn {
+      color: var(--amber);
+    }
+
+    .log-feed .log-err {
+      color: var(--red);
+    }
+
+    /* ── CENTER : COMMAND MODULES ── */
+    .cmd-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cmd-section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 4px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cmd-section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── MODULE BUTTON ── */
+    .module-btn {
+      display: flex;
+      align-items: stretch;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.3s, background 0.3s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* Hover sweep */
+    .module-btn::before {
+      content: "";
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(to right,
+          transparent,
+          rgba(0, 212, 255, 0.04),
+          transparent);
+      transition: left 0.5s ease;
+      pointer-events: none;
+    }
+
+    .module-btn:hover::before {
+      left: 160%;
+    }
+
+    /* Left accent bar */
+    .module-btn .accent-bar {
+      width: 3px;
+      background: var(--cyan-dim);
+      flex-shrink: 0;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .module-btn .btn-inner {
+      padding: 18px 22px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .module-btn .btn-icon {
+      font-size: 1.6rem;
+      opacity: 0.6;
+      flex-shrink: 0;
+      transition: opacity 0.3s;
+      filter: drop-shadow(0 0 4px var(--cyan));
+    }
+
+    .module-btn .btn-text {
+      flex: 1;
+    }
+
+    .module-btn .btn-id {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 3px;
+      color: var(--cyan-dim);
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .module-btn .btn-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #c8e8f0;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      transition: color 0.3s;
+    }
+
+    .module-btn .btn-desc {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 400;
+    }
+
+    .module-btn .btn-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .module-btn .btn-status {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 2px;
+      padding: 2px 7px;
+      border: 1px solid var(--cyan-dim);
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+
+    .module-btn .btn-count {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+    }
+
+    /* Hover */
+    .module-btn:hover {
+      border-color: var(--border-hot);
+      background: rgba(0, 20, 40, 0.98);
+      transform: translateX(4px);
+    }
+
+    .module-btn:hover .accent-bar {
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .module-btn:hover .btn-icon {
+      opacity: 1;
+    }
+
+    .module-btn:hover .btn-title {
+      color: var(--cyan);
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      width: 200px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Anomaly classification levels */
+    .class-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .class-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      padding: 5px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.2);
+      cursor: default;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .class-item:hover {
+      border-color: rgba(0, 212, 255, 0.15);
+      background: rgba(0, 40, 60, 0.4);
+    }
+
+    .class-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .class-name {
+      flex: 1;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+    }
+
+    .class-count {
+      color: var(--text-dim);
+    }
+
+    .d-safe {
+      background: #22c55e;
+      box-shadow: 0 0 5px #22c55e;
+    }
+
+    .d-euclid {
+      background: #facc15;
+      box-shadow: 0 0 5px #facc15;
+    }
+
+    .d-keter {
+      background: #ef4444;
+      box-shadow: 0 0 5px #ef4444;
+    }
+
+    .d-thaumiel {
+      background: #a855f7;
+      box-shadow: 0 0 5px #a855f7;
+    }
+
+    .d-neutralized {
+      background: #6b7280;
+    }
+
+    .d-apollyon {
+      background: #b91c1c;
+      box-shadow: 0 0 8px #b91c1c;
+      animation: flicker 2s infinite;
+    }
+
+    /* Mini waveform */
+    .waveform {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 40px;
+    }
+
+    .waveform-bar {
+      flex: 1;
+      background: var(--cyan);
+      opacity: 0.4;
+      border-radius: 1px 1px 0 0;
+      animation: wave-anim 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes wave-anim {
+      0% {
+        opacity: .15;
+        transform: scaleY(.3)
+      }
+
+      100% {
+        opacity: .7;
+        transform: scaleY(1)
+      }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: auto;
+      padding: 16px 30px;
+      border-top: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-left {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      line-height: 1.9;
+    }
+
+    .footer-left strong {
+      color: var(--cyan-dim);
+    }
+
+    .footer-back {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--cyan-dim);
+      letter-spacing: 2px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 5px 14px;
+      transition: 0.2s;
+    }
+
+    .footer-back:hover {
+      color: var(--cyan);
+      border-color: var(--cyan-dim);
+      background: rgba(0, 212, 255, 0.04);
+    }
+
+    @media (max-width: 900px) {
+      .main-wrapper {
+        flex-direction: column;
+      }
+
+      .side-panel,
+      .right-panel {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .panel-box {
+        flex: 1;
+        min-width: 200px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header class="p-5 border-b-4 border-cyan-600 text-center">
-  <h1 class="text-2xl uppercase font-black text-cyan-400">
-    Département Scientifique
-  </h1>
-  <p class="text-xs text-cyan-300 uppercase">
-    Terminal Officiel — Site-80
-  </p>
-</header>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div>
+      <a href="../main.html">◀ SCiP-NET / MAIN</a>
+      &nbsp;/&nbsp; DEPT. SCIENTIFIQUE
+    </div>
+    <div class="top-bar-right">
+      <span><span class="pulse-dot"></span>RESEAU: ACTIF</span>
+      <span>ENCRYPT: RSA-4096</span>
+      <span>NŒUD: LAB-SCI-ALPHA</span>
+      <span class="clock" id="clock">00:00:00 UTC</span>
+    </div>
+  </div>
 
-<div class="flex flex-col items-center justify-center gap-8 min-h-[calc(100vh-120px)]">
+  <!-- HEADER -->
+  <header>
+    <div class="header-corners">
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+    </div>
+    <div class="header-main">
+      <div class="header-top-label">S.C.P. Foundation — Terminal 0x88-A80</div>
+      <div class="dept-badge">DEPT. RECHERCHE &amp; SCIENCES — SCI-80 — ACCES O5+</div>
+      <div class="logo-text">Département <em>Scientifique</em></div>
+      <div class="logo-sub">RECHERCHE ANOMALIQUE // SITE-80</div>
+    </div>
+    <div class="header-rule"><span>SYSTÈMES D'ANALYSE OPÉRATIONNELS // CHARGEMENT COMPLET</span></div>
+  </header>
 
-  <h2 class="text-3xl uppercase font-black text-cyan-500">
-    Terminal Scientifique
-  </h2>
 
-  <p class="max-w-xl text-center text-sm text-gray-400">
-    Accès sécurisé aux archives SCP, protocoles de recherche
-    et générateurs de rapports scientifiques.
-  </p>
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrapper">
 
-  <div class="flex flex-col gap-5">
-    <button onclick="location.href='wiki/archives.html'">Archives SCP</button>
-    <button onclick="location.href='protocole/protocoles.html'">Protocoles de Recherche</button>
-    <button onclick="location.href='rapports/rapports.html'">Rapports Scientifiques</button>
-    <button onclick="location.href='ACS/index.html'">générateur de carte ACS</button>
-    <button onclick="location.href='ACS/Anomaly Classification System (ACS) Guide - SCP Foundation.html'">ACS Guide</button>
+    <!-- LEFT PANEL -->
+    <div class="side-panel">
+
+      <div class="panel-box">
+        <div class="panel-box-title">// SPECTRO-ANALYSE</div>
+        <div class="spectrum-bar">
+          <div class="spec-row">
+            <span class="spec-label">EM-α</span>
+            <div class="spec-track">
+              <div class="spec-fill" style="width:82%;animation-delay:0s"></div>
+            </div>
+            <span class="spec-val">82%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">EM-β</span>
+            <div class="spec-track">
+              <div class="spec-fill"
+                style="width:55%;animation-delay:.3s;background:var(--green-data);box-shadow:0 0 6px var(--green-data)">
+              </div>
+            </div>
+            <span class="spec-val" style="color:var(--green-data)">55%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">EM-γ</span>
+            <div class="spec-track">
+              <div class="spec-fill"
+                style="width:91%;animation-delay:.6s;background:var(--amber);box-shadow:0 0 6px var(--amber)"></div>
+            </div>
+            <span class="spec-val" style="color:var(--amber)">91%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">PSI</span>
+            <div class="spec-track">
+              <div class="spec-fill"
+                style="width:38%;animation-delay:.9s;background:var(--violet);box-shadow:0 0 6px var(--violet)"></div>
+            </div>
+            <span class="spec-val" style="color:var(--violet)">38%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">ANOM</span>
+            <div class="spec-track">
+              <div class="spec-fill"
+                style="width:67%;animation-delay:1.2s;background:var(--red);box-shadow:0 0 6px var(--red)"></div>
+            </div>
+            <span class="spec-val" style="color:var(--red)">67%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-box">
+        <div class="panel-box-title">// SIGNAL NEURAL</div>
+        <div class="waveform" id="waveform"></div>
+      </div>
+
+      <div class="panel-box">
+        <div class="panel-box-title">// LOG SYSTÈME</div>
+        <div class="log-feed">
+          <div class="log-line"><span class="log-time">08:12</span><span class="log-ok">[OK]</span><span>Archives
+              chargées</span></div>
+          <div class="log-line"><span class="log-time">08:15</span><span class="log-ok">[OK]</span><span>Proto SCI-7
+              validé</span></div>
+          <div class="log-line"><span class="log-time">08:31</span><span class="log-warn">[WRN]</span><span>Flux EM
+              instable</span></div>
+          <div class="log-line"><span class="log-time">09:04</span><span class="log-ok">[OK]</span><span>Rapport R-1182
+              soumis</span></div>
+          <div class="log-line"><span class="log-time">09:47</span><span class="log-err">[ERR]</span><span>Contig.
+              SCP-████ 40%</span></div>
+          <div class="log-line"><span class="log-time">10:02</span><span class="log-warn">[WRN]</span><span>Chercheur
+              D-CLASS ✕</span></div>
+          <div class="log-line"><span class="log-time">10:18</span><span class="log-ok">[OK]</span><span>ACS sys
+              prêt</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CENTER: COMMAND MODULES -->
+    <div class="cmd-area">
+
+      <div class="cmd-section-label">// MODULES D'ACCÈS PRINCIPAUX</div>
+
+      <a href="wiki/archives.html" class="module-btn" id="btn-archives">
+        <div class="accent-bar"></div>
+        <div class="btn-inner">
+          <div class="btn-icon">🗂️</div>
+          <div class="btn-text">
+            <div class="btn-id">MOD-SCI-001 // READ-ONLY</div>
+            <div class="btn-title">Archives SCP</div>
+            <div class="btn-desc">Base de données des anomalies documentées, rapports de confinement et fiches d'entités
+              classifiées.</div>
+          </div>
+          <div class="btn-meta">
+            <span class="btn-status">EN LIGNE</span>
+            <span class="btn-count">1 247 entrées</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="protocole/protocoles.html" class="module-btn" id="btn-protocoles">
+        <div class="accent-bar"></div>
+        <div class="btn-inner">
+          <div class="btn-icon">🔬</div>
+          <div class="btn-text">
+            <div class="btn-id">MOD-SCI-002 // RW-RESTRICTED</div>
+            <div class="btn-title">Protocoles de Recherche</div>
+            <div class="btn-desc">Procédures expérimentales standardisées, directives de sécurité et matrices
+              d'approbation éthique.</div>
+          </div>
+          <div class="btn-meta">
+            <span class="btn-status">EN LIGNE</span>
+            <span class="btn-count">12 actifs</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="rapports/rapports.html" class="module-btn" id="btn-rapports">
+        <div class="accent-bar"></div>
+        <div class="btn-inner">
+          <div class="btn-icon">📊</div>
+          <div class="btn-text">
+            <div class="btn-id">MOD-SCI-003 // WRITE-ENABLED</div>
+            <div class="btn-title">Rapports Scientifiques</div>
+            <div class="btn-desc">Soumission, consultation et validation des rapports d'expérimentation et d'observation
+              in-situ.</div>
+          </div>
+          <div class="btn-meta">
+            <span class="btn-status">EN LIGNE</span>
+            <span class="btn-count">38 en attente</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="cmd-section-label" style="margin-top:8px;">// OUTILS D'ANALYSE</div>
+
+      <a href="ACS/index.html" class="module-btn" id="btn-acs-gen">
+        <div class="accent-bar" style="background: var(--violet);"></div>
+        <div class="btn-inner">
+          <div class="btn-icon">⚗️</div>
+          <div class="btn-text">
+            <div class="btn-id">MOD-SCI-004 // TOOL-INTERACTIVE</div>
+            <div class="btn-title">Générateur de Carte ACS</div>
+            <div class="btn-desc">Créez et éditez des fiches ACS normalisées pour la classification formelle des
+              anomalies du Site-80.</div>
+          </div>
+          <div class="btn-meta">
+            <span class="btn-status" style="border-color:var(--violet);color:var(--violet);">OUTIL</span>
+            <span class="btn-count">v2.4.1</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="ACS/Anomaly Classification System (ACS) Guide - SCP Foundation.html" class="module-btn"
+        id="btn-acs-guide">
+        <div class="accent-bar" style="background: var(--violet);"></div>
+        <div class="btn-inner">
+          <div class="btn-icon">📖</div>
+          <div class="btn-text">
+            <div class="btn-id">MOD-SCI-005 // DOC-REFERENCE</div>
+            <div class="btn-title">Guide ACS</div>
+            <div class="btn-desc">Documentation complète du système de classification anomalique — normes, catégories et
+              exemples annotés.</div>
+          </div>
+          <div class="btn-meta">
+            <span class="btn-status" style="border-color:var(--violet);color:var(--violet);">OUTIL</span>
+            <span class="btn-count">Éd. 2025-B</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+
+      <div class="panel-box">
+        <div class="panel-box-title">// CLASSES ANOMALIES</div>
+        <div class="class-grid">
+          <div class="class-item">
+            <div class="class-dot d-safe"></div>
+            <span class="class-name">SAFE</span>
+            <span class="class-count">8</span>
+          </div>
+          <div class="class-item">
+            <div class="class-dot d-euclid"></div>
+            <span class="class-name">EUCLID</span>
+            <span class="class-count">9</span>
+          </div>
+          <div class="class-item">
+            <div class="class-dot d-keter"></div>
+            <span class="class-name">KETER</span>
+            <span class="class-count">4</span>
+          </div>
+          <div class="class-item">
+            <div class="class-dot d-thaumiel"></div>
+            <span class="class-name">THAUMIEL</span>
+            <span class="class-count">0</span>
+          </div>
+          <div class="class-item">
+            <div class="class-dot d-neutralized"></div>
+            <span class="class-name">NEUTRALISÉ</span>
+            <span class="class-count">2</span>
+          </div>
+          <div class="class-item">
+            <div class="class-dot d-apollyon"></div>
+            <span class="class-name">APOLLYON</span>
+            <span class="class-count">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-box">
+        <div class="panel-box-title">// NIVEAUX D'HABILITATION</div>
+        <div class="log-feed">
+          <div class="log-line"><span style="color:var(--green-data)">Nv.1</span><span
+              style="margin-left:6px;color:var(--text-dim)">Personnel standard</span></div>
+          <div class="log-line"><span style="color:var(--green-data)">Nv.2</span><span
+              style="margin-left:6px;color:var(--text-dim)">Chercheur junior</span></div>
+          <div class="log-line"><span style="color:var(--amber)">Nv.3</span><span
+              style="margin-left:6px;color:var(--text-dim)">Chercheur senior</span></div>
+          <div class="log-line"><span style="color:var(--amber)">Nv.4</span><span
+              style="margin-left:6px;color:var(--text-dim)">Chef de projet</span></div>
+          <div class="log-line"><span style="color:var(--red)">Nv.5</span><span
+              style="margin-left:6px;color:var(--text-dim)">Direction O5</span></div>
+        </div>
+      </div>
+
+      <div class="panel-box">
+        <div class="panel-box-title">// UPTIME SYSTÈME</div>
+        <div
+          style="font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:var(--cyan);text-align:center;letter-spacing:2px;padding:4px 0;"
+          id="uptime">00:00:00</div>
+        <div
+          style="font-family:'Share Tech Mono',monospace;font-size:0.5rem;color:var(--text-dim);text-align:center;letter-spacing:1px;margin-top:4px;">
+          DEPUIS DERNIER REDÉMARRAGE</div>
+      </div>
+
+    </div>
 
   </div>
 
-</div>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <strong>S.C.P. FOUNDATION</strong> — DÉPARTEMENT SCIENTIFIQUE — SITE-80<br>
+      TERMINAL: LAB-SCI-ALPHA &nbsp;|&nbsp; FIRMWARE: v3.2.1-SCIENCE &nbsp;|&nbsp; © FONDATION SCP
+    </div>
+    <a href="../main.html" class="footer-back">◀ RETOUR MAIN MENU</a>
+  </footer>
 
+  <script>
+    // UTC Clock
+    function updateClock() {
+      const n = new Date();
+      const pad = v => String(v).padStart(2, '0');
+      document.getElementById('clock').textContent =
+        `${pad(n.getUTCHours())}:${pad(n.getUTCMinutes())}:${pad(n.getUTCSeconds())} UTC`;
+    }
+
+    // Uptime
+    const t0 = Date.now();
+    function updateUptime() {
+      const s = Math.floor((Date.now() - t0) / 1000);
+      const pad = v => String(v).padStart(2, '0');
+      document.getElementById('uptime').textContent =
+        `${pad(Math.floor(s / 3600))}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}`;
+    }
+
+    // Waveform generator
+    function buildWaveform() {
+      const wf = document.getElementById('waveform');
+      for (let i = 0; i < 28; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'waveform-bar';
+        const h = 15 + Math.random() * 85;
+        bar.style.height = h + '%';
+        bar.style.animationDelay = (Math.random() * 1.2) + 's';
+        bar.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
+        wf.appendChild(bar);
+      }
+    }
+
+    buildWaveform();
+    updateClock();
+    updateUptime();
+    setInterval(updateClock, 1000);
+    setInterval(updateUptime, 1000);
+  </script>
 </body>
+
 </html>

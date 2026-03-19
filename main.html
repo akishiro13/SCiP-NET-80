@@ -1,91 +1,400 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>SCiP-NET Central Command | Site-80</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCiP-NET // CENTRAL COMMAND // SITE-80</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --terminal-green: #00ff41;
-            --scp-orange: #f27121;
-            --scp-red: #d32f2f;
-            --bg-dark: #050505;
-            --panel-bg: rgba(20, 20, 20, 0.9);
-            --glass: rgba(255, 255, 255, 0.03);
+            --olive: #4b5320;
+            --olive-light: #6b7a2d;
+            --khaki: #c8b560;
+            --amber: #d4a017;
+            --terminal: #a8c04a;
+            --terminal-dim: #6b8a2e;
+            --red-alert: #c0392b;
+            --red-glow: rgba(192, 57, 43, 0.6);
+            --bg: #080a05;
+            --bg-panel: rgba(12, 15, 6, 0.95);
+            --grid-color: rgba(168, 192, 74, 0.06);
+            --border: rgba(168, 192, 74, 0.25);
+            --border-hot: rgba(212, 160, 23, 0.7);
+            --text: #b8c890;
+            --text-dim: #5a6e35;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: #e0e0e0;
-            font-family: 'Segoe UI', 'Courier New', monospace;
-            margin: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%),
-                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
-            background-size: cover, 100% 4px;
+            overflow-x: hidden;
+            background-image:
+                /* tactical grid */
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+                /* vignette */
+                radial-gradient(ellipse at 50% 0%, rgba(75, 83, 32, 0.15) 0%, transparent 70%),
+                radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+            background-size: 40px 40px, 40px 40px, cover, cover;
+            position: relative;
         }
 
-        .warning-bar {
-            background: repeating-linear-gradient(45deg, #900, #900 10px, #b00 10px, #b00 20px);
-            color: white;
-            text-align: center;
-            padding: 8px 0;
-            font-weight: bold;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        /* ── SCANLINES ── */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px,
+                    transparent 3px,
+                    rgba(0, 0, 0, 0.07) 3px,
+                    rgba(0, 0, 0, 0.07) 4px);
+            z-index: 999;
         }
 
+        /* ── CRITICAL ALERT BAR ── */
+        .alert-bar {
+            position: relative;
+            background: repeating-linear-gradient(-60deg,
+                    rgba(192, 57, 43, 0.12) 0px,
+                    rgba(192, 57, 43, 0.12) 10px,
+                    transparent 10px,
+                    transparent 20px);
+            border-bottom: 1px solid var(--red-alert);
+            padding: 7px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .alert-bar::before {
+            content: "⚠ OPÉRATION : SÉCURISER — CONTENIR — PROTÉGER  ██  ACCÈS NIVEAU 4 REQUIS  ██  TERMINAL SITE-80 ACTIF  ██  OPÉRATION : SÉCURISER — CONTENIR — PROTÉGER  ██  ACCÈS NIVEAU 4 REQUIS  ██  TERMINAL SITE-80 ACTIF";
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--red-alert);
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+            display: block;
+            width: 100%;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* ── TOP BAR ── */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 30px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.5);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--terminal-dim);
+            letter-spacing: 1px;
+        }
+
+        .top-bar-left {
+            display: flex;
+            gap: 30px;
+        }
+
+        .top-bar-item span {
+            color: var(--terminal);
+        }
+
+        .clock {
+            color: var(--amber);
+        }
+
+        .conn-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--terminal);
+            box-shadow: 0 0 6px var(--terminal);
+            margin-right: 6px;
+            animation: blink-dot 1.4s infinite;
+        }
+
+        @keyframes blink-dot {
+
+            0%,
+            49% {
+                opacity: 1;
+            }
+
+            50%,
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        /* ── HEADER ── */
         header {
-            padding: 60px 0;
+            padding: 50px 40px 40px;
             text-align: center;
             position: relative;
         }
 
-        .logo-text {
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: 12px;
-            color: #fff;
-            text-transform: uppercase;
-            filter: drop-shadow(0 0 10px var(--scp-orange));
+        .header-inner {
+            display: inline-block;
+            position: relative;
         }
 
-        .scanline-header {
-            width: 200px;
-            height: 2px;
-            background: var(--scp-orange);
-            margin: 15px auto;
-            box-shadow: 0 0 10px var(--scp-orange);
-            animation: pulse 2s infinite;
+        /* Corner brackets */
+        .header-inner::before,
+        .header-inner::after {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-color: var(--olive-light);
+            border-style: solid;
+            border-width: 0;
+        }
+
+        .header-inner::before {
+            top: -10px;
+            left: -20px;
+            border-top-width: 2px;
+            border-left-width: 2px;
+        }
+
+        .header-inner::after {
+            bottom: -10px;
+            right: -20px;
+            border-bottom-width: 2px;
+            border-right-width: 2px;
+        }
+
+        .site-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 6px;
+            color: var(--terminal-dim);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .logo-text {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 700;
+            letter-spacing: 16px;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(168, 192, 74, 0.4),
+                0 0 60px rgba(168, 192, 74, 0.1);
+            line-height: 1;
+            position: relative;
+        }
+
+        .logo-text em {
+            font-style: normal;
+            color: var(--terminal);
+        }
+
+        .logo-sub {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 8px;
+            color: var(--amber);
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        .header-divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px auto 0;
+            max-width: 500px;
+        }
+
+        .header-divider::before,
+        .header-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--olive-light));
+        }
+
+        .header-divider::after {
+            background: linear-gradient(to left, transparent, var(--olive-light));
+        }
+
+        .header-divider span {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--terminal-dim);
+            letter-spacing: 3px;
+            white-space: nowrap;
+        }
+
+        /* ── SITREP BAR ── */
+        .sitrep {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 12px 40px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap;
+        }
+
+        .sitrep-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .sitrep-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .sitrep-value {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--terminal);
+            letter-spacing: 1px;
+        }
+
+        .sitrep-value.warn {
+            color: var(--amber);
+        }
+
+        .sitrep-value.alert {
+            color: var(--red-alert);
+            text-shadow: 0 0 8px var(--red-alert);
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            92% {
+                opacity: 1;
+            }
+
+            93% {
+                opacity: 0.3;
+            }
+
+            94% {
+                opacity: 1;
+            }
+
+            97% {
+                opacity: 0.5;
+            }
+
+            98% {
+                opacity: 1;
+            }
+        }
+
+        /* ── MAIN GRID ── */
+        .section-header {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            padding: 30px 40px 10px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-header::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
         }
 
         .container {
             max-width: 1400px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            padding: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 2px;
+            padding: 0 40px 40px;
             margin: 0 auto;
+            width: 100%;
         }
 
+        /* ── NAV CARD ── */
         .nav-card {
-            background: var(--panel-bg);
-            border: 1px solid rgba(242, 113, 33, 0.2);
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
             text-decoration: none;
-            color: white;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--text);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(5px);
-            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
             display: flex;
             flex-direction: column;
+            transition: border-color 0.3s, background 0.3s;
         }
 
+        /* Top-left label tab */
+        .nav-card::before {
+            content: attr(data-ref);
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            background: var(--olive);
+            color: rgba(0, 0, 0, 0.8);
+            padding: 2px 8px;
+            z-index: 10;
+        }
+
+        /* Scan sweep */
         .nav-card::after {
             content: "";
             position: absolute;
@@ -93,263 +402,461 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(255,255,255,0) 0%, rgba(242, 113, 33, 0.05) 50%, rgba(255,255,255,0) 100%);
-            animation: scan 4s infinite linear;
+            background: linear-gradient(to bottom,
+                    transparent 0%,
+                    rgba(168, 192, 74, 0.04) 50%,
+                    transparent 100%);
+            animation: sweep 6s ease-in-out infinite;
             pointer-events: none;
+        }
+
+        @keyframes sweep {
+            0% {
+                top: -100%;
+            }
+
+            100% {
+                top: 200%;
+            }
         }
 
         .card-image {
             width: 100%;
-            height: 160px;
-            background-color: #000;
+            height: 150px;
+            background-color: #0a0d06;
             background-size: cover;
             background-position: center;
             position: relative;
-            filter: grayscale(80%) contrast(1.2);
-            transition: 0.4s;
+            filter: grayscale(60%) sepia(30%) contrast(1.1) brightness(0.7);
+            transition: filter 0.5s;
         }
 
+        /* Diagonal overlay on image */
         .card-image::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, transparent, var(--panel-bg));
+            background: linear-gradient(160deg, transparent 40%, rgba(8, 10, 5, 0.9) 100%);
+        }
+
+        /* Grid coordinates watermark */
+        .card-image::after {
+            content: attr(data-grid);
+            position: absolute;
+            bottom: 6px;
+            right: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.5rem;
+            color: rgba(168, 192, 74, 0.4);
+            letter-spacing: 1px;
         }
 
         .card-content {
-            padding: 20px;
-            border-top: 1px solid rgba(242, 113, 33, 0.3);
+            padding: 14px 16px 14px;
+            border-top: 1px solid var(--border);
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            gap: 6px;
+        }
+
+        .card-codename {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--terminal-dim);
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
         .nav-card h2 {
-            margin: 0 0 10px 0;
-            font-size: 1.1rem;
-            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #d0d8b0;
             text-transform: uppercase;
             letter-spacing: 2px;
+            line-height: 1.2;
+            transition: color 0.3s;
         }
 
-        /* --- STYLE CENSURE --- */
+        .nav-card p {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+            flex-grow: 1;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
+        }
+
+        /* ── CENSURE ── */
         .censored {
-            background: #fff;
-            color: #fff;
+            background: #d0d8b0;
+            color: #d0d8b0;
             padding: 0 2px;
             transition: 0.3s;
             user-select: none;
         }
 
         .nav-card:hover .censored {
-            background: rgba(255, 255, 255, 0.1);
-            color: #aaa;
+            background: rgba(168, 192, 74, 0.15);
+            color: #888;
         }
 
-        .nav-card p {
-            font-size: 0.85rem;
-            color: #aaa;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
+        /* ── STATUS BOX ── */
         .status-box {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 4px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(168, 192, 74, 0.1);
         }
 
         .status {
-            font-size: 0.65rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.58rem;
             font-weight: bold;
-            padding: 4px 10px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            letter-spacing: 1px;
+            padding: 3px 8px;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            border: 1px solid;
+            position: relative;
         }
 
-        .online { border-color: var(--terminal-green); color: var(--terminal-green); text-shadow: 0 0 5px var(--terminal-green); }
-        .compromised { border-color: var(--scp-red); color: var(--scp-red); text-shadow: 0 0 5px var(--scp-red); }
+        .status.online {
+            border-color: var(--terminal);
+            color: var(--terminal);
+            background: rgba(168, 192, 74, 0.06);
+        }
 
+        .status.online::before {
+            content: "▶ ";
+        }
+
+        .status.compromised {
+            border-color: var(--red-alert);
+            color: var(--red-alert);
+            background: rgba(192, 57, 43, 0.08);
+            animation: flicker 1.8s infinite;
+        }
+
+        .status.compromised::before {
+            content: "⚠ ";
+        }
+
+        .card-ref {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        /* ── HOVER STATES ── */
         .nav-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--scp-orange);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.8);
+            border-color: var(--border-hot);
+            background: rgba(14, 18, 7, 0.98);
+            z-index: 2;
         }
 
-        .nav-card:hover .card-image { filter: grayscale(0%) contrast(1); }
-        .nav-card:hover h2 { color: var(--scp-orange); }
+        .nav-card:hover .card-image {
+            filter: grayscale(0%) sepia(15%) contrast(1.1) brightness(0.85);
+        }
 
-        @keyframes scan { 0% { top: -100%; } 100% { top: 100%; } }
-        @keyframes pulse { 0% { opacity: 0.4; width: 150px; } 50% { opacity: 1; width: 250px; } 100% { opacity: 0.4; width: 150px; } }
+        .nav-card:hover h2 {
+            color: var(--khaki);
+        }
 
-        footer { padding: 40px; text-align: center; color: #444; font-size: 0.8rem; }
+        /* Red card override */
+        .nav-card.threat {
+            border-color: rgba(192, 57, 43, 0.3);
+        }
+
+        .nav-card.threat::before {
+            background: var(--red-alert);
+        }
+
+        .nav-card.threat:hover {
+            border-color: var(--red-alert);
+        }
+
+        .nav-card.threat h2 {
+            color: #d9614e;
+        }
+
+        .nav-card.threat:hover h2 {
+            color: #e07060;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            margin-top: auto;
+            padding: 25px 40px;
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer-left {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            line-height: 1.8;
+        }
+
+        .footer-left strong {
+            color: var(--terminal-dim);
+        }
+
+        .footer-stamp {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: rgba(75, 83, 32, 0.4);
+            text-transform: uppercase;
+            border: 2px solid rgba(75, 83, 32, 0.3);
+            padding: 6px 16px;
+            transform: rotate(-2deg);
+        }
     </style>
 </head>
+
 <body>
 
-    <div class="warning-bar">Système d'Aiguillage Sécurisé - Terminal Site-80</div>
+    <!-- ALERT TICKER -->
+    <div class="alert-bar"></div>
 
+    <!-- TOP SYSTEM BAR -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-bar-item"><span class="conn-dot"></span><span>NET_LINK</span> ACTIF</div>
+            <div class="top-bar-item">ENCRYPT: <span>AES-256-M</span></div>
+            <div class="top-bar-item">PROXY: <span>SITE-80-RELAY-07</span></div>
+        </div>
+        <div class="clock" id="clock">00:00:00 UTC</div>
+    </div>
+
+    <!-- HEADER -->
     <header>
-        <div class="logo-text">SCiP-NET</div>
-        <div class="scanline-header"></div>
-        <div style="color: var(--scp-orange); font-size: 0.9rem; letter-spacing: 4px;">CENTRAL COMMAND INTERFACE</div>
+        <div class="header-inner">
+            <div class="site-label">S.C.P. FOUNDATION — SITE-80 — RÉSEAU INTERNE</div>
+            <div class="logo-text">SC<em>iP</em>-NET</div>
+            <div class="logo-sub">CENTRAL COMMAND INTERFACE</div>
+        </div>
+        <div class="header-divider"><span>INTERFACE DE COMMANDEMENT SÉCURISÉE // NIVEAU 0</span></div>
     </header>
 
+
+    <!-- SECTION HEADER -->
+    <div class="section-header">// MODULES OPÉRATIONNELS — SÉLECTIONNER DÉPARTEMENT</div>
+
+    <!-- NAVIGATION GRID -->
     <div class="container">
-        
-        <a href="D-M/mainDM.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/Medical.png');"></div>
+
+        <a href="D-M/mainDM.html" class="nav-card" data-ref="MED-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/Medical.png');" data-grid="04N-12E"></div>
             <div class="card-content">
+                <div class="card-codename">DELTA — GAMMA — ZETA</div>
                 <h2>Département Médical</h2>
-                <p>Analyse biométrique et protocoles de soin post-confinement pour le personnel.</p>
+                <p>Analyse biométrique et protocoles de soin post-confinement pour le personnel du site.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: MED-80</span>
+                    <span class="card-ref">REF: MED-80</span>
                 </div>
             </div>
         </a>
 
-        <a href="D-S/secu.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/Securite.png');"></div>
+        <a href="D-S/secu.html" class="nav-card" data-ref="SEC-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/Securite.png');" data-grid="04N-15E"></div>
             <div class="card-content">
+                <div class="card-codename">ALPHA — SIERRA — ECHO</div>
                 <h2>Département Sécurité</h2>
-                <p>Surveillance, gestion des armureries et protocoles de verrouillage tactique.</p>
+                <p>Surveillance, gestion des armureries et protocoles de verrouillage tactique du secteur.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: SEC-80</span>
+                    <span class="card-ref">REF: SEC-80</span>
                 </div>
             </div>
         </a>
 
-        <a href="D-SCI/Untitled-1.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/Scientifique.png');"></div>
+        <a href="D-SCI/Untitled-1.html" class="nav-card" data-ref="SCI-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/Scientifique.png');" data-grid="05N-12E">
+            </div>
             <div class="card-content">
-                <h2>Recherche & Sciences</h2>
-                <p>Études morphologiques des anomalies et mise à jour des procédures de confinement.</p>
+                <div class="card-codename">BRAVO — ROMEO — INDIA</div>
+                <h2>Recherche &amp; Sciences</h2>
+                <p>Études morphologiques des anomalies et mise à jour des procédures de confinement actif.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: SCI-80</span>
+                    <span class="card-ref">REF: SCI-80</span>
                 </div>
             </div>
         </a>
 
-        <a href="D-DIST/menu.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/DIST.png');"></div>
+        <a href="D-DIST/menu.html" class="nav-card" data-ref="TECH-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/DIST.png');" data-grid="05N-15E"></div>
             <div class="card-content">
-                <h2>Ingénierie & Technique</h2>
-                <p>Maintenance des infrastructures critiques et gestion des zones de maintenance.</p>
+                <div class="card-codename">CHARLIE — TANGO — WHISKEY</div>
+                <h2>Ingénierie &amp; Technique</h2>
+                <p>Maintenance des infrastructures critiques et gestion des zones de maintenance sous protocole.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: TECH-80</span>
+                    <span class="card-ref">REF: TECH-80</span>
                 </div>
             </div>
         </a>
 
-        <a href="D-CE/CE.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/Comite_dEthique.png');"></div>
+        <a href="D-CE/CE.html" class="nav-card" data-ref="ETH-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/Comite_dEthique.png');"
+                data-grid="06N-12E"></div>
             <div class="card-content">
+                <div class="card-codename">FOXTROT — UNIFORM — PAPA</div>
                 <h2>Comité d'Éthique</h2>
                 <p>Examen des protocoles de test et conformité morale des opérations du Site-80.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: ETH-80</span>
-                </div>  
+                    <span class="card-ref">REF: ETH-80</span>
+                </div>
             </div>
         </a>
 
-        <a href="D-JI/DJI.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/D.J.I..png');"></div>
+        <a href="D-JI/DJI.html" class="nav-card" data-ref="LAW-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/D.J.I..png');" data-grid="06N-15E"></div>
             <div class="card-content">
+                <div class="card-codename">KILO — OSCAR — LIMA</div>
                 <h2>Justice Interne</h2>
-                <p>Code pénal de la Fondation et procédures disciplinaires pour le personnel.</p>
+                <p>Code pénal de la Fondation et procédures disciplinaires pour le personnel du site.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: LAW-80</span>
+                    <span class="card-ref">REF: LAW-80</span>
                 </div>
             </div>
         </a>
 
-        <a href="D-AC/menu.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/Administration.png');"></div>
+        <a href="D-AC/menu.html" class="nav-card" data-ref="ADM-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/Administration.png');" data-grid="07N-12E">
+            </div>
             <div class="card-content">
+                <div class="card-codename">HOTEL — NOVEMBER — GOLF</div>
                 <h2>Administration Centrale</h2>
-                <p>Coordination des appels prioritaires et gestion administrative globale.</p>
+                <p>Coordination des appels prioritaires et gestion administrative globale du commandement.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: ADM-80</span>
+                    <span class="card-ref">REF: ADM-80</span>
                 </div>
             </div>
         </a>
 
-        <a href="FIM/menu.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/F.I.M..png');"></div>
+        <a href="FIM/menu.html" class="nav-card" data-ref="MTF-GLOBAL">
+            <div class="card-image" style="background-image: url('IMAGESMENU/F.I.M..png');" data-grid="07N-15E"></div>
             <div class="card-content">
+                <div class="card-codename">MIKE — TANGO — FOXHOUND</div>
                 <h2>Forces Mobiles (FIM)</h2>
-                <p>Déploiement rapide des unités d'élite et rapports d'opérations tactiques.</p>
+                <p>Déploiement rapide des unités d'élite et rapports d'opérations tactiques sur le terrain.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: MTF-GLOBAL</span>
+                    <span class="card-ref">REF: MTF-GLOBAL</span>
                 </div>
             </div>
         </a>
 
-        <a href="GI/menu.html" class="nav-card" style="border-color: var(--scp-red);">
-            <div class="card-image" style="background-image: url('IMAGESMENU/Insurrection_du_Chaos.png'); filter: sepia(1) hue-rotate(-50deg) saturate(3);"></div>
+        <a href="GI/menu.html" class="nav-card threat" data-ref="GOI-INTEL">
+            <div class="card-image"
+                style="background-image: url('IMAGESMENU/Insurrection_du_Chaos.png'); filter: grayscale(40%) sepia(60%) hue-rotate(-20deg) contrast(1.1) brightness(0.6);"
+                data-grid="08N-12E"></div>
             <div class="card-content">
-                <h2 style="color: var(--scp-red);">Groupes d'Intérêt</h2>
-                <p>Données relatives aux puissances tierces : <span class="censored">INSURRECTION DU CHAOS</span>, <span class="censored">G.O.C.</span>, et <span class="censored">CULTES SARKICIQUES</span>.</p>
+                <div class="card-codename">THREAT — INTEL — ARCHIVE</div>
+                <h2>Groupes d'Intérêt</h2>
+                <p>Données relatives aux puissances tierces : <span class="censored">INSURRECTION DU CHAOS</span>, <span
+                        class="censored">G.O.C.</span>, et <span class="censored">CULTES SARKICIQUES</span>.</p>
                 <div class="status-box">
                     <span class="status compromised">DATA_LEAK</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: GOI-INTEL</span>
+                    <span class="card-ref">REF: GOI-INTEL</span>
                 </div>
             </div>
         </a>
 
-        <a href="DSI/menu.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/D.S.I..png');"></div>
+        <a href="DSI/menu.html" class="nav-card" data-ref="DSI-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/D.S.I..png');" data-grid="08N-15E"></div>
             <div class="card-content">
+                <div class="card-codename">SIERRA — INDIA — NOVEMBER</div>
                 <h2>Service d'Enquête (DSI)</h2>
                 <p>Département chargé de la sécurité interne et des audits de loyauté du personnel.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: DSI-80</span>
+                    <span class="card-ref">REF: DSI-80</span>
                 </div>
             </div>
         </a>
 
-        <a href="D-Logistique/menu.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU//DLM.png');"></div>
+        <a href="D-Logistique/menu.html" class="nav-card" data-ref="LOG-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU//DLM.png');" data-grid="09N-12E"></div>
             <div class="card-content">
-                <h2>Département de logistique</h2>
-                <p>Département chargé du transfére des annomalie et du materielle</p>
+                <div class="card-codename">LIMA — OSCAR — GOLF</div>
+                <h2>Département Logistique</h2>
+                <p>Transfert des anomalies et gestion du matériel entre les secteurs du site.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: DSI-80</span>
+                    <span class="card-ref">REF: LOG-80</span>
                 </div>
             </div>
         </a>
 
-                <a href="D-AE/menu.html" class="nav-card">
-            <div class="card-image" style="background-image: url('IMAGESMENU/D.A.E..png');"></div>
+        <a href="D-AE/menu.html" class="nav-card" data-ref="DAE-80">
+            <div class="card-image" style="background-image: url('IMAGESMENU/D.A.E..png');" data-grid="09N-15E"></div>
             <div class="card-content">
-                <h2>Département des affaire exterieurs</h2>
-                <p>Département chargé de la coopération avec d'autre organisation</p>
+                <div class="card-codename">ALPHA — ECHO — XRAY</div>
+                <h2>Affaires Extérieures</h2>
+                <p>Coopération avec les organisations tierces alliées et gestion des accords diplomatiques.</p>
                 <div class="status-box">
                     <span class="status online">SYS_READY</span>
-                    <span style="font-size: 0.6rem; color: #555;">REF: DSI-80</span>
+                    <span class="card-ref">REF: DAE-80</span>
                 </div>
             </div>
         </a>
 
     </div>
 
+    <!-- FOOTER -->
     <footer>
-        <p>S.C.P. FOUNDATION — SECURE. CONTAIN. PROTECT.</p>
-        <p>Terminal 0x88-A80 | Vers. 4.9.0-GOLD</p>
+        <div class="footer-left">
+            <strong>S.C.P. FOUNDATION</strong> — SECURE. CONTAIN. PROTECT.<br>
+            TERMINAL: 0x88-A80 &nbsp;|&nbsp; FIRMWARE: v4.9.0-GOLD &nbsp;|&nbsp; UPTIME: <span
+                id="uptime">00:00:00</span>
+        </div>
+        <div class="footer-stamp">CLASSIFIED</div>
     </footer>
 
+    <script>
+        // Live UTC Clock
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getUTCHours()).padStart(2, '0');
+            const m = String(now.getUTCMinutes()).padStart(2, '0');
+            const s = String(now.getUTCSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${h}:${m}:${s} UTC`;
+        }
+
+        // Uptime counter
+        const startTime = Date.now();
+        function updateUptime() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const hh = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+            const mm = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+            const ss = String(elapsed % 60).padStart(2, '0');
+            const el = document.getElementById('uptime');
+            if (el) el.textContent = `${hh}:${mm}:${ss}`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+        setInterval(updateUptime, 1000);
+    </script>
 </body>
+
 </html>
